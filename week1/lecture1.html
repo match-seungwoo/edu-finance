@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quant-Mate Session 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Lato:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. THE SETUP */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1c22;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+            font-family: 'Lato', 'Nanum Gothic', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0a0e14;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Abstract Background Decoration */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 100px;
+            height: 4px;
+            background-color: #00f2ff;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; margin: 0; }
+        .slide-title {
+            font-size: 44px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            border-left: 6px solid #00f2ff;
+            padding-left: 20px;
+            z-index: 1;
+            max-width: 1100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0;
+        }
+
+        p, li, td, th { font-size: 20px; color: #b0b0b0; line-height: 1.6; }
+        strong { color: #00f2ff; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        /* Layouts */
+        .title-layout { text-align: center; align-items: center; justify-content: center; height: 100%; }
+        .title-layout h1 { font-size: 80px; margin-bottom: 20px; color: #00f2ff; }
+        .title-layout .subtitle { font-size: 28px; color: #ffffff; margin-top: 20px; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; }
+        .section-title-layout h2 { font-size: 64px; color: #ffffff; }
+        .section-title-layout hr { width: 120px; border: 2px solid #00f2ff; margin: 30px auto; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; }
+        .tiled-content { display: flex; gap: 30px; width: 100%; }
+        .tile { 
+            flex: 1; background: #151a21; padding: 40px; border-radius: 15px; 
+            border-bottom: 4px solid #00f2ff; text-align: center;
+        }
+        .tile .icon { font-size: 50px; color: #adff2f; margin-bottom: 20px; }
+        .tile h3 { font-size: 24px; color: #ffffff; margin-bottom: 15px; }
+
+        .image-wrapper { 
+            width: 100%; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid #333; 
+            background: #151a21;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 40px; margin-bottom: 20px; }
+        .bullet-list i { position: absolute; left: 0; top: 5px; color: #00f2ff; font-size: 22px; }
+
+        .table-layout table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-layout th { background: #151a21; color: #00f2ff; text-align: left; padding: 20px; border-bottom: 2px solid #333; }
+        .table-layout td { padding: 20px; border-bottom: 1px solid #222; color: #ffffff; }
+
+        /* Formula Container */
+        #formula-container { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid #adff2f; display: inline-block; }
+
+        /* Bleed Image Right Custom */
+        .bleed-image-layout { padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+        .bleed-image-layout .content-container { padding: 60px; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        .bleed-image-layout .image-container { width: 100%; height: 720px; background: #151a21; }
+        .bleed-image-layout img { width: 100%; height: 720px; object-fit: cover; }
+
+        /* Code Block (초심자 슬라이드용) */
+        .code-block {
+            background: #000;
+            padding: 30px 35px;
+            border-radius: 10px;
+            border-left: 4px solid #adff2f;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            white-space: pre-wrap;
+        }
+        .code-block .kw { color: #ff79c6; }       /* 키워드 */
+        .code-block .fn { color: #50fa7b; }       /* 함수 */
+        .code-block .str { color: #f1fa8c; }      /* 문자열 */
+        .code-block .num { color: #bd93f9; }      /* 숫자 */
+        .code-block .cm  { color: #6272a4; font-style: italic; } /* 주석 */
+        .code-block .var { color: #8be9fd; }      /* 변수 */
+
+        /* 2열 스텝 카드 (Colab 조작용) */
+        .step-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+        .step-card {
+            background: #151a21;
+            padding: 22px 26px;
+            border-radius: 12px;
+            border-left: 4px solid #00f2ff;
+        }
+        .step-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #00f2ff;
+            margin: 0 0 8px 0;
+        }
+        .step-card p { font-size: 16px; margin: 0; color: #cfcfcf; }
+        .step-card code {
+            background: #000;
+            color: #adff2f;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title_Slide -->
+<div class="slide-container" id="slide1">
+    <div class="content-area title-layout">
+        <h1 style="text-shadow: 0 0 20px rgba(0,242,255,0.4);">AI Quant-Mate</h1>
+        <p class="subtitle">나만의 지능형 투자 파트너 만들기</p>
+        <p style="margin-top:40px; font-weight: 700; letter-spacing: 2px; color: #adff2f;">SESSION 01: AI CHART READING</p>
+    </div>
+</div>
+
+<!-- Slide 2: Section_Title -->
+<div class="slide-container" id="slide2">
+    <div class="section-title-layout">
+        <p style="color: #00f2ff; letter-spacing: 3px;">PHASE A: DATA & ANALYSIS</p>
+        <hr>
+        <h2>8주간의 프로젝트 목표</h2>
+        <p style="max-width: 800px; margin: 20px auto;">"오늘 우리가 짠 코드가 8주 뒤 누구나 쓸 수 있는 웹 서비스로"</p>
+    </div>
+</div>
+
+<!-- Slide 2a: 초심자 온보딩 (1) — 프로그래밍이란? -->
+<div class="slide-container" id="slide2a">
+    <h2 class="slide-title">본격 시작 전에: 프로그래밍이란?</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 10px;">
+            프로그래밍 = <strong>컴퓨터에게 시키는 요리 레시피</strong>.
+            우리는 재료를 고르고, 도구를 준비하고, 순서대로 지시할 뿐입니다.
+        </p>
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon" style="color:#f9ab00;"><i class="fa-solid fa-terminal"></i></div>
+                <h3>명령어 (Function)</h3>
+                <p>컴퓨터에게 시키는 한 동작.<br><code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">print("안녕")</code></p>
+            </div>
+            <div class="tile">
+                <div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-boxes-stacked"></i></div>
+                <h3>라이브러리 (Library)</h3>
+                <p>남이 미리 만들어둔 레시피 모음.<br><strong>pykrx</strong>, <strong>plotly</strong>, <strong>openai</strong></p>
+            </div>
+            <div class="tile">
+                <div class="icon" style="color:#adff2f;"><i class="fa-solid fa-database"></i></div>
+                <h3>데이터 (Data)</h3>
+                <p>가공할 재료.<br>주가, 차트 이미지, AI 응답 모두 데이터.</p>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top:15px; color:#888; font-size:17px;">
+            오늘 우리가 하는 일: <strong>라이브러리</strong>를 불러와 <strong>데이터</strong>에 <strong>명령어</strong>를 내리는 것.
+        </p>
+    </div>
+</div>
+
+<!-- Slide 2b: 초심자 온보딩 (2) — Google Colab 사용법 -->
+<div class="slide-container" id="slide2b">
+    <h2 class="slide-title">Google Colab: 설치 없는 클라우드 개발실</h2>
+    <div class="content-area">
+        <div class="two-column" style="gap:30px;">
+            <div style="background:#151a21; padding:30px; border-radius:15px;">
+                <h3 style="color:#00f2ff; margin-bottom:15px;"><i class="fa-solid fa-cloud"></i> &nbsp;왜 Colab인가?</h3>
+                <ul class="bullet-list" style="margin:0;">
+                    <li style="font-size:17px; margin-bottom:12px;"><i class="fa-solid fa-check"></i> 브라우저만 있으면 즉시 코딩 시작</li>
+                    <li style="font-size:17px; margin-bottom:12px;"><i class="fa-solid fa-check"></i> 파이썬·라이브러리 설치 불필요</li>
+                    <li style="font-size:17px; margin-bottom:12px;"><i class="fa-solid fa-check"></i> 구글 드라이브에 자동 저장</li>
+                    <li style="font-size:17px;"><i class="fa-solid fa-check"></i> 친구와 링크로 공유 가능</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color:#adff2f; margin-bottom:15px;"><i class="fa-solid fa-hand-pointer"></i> &nbsp;핵심 조작 4가지</h3>
+                <div class="step-grid">
+                    <div class="step-card">
+                        <h4>① 셀 (Cell)</h4>
+                        <p>코드/글을 담는 네모 블록</p>
+                    </div>
+                    <div class="step-card" style="border-left-color:#adff2f;">
+                        <h4>② 실행</h4>
+                        <p><code>Shift + Enter</code> 또는 ▶ 버튼</p>
+                    </div>
+                    <div class="step-card" style="border-left-color:#f9ab00;">
+                        <h4>③ 라이브러리 설치</h4>
+                        <p><code>!pip install pykrx</code></p>
+                    </div>
+                    <div class="step-card" style="border-left-color:#ff79c6;">
+                        <h4>④ 런타임 재시작</h4>
+                        <p>꼬이면 메뉴 → 런타임 → 재시작</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top:10px; color:#888; font-size:16px;">
+            💡 셀은 <strong>위에서 아래로</strong> 순서대로 실행하세요. 순서가 꼬이면 이상한 결과가 나옵니다.
+        </p>
+    </div>
+</div>
+
+<!-- Slide 2c: 초심자 온보딩 (3) — 파이썬 문법 3분 요약 -->
+<div class="slide-container" id="slide2c">
+    <h2 class="slide-title">파이썬 3분 요약: 오늘 만날 4가지 문법</h2>
+    <div class="content-area">
+        <div class="code-block"><span class="cm"># ① 주석 — #으로 시작. 컴퓨터가 무시하는 메모</span>
+<span class="cm"># ② 변수 — 값을 담는 상자. 이름은 내 맘대로</span>
+<span class="var">price</span> = <span class="num">78500</span>
+<span class="var">ticker</span> = <span class="str">"005930"</span>              <span class="cm"># 따옴표는 문자, 숫자는 그냥</span>
+
+<span class="cm"># ③ 함수 호출 — 이름(재료) 형태. 소괄호가 핵심</span>
+<span class="fn">print</span>(<span class="var">price</span>)                    <span class="cm"># → 78500</span>
+<span class="fn">len</span>(<span class="str">"hello"</span>)                  <span class="cm"># → 5 (글자 수)</span>
+
+<span class="cm"># ④ 라이브러리 불러오기 — 도구 꺼내기</span>
+<span class="kw">from</span> pykrx <span class="kw">import</span> stock
+<span class="var">df</span> = stock.<span class="fn">get_market_ohlcv_by_date</span>(<span class="str">"20250101"</span>, <span class="str">"20260101"</span>, <span class="var">ticker</span>)</div>
+        <p style="text-align:center; margin-top:15px; color:#adff2f; font-size:18px;">
+            👉 이 4개만 알면 오늘 나오는 모든 코드를 <strong>읽을 수 있습니다.</strong>
+            쓰는 것은 복붙부터 시작해도 괜찮아요.
+        </p>
+    </div>
+</div>
+
+<!-- Slide 3: Tiled_Text_With_Icons -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">오늘의 미션: AI 분석기 구축</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-database"></i></div>
+                <h3>데이터 자동 수집</h3>
+                <p>국내 대장주 1년치 OHLCV 시세를 코드 한 줄로 자동 수집합니다.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>인터랙티브 차트</h3>
+                <p>Plotly를 활용해 마우스로 조작 가능한 살아있는 캔들차트를 구현합니다.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-robot"></i></div>
+                <h3>AI 리포트 생성</h3>
+                <p>GPT-4o Vision이 실시간으로 차트를 읽고 투자 의견을 제시합니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Two_Column_Tiled_Text -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">데이터 이해: OHLCV와 수익률</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div style="background: #151a21; padding: 40px; border-radius: 15px;">
+                <h3 style="color:#00f2ff; margin-bottom:20px;">기본 개념 정의</h3>
+                <ul class="bullet-list">
+                    <li><i class="fa-solid fa-check"></i> <strong>OHLCV:</strong> 시가, 고가, 저가, 종가, 거래량</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>수정주가:</strong> 액면분할 등을 보정한 실제 가격</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Normalization:</strong> 비교를 위한 데이터 정규화</li>
+                </ul>
+            </div>
+            <div style="background: #151a21; padding: 40px; border-radius: 15px;">
+                <h3 style="color:#adff2f; margin-bottom:20px;">로그 수익률 (Log Return)</h3>
+                <p style="margin-bottom:20px;">복리 효과와 정규성 확보를 위해 금융 분석에서 필수적으로 사용되는 수식입니다.</p>
+                <div id="formula-container">
+                    <math display="block" style="font-size: 32px; color: #ffffff;">
+                        <msub>
+                            <mi>r</mi>
+                            <mi>t</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mi>ln</mi>
+                        <mfenced>
+                            <mfrac>
+                                <msub>
+                                    <mi>P</mi>
+                                    <mi>t</mi>
+                                </msub>
+                                <msub>
+                                    <mi>P</mi>
+                                    <mrow>
+                                        <mi>t</mi>
+                                        <mo>-</mo>
+                                        <mn>1</mn>
+                                    </mrow>
+                                </msub>
+                            </mfrac>
+                        </mfenced>
+                    </math>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Image_Right_Text_Left (FIXED IMAGE) -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">전략 시각화: 이동평균선(MA)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3 style="color: #00f2ff;">Moving Average</h3>
+                <p>일정 기간 주가의 평균을 이어 노이즈를 제거한 선입니다.</p>
+                <ul class="bullet-list">
+                    <li><strong>MA5:</strong> 일주일의 분위기 (단기 추세)</li>
+                    <li><strong>MA20:</strong> 한 달의 흐름 (중기 추세)</li>
+                    <li><strong>MA60:</strong> 한 분기의 방향 (장기 추세)</li>
+                    <li><strong>골든크로스:</strong> 단기선이 장기선을 상향 돌파</li>
+                </ul>
+            </div>
+            <div class="image-wrapper" style="height: 380px;">
+                <!-- Updated to a more reliable Unsplash stock chart image -->
+                <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=1280" alt="Stock Chart Analysis" onerror="this.src='https://via.placeholder.com/600x400/151a21/00f2ff?text=Stock+Chart+Visual'">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Tiled_Text_With_Icons -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Step 1: 환경 구축 및 도구 설명</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon" style="color:#f9ab00;"><i class="fa-brands fa-python"></i></div>
+                <h3>Google Colab</h3>
+                <p>설치 없는 클라우드 파이썬 개발 환경을 사용합니다.</p>
+            </div>
+            <div class="tile">
+                <div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-box-open"></i></div>
+                <h3>pykrx</h3>
+                <p>한국거래소(KRX) 데이터를 긁어오는 강력한 도구입니다.</p>
+            </div>
+            <div class="tile">
+                <div class="icon" style="color:#adff2f;"><i class="fa-solid fa-code"></i></div>
+                <h3>OpenAI Vision</h3>
+                <p>차트 이미지를 직접 읽고 해석하는 AI 엔진입니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Two_Column_Tiled_Text (FIXED OVERLAP) -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Step 2: 데이터 수집 및 시각화</h2>
+    <div class="content-area" style="justify-content: flex-start; padding-top: 10px;">
+        <div class="two-column">
+            <div style="background: #151a21; padding: 30px; border-radius: 12px; border-left: 4px solid #00f2ff;">
+                <h3 style="color:#00f2ff; margin-bottom: 10px; font-size: 22px;">Data Collection</h3>
+                <p style="font-size: 18px; margin-bottom: 10px;"><code>get_market_ohlcv_by_date()</code></p>
+                <p style="font-size: 16px;">종목 코드와 날짜만으로 1년치 시세를 데이터프레임으로 확보합니다.</p>
+            </div>
+            <div style="background: #151a21; padding: 30px; border-radius: 12px; border-left: 4px solid #adff2f;">
+                <h3 style="color:#adff2f; margin-bottom: 10px; font-size: 22px;">Interactive Plot</h3>
+                <p style="font-size: 18px; margin-bottom: 10px;"><code>go.Candlestick()</code></p>
+                <p style="font-size: 16px;">Scatter와 Candlestick을 결합하여 가독성 높은 차트를 구성합니다.</p>
+            </div>
+        </div>
+        <div class="image-wrapper" style="margin-top:20px; flex-grow: 1; min-height: 200px; max-height: 280px;">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1280" alt="Python code on screen" onerror="this.src='https://via.placeholder.com/800x300/151a21/adff2f?text=Data+Science+Python+Code'">
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Bleed_Image_Right -->
+<div class="slide-container bleed-image-layout" id="slide8">
+    <div class="content-container">
+        <h2 class="slide-title">AI Vision 분석의 강점</h2>
+        <div class="content-area" style="justify-content: start;">
+            <p><strong>Step-by-Step Logic:</strong></p>
+            <ul class="bullet-list" style="font-size: 18px;">
+                <li>차트 이미지를 <code>chart.png</code>로 저장</li>
+                <li>Base64 인코딩으로 데이터화</li>
+                <li>GPT-4o에게 '퀀트 애널리스트' 페르소나 부여</li>
+                <li><strong>Fancy Point:</strong> 이미지와 함께 최신 수치 데이터를 텍스트로 동시 전달하여 정확도 극대화</li>
+            </ul>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1280" alt="AI Neural Vision" onerror="this.src='https://via.placeholder.com/640x720/0a0e14/00f2ff?text=AI+Vision+System'">
+    </div>
+</div>
+
+<!-- Slide 9: Table -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Step 4: 결과 저장 및 데이터 박제</h2>
+    <div class="content-area">
+        <p>오늘 추출한 AI 의견은 2주차 <strong>Portfolio Allocation</strong>의 핵심 로직이 됩니다.</p>
+        <div class="table-layout">
+            <table>
+                <thead>
+                    <tr>
+                        <th>종목명</th>
+                        <th>현재가 (KRW)</th>
+                        <th>AI 투자 의견</th>
+                        <th>모멘텀 스코어</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>삼성전자</td>
+                        <td>78,500</td>
+                        <td>매수 (Strong Buy)</td>
+                        <td>85 / 100</td>
+                    </tr>
+                    <tr>
+                        <td>SK하이닉스</td>
+                        <td>182,300</td>
+                        <td>보유 (Hold)</td>
+                        <td>62 / 100</td>
+                    </tr>
+                    <tr>
+                        <td>한미반도체</td>
+                        <td>145,200</td>
+                        <td>매수 (Buy)</td>
+                        <td>78 / 100</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Styled_Bullet_Points -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">마무리 및 1주차 과제 가이드</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-star"></i> <strong>종목 완주:</strong> 본인이 선택한 테마 종목 3개를 모두 분석하고 CSV로 저장.</li>
+                <li><i class="fa-solid fa-flask"></i> <strong>프롬프트 실험:</strong> 공격적 트레이더 vs 보수적 투자자 페르소나에 따른 의견 차이를 비교.</li>
+                <li><i class="fa-solid fa-brain"></i> <strong>회고 작성:</strong> AI 분석에서 납득하기 힘든 부분이나 개선할 점을 마크다운 셀에 기록.</li>
+                <li><i class="fa-solid fa-link"></i> <strong>다음 주 예고:</strong> 오늘 만든 '스코어'를 기반으로 최적의 투자 비중을 계산.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
