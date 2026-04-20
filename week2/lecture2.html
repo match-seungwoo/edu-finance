@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quant-Mate Session 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Lato:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1c22;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+            font-family: 'Lato', 'Nanum Gothic', sans-serif;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0a0e14;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 100px;
+            height: 4px;
+            background-color: #00f2ff;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; margin: 0; }
+        .slide-title {
+            font-size: 44px;
+            margin-bottom: 30px;
+            border-left: 6px solid #00f2ff;
+            padding-left: 20px;
+            z-index: 1;
+            color: #ffffff;
+        }
+
+        p, li, td, th { font-size: 20px; color: #b0b0b0; line-height: 1.6; }
+        strong { color: #00f2ff; }
+        code { background: #1a1c22; color: #adff2f; padding: 2px 8px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        .title-layout { text-align: center; align-items: center; justify-content: center; height: 100%; }
+        .title-layout h1 { font-size: 70px; margin-bottom: 20px; color: #00f2ff; }
+        .title-layout .subtitle { font-size: 32px; color: #ffffff; margin-top: 20px; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; }
+        
+        .tile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .tile { background: #151a21; padding: 30px; border-radius: 12px; border-bottom: 4px solid #00f2ff; }
+        .tile h3 { font-size: 24px; color: #ffffff; margin-bottom: 15px; }
+        .tile i { font-size: 30px; color: #adff2f; margin-bottom: 15px; display: block; }
+
+        .image-wrapper { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #333; background: #151a21; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 40px; margin-bottom: 15px; }
+        .bullet-list i { position: absolute; left: 0; top: 5px; color: #00f2ff; font-size: 22px; }
+
+        .code-box { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid #adff2f; font-family: 'Courier New', Courier, monospace; color: #adff2f; font-size: 18px; line-height: 1.4; overflow: hidden; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #151a21; }
+        th { background: #1c232b; color: #00f2ff; text-align: left; padding: 15px; border-bottom: 2px solid #333; font-size: 16px; }
+        td { padding: 15px; border-bottom: 1px solid #222; color: #ffffff; font-size: 16px; }
+
+        .highlight-box { background: rgba(0, 242, 255, 0.05); border: 1px dashed #00f2ff; padding: 20px; border-radius: 10px; text-align: center; }
+
+        #formula { font-size: 32px; color: #ffffff; background: #000; padding: 20px; border-radius: 10px; display: inline-block; margin: 10px 0; }
+
+        .footer-note { position: absolute; bottom: 30px; right: 60px; font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide-container" id="slide1">
+    <div class="content-area title-layout">
+        <p style="color: #adff2f; letter-spacing: 5px; font-weight: bold;">AI QUANT-MATE SESSION 02</p>
+        <h1>비중 관리: 지능형 포트폴리오 구성</h1>
+        <p class="subtitle">“내 포트는 정말 분산되어 있는가?”</p>
+    </div>
+</div>
+
+<!-- Slide 2: Goals -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">오늘의 목표</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <i class="fa-solid fa-calculator"></i>
+                <h3>포트 비중 계산</h3>
+                <p>평가금액을 바탕으로 각 종목의 비중(Weight)을 산출한다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-layer-group"></i>
+                <h3>섹터별 구조 분석</h3>
+                <p>Pandas Groupby를 활용해 특정 산업 쏠림을 파악한다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-gauge-high"></i>
+                <h3>HHI로 집중도 측정</h3>
+                <p>수학적 지표를 통해 포트폴리오의 건강 상태를 수치화한다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-comment-dots"></i>
+                <h3>AI 비평 연결</h3>
+                <p>계산된 데이터를 바탕으로 AI의 정성적 피드백을 받는다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Problem -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">문제 제기: 종목 5개 = 분산투자?</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>우리는 보통 종목 수가 많으면 안전하다고 생각한다.</p>
+                <ul class="bullet-list" style="margin-top: 20px;">
+                    <li><i class="fa-solid fa-circle-exclamation"></i> NVIDIA (반도체/AI)</li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> AMD (반도체/AI)</li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> TSMC (반도체 파운드리)</li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> 삼성전자 (반도체/IT)</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <strong>이게 정말 분산된 포트폴리오일까?</strong>
+                </div>
+            </div>
+            <!-- <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1611974717482-581007325f3c?auto=format&fit=crop&q=80&w=1280" alt="Concentrated Risk">
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Core Concept -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">핵심 개념: 종목 수 ≠ 분산</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="tile" style="border-bottom-color: #ff4757;">
+                <h3>겉모습 (종목 수)</h3>
+                <p>종목이 10개니까 안전해 보인다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color: #2ed573;">
+                <h3>실체 (비중 구조)</h3>
+                <p>실제로는 상위 3개 종목이 자산의 80%를 차지하고 있을 수 있다.</p>
+            </div>
+        </div>
+        <p style="text-align: center; font-size: 24px; margin-top: 30px;">
+            "진짜 리스크는 <strong>비중의 분포</strong>에 숨어 있다."
+        </p>
+    </div>
+</div>
+
+<!-- Slide 5: Data Example -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">데이터 예시: Portfolio CSV</h2>
+    <div class="content-area">
+        <p>실습에서 사용할 데이터 구조다. (portfolio.csv)</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>ticker</th>
+                    <th>name</th>
+                    <th>quantity</th>
+                    <th>avg_price</th>
+                    <th>current_price</th>
+                    <th>sector</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>NVDA</td>
+                    <td>NVIDIA</td>
+                    <td>10</td>
+                    <td>800</td>
+                    <td>950</td>
+                    <td>AI/반도체</td>
+                </tr>
+                <tr>
+                    <td>AMD</td>
+                    <td>AMD</td>
+                    <td>15</td>
+                    <td>120</td>
+                    <td>140</td>
+                    <td>AI/반도체</td>
+                </tr>
+                <tr>
+                    <td>TSM</td>
+                    <td>TSMC</td>
+                    <td>20</td>
+                    <td>100</td>
+                    <td>110</td>
+                    <td>반도체</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Slide 6: Pandas Basics -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">pandas 구조 이해</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <h3>DataFrame</h3>
+                <p>엑셀 시트와 같은 2차원 표 구조</p>
+            </div>
+            <div class="tile">
+                <h3>Series</h3>
+                <p>표의 한 줄(열)에 해당하는 데이터</p>
+            </div>
+        </div>
+        <div class="code-box" style="margin-top: 20px;">
+            # 열(Column) 기반 연산의 기초<br>
+            df["column_name"]
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Valuation -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">1단계: 평가금액 계산</h2>
+    <div class="content-area">
+        <p>보유 수량과 현재 가격을 곱해 종목별 평가금액을 구한다.</p>
+        <div class="code-box">
+            df["value"] = df["quantity"] * df["current_price"]
+        </div>
+        <p style="font-size: 16px; margin-top: 10px; color: #888;">* pandas는 벡터 연산을 지원하여 모든 행을 한 번에 계산한다.</p>
+    </div>
+</div>
+
+<!-- Slide 8: Weights -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">2단계: 비중 계산</h2>
+    <div class="content-area">
+        <p>각 종목이 전체 자산에서 차지하는 비율을 구한다.</p>
+        <div class="code-box">
+            total_value = df["value"].sum()<br>
+            df["weight"] = df["value"] / total_value
+        </div>
+        <p style="margin-top: 20px;">비중의 합은 반드시 <strong>1.0 (100%)</strong>이 되어야 한다.</p>
+    </div>
+</div>
+
+<!-- Slide 9: Groupby Concept -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">groupby 개념</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul class="bullet-list">
+                    <li><i class="fa-solid fa-object-group"></i> <strong>Split:</strong> 섹터별로 데이터를 쪼개기</li>
+                    <li><i class="fa-solid fa-plus-minus"></i> <strong>Apply:</strong> 쪼개진 그룹별로 합계(sum) 구하기</li>
+                    <li><i class="fa-solid fa-compress"></i> <strong>Combine:</strong> 결과를 하나의 표로 합치기</li>
+                </ul>
+            </div>
+            <div class="highlight-box">
+                <p>구조 분석의 핵심!</p>
+                <p style="font-size: 16px;">"분산된 데이터를 성격별로 묶어 리스크를 한눈에 파악한다."</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Sector Aggregation -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">3단계: 섹터별 집계</h2>
+    <div class="content-area">
+        <div class="code-box">
+            sector_weights = df.groupby("sector")["weight"].sum()
+        </div>
+        <p style="margin-top: 20px;">이 코드를 통해 개별 종목이 아닌 <strong>'어떤 산업에 내 돈이 몰려있는가'</strong>를 알 수 있다.</p>
+    </div>
+</div>
+
+<!-- Slide 11: Interpretation -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">결과 해석 예시</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile" style="text-align: left;">
+                <p>IT/반도체: 45%</p>
+                <p>AI: 40%</p>
+                <p>현금/기타: 15%</p>
+            </div>
+            <div class="tile" style="border-bottom-color: #ff4757;">
+                <p><i class="fa-solid fa-warning"></i> <strong>분산투자의 착각</strong></p>
+                <p style="font-size: 16px;">종목은 다르지만 사실상 85%가 '반도체/AI' 테마에 몰려 있는 상태다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: HHI Definition -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">집중도 지표: HHI (Herfindahl-Hirschman Index)</h2>
+    <div class="content-area" style="text-align: center;">
+        <p>포트폴리오의 집중도를 측정하는 수학적 도구다.</p>
+        <div id="formula">
+            $HHI = \sum w_i^2$
+        </div>
+        <p style="margin-top: 10px;">(각 섹터 비중의 제곱을 모두 합한 값)</p>
+    </div>
+</div>
+
+<!-- Slide 13: HHI Calculation -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">4단계: HHI 계산 코드</h2>
+    <div class="content-area">
+        <div class="code-box">
+            hhi = (sector_weights**2).sum()
+        </div>
+        <p style="margin-top: 20px;">제곱을 하면 큰 비중을 가진 섹터의 영향력이 훨씬 커지기 때문에,<br>쏠림 현상을 극명하게 보여준다.</p>
+    </div>
+</div>
+
+<!-- Slide 14: HHI Interpretation -->
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">HHI 지수 해석 기준</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="tile" style="border-bottom-color: #2ed573;">
+                <h3 style="color: #2ed573;">0.15 미만</h3>
+                <p>잘 분산된 포트폴리오</p>
+            </div>
+            <div class="tile" style="border-bottom-color: #ffa502;">
+                <h3 style="color: #ffa502;">0.15 ~ 0.25</h3>
+                <p>적당한 집중 상태</p>
+            </div>
+        </div>
+        <div class="tile" style="margin-top: 20px; border-bottom-color: #ff4757; text-align: center;">
+            <h3 style="color: #ff4757;">0.25 초과</h3>
+            <p><strong>고위험 집중 상태 (경고)</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 15: AI Connection -->
+<div class="slide-container" id="slide15">
+    <h2 class="slide-title">AI 파트너와의 협업</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="tile">
+                <h3>계산 (Python)</h3>
+                <p>데이터 가공 및 수치 산출</p>
+            </div>
+            <div class="tile">
+                <h3>해석 (LLM)</h3>
+                <p>산출된 수치의 의미 해석 및 전략 제안</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 16: Prompt Example -->
+<div class="slide-container" id="slide16">
+    <h2 class="slide-title">프롬프트 예시</h2>
+    <div class="content-area">
+        <div class="code-box" style="color: #fff; background: #222; border-left-color: #00f2ff;">
+            "내 포트폴리오의 섹터별 비중은 {sector_weights}이고, HHI 지수는 {hhi}야. 이 포트가 특정 섹터에 쏠려있는지 퀀트 관점에서 비평해주고, 리스크를 낮추기 위한 제안을 해줘."
+        </div>
+    </div>
+</div>
+
+<!-- Slide 17: Result Example -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">AI 분석 결과 예시</h2>
+    <div class="content-area">
+        <div class="image-wrapper" style="padding: 20px; background: #000; color: #adff2f; font-family: monospace;">
+            🤖 AI 퀀트 파트너:<br>
+            "현재 당신의 포트폴리오는 AI 테마에 자산의 85%가 집중되어 있다. HHI 지수 0.38은 매우 높은 위험 수준을 나타낸다. 반도체 업황 둔화 시 포트 전체가 타격을 입을 수 있으므로, 금융이나 배당주 섹터로의 비중 조절을 권장한다."
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: Key Message -->
+<div class="slide-container" id="slide18">
+    <h2 class="slide-title">핵심 메시지</h2>
+    <div class="content-area">
+        <ul class="bullet-list">
+            <li><i class="fa-solid fa-star"></i> 포트폴리오의 본질은 종목명이 아니라 <strong>'비중 구조'</strong>다.</li>
+            <li><i class="fa-solid fa-star"></i> <strong>Groupby</strong>는 리스크의 실체를 드러내는 가장 강력한 도구다.</li>
+            <li><i class="fa-solid fa-star"></i> AI는 계산을 대신해주는 도구가 아니라, <strong>계산된 결과를 해석</strong>해주는 파트너다.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Slide 19: Homework -->
+<div class="slide-container" id="slide19">
+    <h2 class="slide-title">2주차 과제 안내</h2>
+    <div class="content-area">
+        <ul class="bullet-list">
+            <li><i class="fa-solid fa-file-csv"></i> 본인만의 가상 포트폴리오 CSV를 작성하라.</li>
+            <li><i class="fa-solid fa-code"></i> 오늘 배운 코드로 비중과 HHI 지수를 계산하라.</li>
+            <li><i class="fa-solid fa-robot"></i> AI의 비평을 받고, 비평 내용을 포함한 리포트를 제출하라.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Slide 20: Next Lesson -->
+<div class="slide-container" id="slide20">
+    <h2 class="slide-title">다음 수업 예고</h2>
+    <div class="content-area title-layout">
+        <h3>3회차: "로컬 DB에 저장하기"</h3>
+        <p style="margin-top: 20px;">매일 변하는 데이터를 효율적으로 관리하는 법을 배운다.</p>
+        <p style="color: #00f2ff;">#SQL #SQLite #데이터정규화</p>
+    </div>
+</div>
+
+<p class="footer-note">AI Quant-Mate | Created by Gemini</p>
+
+</body>
+</html>
