@@ -1,0 +1,290 @@
+# -*- coding: utf-8 -*-
+"""session5.ipynb 빌더 — 가자 코퍼스, 파이프라인 빠른 재적용 (주제2)"""
+from nb import md, code, save
+
+SETUP = r'''# ── 프로젝트 환경 자동 설정 (Colab / 로컬 공용) ───────────────────────
+# 이 셀은 모든 세션 노트북 맨 위에 동일하게 들어간다. 그냥 실행만 하면 된다.
+import os, sys, json, glob
+
+def find_project():
+    """data/backup/corpus_clean.json 이 있는 program4 폴더를 찾는다."""
+    cands = [".", "program4", "..", "../program4", "/content/program4",
+             "/content/edu/program4", os.path.expanduser("~/program4")]
+    for c in cands:
+        if os.path.exists(os.path.join(c, "data", "backup", "corpus_clean.json")):
+            return os.path.abspath(c)
+    return None
+
+PROJECT = find_project()
+if PROJECT is None:
+    print("⚠️  데이터를 찾지 못했습니다. 아래 둘 중 하나로 해결하세요:")
+    print("  (A) Colab: 좌측 파일창에 program4 폴더를 통째로 업로드")
+    print("  (B) Colab: !git clone <이 강의 repo 주소>  후 다시 실행")
+else:
+    sys.path.insert(0, PROJECT)
+    os.chdir(PROJECT)
+    print("✅ 프로젝트 경로:", PROJECT)
+'''
+
+cells = [
+md("""# Session 5 — 새 전장(가자), 같은 자(尺)를 빠르게 들이댄다
+### 주제 2: 가자 / 이스라엘-팔레스타인 · 파이프라인 재적용
+
+> **오늘 한 문장:** "주제1(우크라이나)에서 우리는 **네 세션**에 걸쳐 6차원 파이프라인을 만들었다.
+> 이제 그 도구가 `diplo_analysis.py` 한 파일에 다 들었다. 가자에는 그걸 그대로 들고 가
+> **한 세션 만에** 같은 분석을 끝낸다. *도구가 있으면 분석은 빨라진다.*"
+
+지난 4주는 '도구를 만드는' 시간이었다. 오늘부터는 '도구를 쓰는' 시간이다.
+우크라이나에 4세션, 가자에는 2세션, AI 거버넌스(과제)는 혼자 — **점점 빨라진다.**
+
+오늘의 목표:
+1. 가자 코퍼스(77건)를 불러와 **간략한 존재 확인** + **침묵 지도**를 그린다.
+2. `analyze_document` 를 가자 전 문서에 돌려 **소스별 6차원**을 뽑는다
+   (단, 동사강도는 S4 교훈대로 **길이 정규화 밀도**로 본다).
+3. **우크라이나 vs 가자 비교** — 같은 소스가 두 사건에서 *언어를 바꾸는가?*
+   이것이 우리 프로젝트의 **Q2(당사자성)** 를 여는 질문이다.
+4. Plotly로 가자 소스 비교 + 우크라이나-가자 상호성 비교 차트를 그린다.
+
+> 💡 **운영 방식:** 셀을 위에서 아래로 하나씩 실행한다.
+> `# TODO` 가 보이면 직접 채우고, 바로 아래 `# CHECK` 셀을 실행해 `✅` 가 떠야 다음으로."""),
+
+md("## Step 0 — 환경 설정\n필요한 라이브러리를 설치하고, 프로젝트 폴더를 찾는다."),
+code('!pip install spacy plotly pandas -q\n!python -m spacy download en_core_web_sm -q'),
+code(SETUP),
+
+md("""## Step 1 — 툴킷 + 가자 데이터 (빠르게 간다 🧰)
+
+> **복습은 30초로 끝낸다.** S4에서 만든 툴킷을 *한 줄*로 부른다. 내부 구현은 이미 다 봤다.
+> 오늘은 '쓰기'만 한다. 그리고 **가자 문서만** 골라 작업 파일을 만든다 — S1에서
+> 우크라이나에 했던 것과 **똑같은 절차**, 단지 주제만 바뀌었다."""),
+code(r'''# 6차원 툴킷 한 줄 import — 바퀴를 다시 만들지 않는다
+from diplo_analysis import analyze_document, silence_map, get_nlp, mutuality_index
+import json, pandas as pd
+
+nlp = get_nlp()
+print("✅ 툴킷 로드 완료 — analyze_document / silence_map / mutuality_index 준비됨")'''),
+code(r'''# 전체 코퍼스에서 가자만 골라 작업 데이터셋으로 저장 (S1의 우크라이나 절차와 동일)
+docs_all = json.load(open(os.path.join(PROJECT,"data","backup","corpus_clean.json"), encoding="utf-8"))
+df_all = pd.DataFrame(docs_all)
+gaza = df_all[df_all["topic"]=="gaza"].copy()
+
+gaza.to_json(os.path.join(PROJECT,"data","gaza_working.json"),
+             orient="records", force_ascii=False, indent=1)
+print("✅ 저장: data/gaza_working.json  (", len(gaza), "건 )")
+print("소스별:", gaza.groupby("source").size().to_dict())'''),
+code(r'''# CHECK Step1 — 가자 데이터가 제대로 잡혔는가 (간략 존재 확인)
+try:
+    g = json.load(open(os.path.join(PROJECT,"data","gaza_working.json"), encoding="utf-8"))
+    assert len(g) == 77, f"가자 문서 수가 예상(77)과 다르다: {len(g)}"
+    assert set(d["topic"] for d in g) == {"gaza"}, "가자 외 주제가 섞였다"
+    assert all(d["text"].strip() for d in g), "본문이 빈 문서가 있다"
+    print("✅ PASS — 가자 77건, 본문 모두 존재. 분석 시작.")
+except Exception as e:
+    print("❌ FAIL —", e)'''),
+
+md("""## Step 2 — 침묵 지도 (가자) 🤫
+
+S1에서 우크라이나 침묵 지도를 그렸다. **똑같은 함수**로 가자를 그린다.
+누가 어떤 사건에 입을 다물었나? 특히 **ICJ(국제사법재판소)·ICC(국제형사재판소)**
+같은 *법적 변곡점*을 눈여겨보자 — 우크라이나에서 본 패턴과 비교할 것이다."""),
+code(r'''# 사건 정의(단일 진실 공급원)에서 가자 사건만 가져와 침묵 지도 계산
+from scrapers.events import events_for
+gaza_events = events_for("gaza")          # gaza01 ~ gaza10, 날짜 포함
+smap = silence_map(g, gaza_events)        # 툴킷 함수 그대로 재사용
+smap_df = pd.DataFrame(smap)[["event_id","event_name","date","UN","KR","CN","FR"]]
+smap_df'''),
+code(r'''# 어느 사건에서 누가 침묵했나? (0 = 침묵). 법적 사건은 [법적]으로 표시
+LEGAL = {"gaza05","gaza06"}   # gaza05 ICJ 잠정조치, gaza06 ICC 영장신청
+for row in smap:
+    silent = row["silent_sources"]
+    if silent:
+        tag = "  [법적 변곡점]" if row["event_id"] in LEGAL else ""
+        print(f'  {row["event_id"]} {row["event_name"][:34]:36s} 침묵: {", ".join(silent)}{tag}')'''),
+md("""> **여기서 벌써 Q2의 냄새가 난다.** 한국은 **ICJ 잠정조치(gaza05)·인도적 위기(gaza04)·
+> 라파 작전(gaza07)·휴전 붕괴(gaza09)** 에 침묵했다. 우크라이나 때와 **같은 결**이다 —
+> *법적·군사적 변곡점엔 말을 아끼고, 상징적 사건엔 말한다.* 이건 S6에서 깊게 판다."""),
+
+md("""## Step 3 — 가자 전 문서 분석 → 소스별 6차원
+
+`analyze_document` 를 **77개 문서 전부**에 돌린다. spaCy 구문 분석이라 30초~1분.
+**S4의 교훈을 잊지 말 것:** `verb_strength_max` 는 *문서 길이에 오염*돼 있다.
+그래서 우크라이나 때처럼 **1000단어당 강도동사 밀도(`verb_density`)** 를 같이 만든다."""),
+code(r'''# 라이브 분석 — 77개 문서 전부 (한 줄 함수가 6차원을 다 계산)
+rows = [analyze_document(d, nlp) for d in g]
+ana = pd.DataFrame(rows)
+
+# S4 교훈: 길이 정규화. 강도동사 개수를 단어수로 나눠 밀도로 만든다.
+ana = ana.merge(pd.DataFrame(g)[["id","text"]], on="id", how="left")
+ana["n_words"] = ana["text"].str.split().str.len()
+ana["verb_density"] = ana["n_strength_verbs"] / ana["n_words"] * 1000
+print("분석 결과표:", ana.shape)
+ana[["source","event_id","directness_index","verb_strength_max",
+     "verb_density","mutuality_index"]].head(6)'''),
+md("""### 소스별 평균 집계 — 오늘의 핵심 표
+
+우크라이나 때와 **똑같은 집계**다. 단지 데이터가 가자로 바뀌었을 뿐.
+도구가 손에 익으면 새 주제는 이렇게 *한 표*로 정리된다."""),
+code(r'''# TODO: source 별로 묶어 평균을 구하라. 힌트: ana.groupby("____")[cols].mean()
+cols = ["directness_index","verb_strength_max","verb_density",
+        "mutuality_index","hedging_density"]
+order = ["UN","KR","CN","FR"]
+agg = ana.groupby("______")[cols].mean().round(2).reindex(order)   # ← 빈칸을 채워라
+agg'''),
+code(r'''# CHECK Step3 — 알려진 실제 가자 결과와 맞는가 (소수 오차 허용)
+try:
+    agg = ana.groupby("source")[cols].mean().round(2).reindex(order)
+    mut = agg["mutuality_index"]
+    assert mut["CN"] > mut["KR"] > mut["UN"] > mut["FR"], "상호성 순위가 이상하다"
+    assert abs(mut["CN"] - 11.24) < 0.6, "중국 상호성 값이 예상과 다르다"
+    assert abs(agg.loc["KR","directness_index"] - 0.89) < 0.05, "한국 직설성 예상과 다르다"
+    print("✅ PASS — 가자 소스별 집계 완성")
+    print("   상호성: 중국", mut["CN"], "> 한국", mut["KR"], "> UN", mut["UN"], "> 프랑스", mut["FR"])
+    print("   → 중국이 또 1위. '상호성=중국' 앵커 발견이 주제를 건너 유지된다.")
+except Exception as e:
+    print("❌ FAIL —", e, '\n힌트: ana.groupby("source")[cols].mean()')'''),
+md("""<details><summary>💡 힌트 / 정답</summary>
+
+```python
+agg = ana.groupby("source")[cols].mean().round(2).reindex(order)
+```
+`groupby("source")` 가 같은 소스 행을 묶고, `.mean()` 이 그룹 평균을 낸다.
+`reindex(order)` 는 행 순서만 보기 좋게 고정한다.
+</details>"""),
+md("""**가자에서도 패턴이 반복된다.**
+- **중국**의 상호성(`mutuality_index` ≈11.2)이 또 압도적 1위 — 우크라이나(≈10)보다 *오히려 더 높다.*
+  "all parties / dialogue / political settlement" 프레임을 주제를 가리지 않고 쓴다.
+- **한국**은 직설성(≈0.89)이 가장 높고, **밀도로 보면** 동사강도도 가장 단호하다(짧고 강함).
+- **UN**은 `verb_strength_max` 가 높지만(5.07) 이는 *문서가 길어서*다 — 밀도로 보면 중간.
+- **프랑스**는 짧고 사무적이라 상호성·강도가 모두 낮다(문체 차이일 수 있음)."""),
+
+md("""## Step 4 — 우크라이나 vs 가자: 같은 소스, 다른 전쟁 🔬
+### → 프로젝트 Q2(당사자성)의 문을 연다
+
+> **핵심 질문:** "같은 외교부가 **다른 사건**을 말할 때 언어를 바꾸는가?
+> 바꾼다면, 그 변화의 방향이 **자국의 이해관계(당사자성)** 와 연결되는가?"
+
+S4에서 저장한 `ukraine_annotated.csv` 를 불러와 가자와 **소스별로 나란히** 놓는다.
+(파일이 없으면 우크라이나도 즉석에서 다시 계산한다 — 같은 툴킷이니 금방이다.)"""),
+code(r'''# 우크라이나 주석 데이터 로드 (S4 산출물). 없으면 즉석 재계산.
+ukr_path = os.path.join(PROJECT,"data","ukraine_annotated.csv")
+if os.path.exists(ukr_path):
+    ukr_ana = pd.read_csv(ukr_path)
+    print("✅ S4 산출물 로드: ukraine_annotated.csv (", len(ukr_ana), "행 )")
+else:
+    print("ℹ️ 파일이 없어 우크라이나를 즉석 재계산한다 (같은 툴킷).")
+    ud = [d for d in docs_all if d["topic"]=="ukraine"]
+    ur = pd.DataFrame([analyze_document(d, nlp) for d in ud]).merge(
+         pd.DataFrame(ud)[["id","text"]], on="id")
+    ur["n_words"] = ur["text"].str.split().str.len()
+    ur["verb_density"] = ur["n_strength_verbs"]/ur["n_words"]*1000
+    ukr_ana = ur'''),
+code(r'''# 두 주제를 소스별로 나란히: 직설성·상호성·동사밀도
+def by_source(df, dims):
+    return df.groupby("source")[dims].mean().round(2).reindex(order)
+
+dims = ["directness_index","mutuality_index","verb_density"]
+u = by_source(ukr_ana, dims)
+z = by_source(ana, dims)
+
+compare = pd.DataFrame({
+    "직설_우크": u["directness_index"], "직설_가자": z["directness_index"],
+    "상호_우크": u["mutuality_index"], "상호_가자": z["mutuality_index"],
+    "동사밀도_우크": u["verb_density"], "동사밀도_가자": z["verb_density"],
+})
+compare.index = ["UN","한국","중국","프랑스"]
+compare'''),
+code(r'''# TODO: 각 소스의 상호성이 우크라이나→가자에서 얼마나 변했는지 차이를 구하라.
+#       힌트: 가자 상호성 - 우크라이나 상호성
+delta_mut = z["mutuality_index"] - u["________________"]   # ← 빈칸: 우크라이나의 어떤 열?
+print("상호성 변화(가자 - 우크라이나):")
+for s in order:
+    arrow = "▲ 증가" if delta_mut[s] > 0 else "▼ 감소"
+    print(f"  {s}: {u.loc[s,'mutuality_index']:>5} → {z.loc[s,'mutuality_index']:>5}  ({delta_mut[s]:+.2f}) {arrow}")'''),
+code(r'''# CHECK Step4
+try:
+    delta_mut = z["mutuality_index"] - u["mutuality_index"]
+    assert delta_mut.notna().all(), "변화량 계산 실패"
+    # 중국은 두 주제 모두 상호성 최고 — 일관된 프레임
+    assert z["mutuality_index"]["CN"] == z["mutuality_index"].max()
+    print("✅ PASS — 우크라이나↔가자 소스별 비교 완성")
+    print("   관찰: 중국은 두 사건 모두 상호성 1위(일관). 다른 소스는 사건에 따라 출렁인다.")
+except Exception as e:
+    print("❌ FAIL —", e, '\n힌트: 빈칸은 "mutuality_index"')'''),
+md("""<details><summary>💡 힌트 / 정답</summary>
+
+```python
+delta_mut = z["mutuality_index"] - u["mutuality_index"]
+```
+같은 인덱스(소스)끼리 빼면 소스별 변화량이 나온다.
+</details>"""),
+md("""> **Q2(당사자성)로 가는 다리.** 같은 소스가 두 전쟁에서 언어를 바꾸는지 본다.
+> - **중국**: 두 주제 모두 상호성 최고 — *주제 무관 일관된 중립 프레임.* 당사자성 약함(둘 다 제3자).
+> - **한국·프랑스**: 사건에 따라 점수가 출렁인다. 자국 이해와 닿는 사건에서 톤이 달라질 수 있다.
+> - 이 "**누가 일관되고 누가 유연한가**" 가 바로 **S6의 시계열 분석** 주제다. 오늘은 평균,
+>   다음엔 시간 흐름."""),
+
+md("""## Step 5 — 시각화 (Plotly) 📊
+
+표를 그림으로. (a) 가자 소스 비교, (b) 우크라이나 vs 가자 상호성을 *나란히* 본다."""),
+code(r'''import plotly.graph_objects as go
+
+SRC_KO = {"UN":"UN","KR":"한국","CN":"중국","FR":"프랑스"}
+SRC_COLOR = {"UN":"#4C78A8","KR":"#E45756","CN":"#F58518","FR":"#54A24B"}
+labels = [SRC_KO[s] for s in order]
+colors = [SRC_COLOR[s] for s in order]'''),
+md("### (a) 가자 — 소스별 상호성 지수 (중국 11 vs 프랑스 1.5)"),
+code(r'''fig_g = go.Figure(go.Bar(
+    x=labels, y=[agg.loc[s,"mutuality_index"] for s in order],
+    marker_color=colors,
+    text=[f'{agg.loc[s,"mutuality_index"]:.1f}' for s in order],
+    textposition="outside",
+))
+fig_g.update_layout(
+    title="가자 — 소스별 상호성 지수 (1000단어당 양면적 표현)",
+    xaxis_title="소스", yaxis_title="상호성 지수",
+    template="plotly_white", height=420,
+)
+fig_g.show()
+print("→ 가자에서도 중국이 압도적 1위. '상호성=중국' 앵커가 주제를 건너 유지된다.")'''),
+md("### (b) 우크라이나 vs 가자 — 상호성 그룹 막대"),
+code(r'''# TODO: 가자 막대의 y 값을 채워라. 힌트: z["mutuality_index"] 를 order 순서로.
+fig_cmp = go.Figure()
+fig_cmp.add_trace(go.Bar(name="우크라이나", x=labels,
+    y=[u.loc[s,"mutuality_index"] for s in order], marker_color="#9ecae1"))
+fig_cmp.add_trace(go.Bar(name="가자", x=labels,
+    y=[z.loc[s,"_______________"] for s in order], marker_color="#fc9272"))   # ← 빈칸
+fig_cmp.update_layout(
+    title="같은 소스, 두 전쟁 — 상호성 지수 비교",
+    barmode="group", template="plotly_white", height=440,
+    xaxis_title="소스", yaxis_title="상호성 지수",
+)
+fig_cmp.show()'''),
+code(r'''# CHECK Step5
+try:
+    gaza_bar = [t for t in fig_cmp.data if t.name=="가자"][0]
+    assert abs(gaza_bar.y[order.index("CN")] - z.loc["CN","mutuality_index"]) < 1e-6
+    print("✅ PASS — 우크라이나 vs 가자 그룹 막대 완성")
+    print("   중국은 두 주제 모두 높다(일관). 한국은 가자에서 더 올라간다.")
+except Exception as e:
+    print("❌ FAIL —", e, '\n힌트: 빈칸은 "mutuality_index"')'''),
+md("""<details><summary>💡 힌트 / 정답</summary>
+
+빈칸은 `"mutuality_index"`. (a)의 가자 데이터프레임 `z` 를 그대로 쓴다.
+</details>"""),
+
+md("""## 🎯 회고 (5분)
+
+1. 중국은 우크라이나·가자 **둘 다** 상호성이 가장 높다. 이건 '중립적'이라서일까,
+   아니면 '두 사건 모두 *당사자가 아니라서*'일까? (Q2 당사자성!)
+2. 한국이 가자에서 ICJ·라파에 침묵한 것은 우크라이나에서 ICC·댐에 침묵한 것과 닮았다.
+   같은 *동기*일까? 무엇을 더 보면 알 수 있을까?
+3. 우리는 오늘 4세션짜리 작업을 1세션에 했다. **무엇이 이걸 가능하게 했나?**(→ 툴킷)
+
+## ▶️ 다음 (Session 6 — 가자 시계열·종합)
+> "오늘은 *평균*을 봤다. 다음엔 **시간**을 본다 —
+> 2023년 10월 7일부터 2025년 8월까지, 각 소스의 톤이 사건의 흐름 속에서
+> 어떻게 변했나. 그리고 묻는다: **누가 가장 일관되고, 누가 가장 유연한가?**(Q3)
+> 마지막으로 기사에 실을 **Visual Essay 한 장**을 만든다."""),
+]
+
+save(cells, "session5/session5.ipynb")

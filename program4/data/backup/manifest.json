@@ -1,0 +1,36 @@
+{
+  "total_docs": 195,
+  "events_total": 30,
+  "events_covered": 30,
+  "by_source": {
+    "UN": 44,
+    "KR": 26,
+    "CN": 60,
+    "FR": 65
+  },
+  "by_topic": {
+    "ukraine": 87,
+    "gaza": 80,
+    "ai_governance": 28
+  },
+  "sources": {
+    "UN": "United Nations",
+    "KR": "ROK MOFA",
+    "CN": "PRC MFA",
+    "FR": "France Diplomatie"
+  },
+  "schema": [
+    "id",
+    "source",
+    "topic",
+    "event_id",
+    "event_name",
+    "date",
+    "title",
+    "url",
+    "lang",
+    "text",
+    "collected_via"
+  ],
+  "note": "라이브 스크래핑 폴백용 백업. scrapers/scrape_*.py 로 재수집 가능."
+}

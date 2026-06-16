@@ -1,0 +1,31 @@
+﻿topic,event_id,event_name,date,UN,KR,CN,FR,total
+ukraine,ukr01,Russian invasion begins,2022-02-24,3,3,2,4,12
+ukraine,ukr02,UNGA ES-11/1 resolution,2022-03-02,3,3,2,4,12
+ukraine,ukr03,Bucha civilian killings,2022-04-04,2,2,2,4,10
+ukraine,ukr04,Partial mobilization & nuclear rhetoric,2022-09-21,1,1,2,0,4
+ukraine,ukr05,Annexation of four regions,2022-09-30,3,0,2,1,6
+ukraine,ukr06,Mass strikes on energy infrastructure,2022-10-10,1,0,2,0,3
+ukraine,ukr07,Kherson liberation,2022-11-11,0,0,2,4,6
+ukraine,ukr08,One-year mark / UNGA resolution,2023-02-23,3,0,2,1,6
+ukraine,ukr09,Kakhovka dam destruction,2023-06-06,2,0,2,4,8
+ukraine,ukr10,ICC arrest warrant (Putin),2023-03-17,0,0,2,3,5
+ukraine,ukr11,Two-year mark,2024-02-24,3,1,2,4,10
+ukraine,ukr12,Peace / ceasefire negotiations,2025-03-01,0,1,2,2,5
+gaza,gaza01,October 7 attack,2023-10-07,1,2,2,4,9
+gaza,gaza02,Gaza ground operation begins,2023-10-27,2,3,2,4,11
+gaza,gaza03,First truce & hostage release,2023-11-24,3,3,2,4,12
+gaza,gaza04,Humanitarian crisis declaration,2023-12-08,3,0,2,4,9
+gaza,gaza05,ICJ provisional measures,2024-01-26,2,0,2,4,8
+gaza,gaza06,ICC arrest warrant applications,2024-05-20,1,1,2,4,8
+gaza,gaza07,Rafah operation,2024-05-06,1,0,2,4,7
+gaza,gaza08,Ceasefire deal,2025-01-15,0,1,2,0,3
+gaza,gaza09,Ceasefire collapse / renewed strikes,2025-03-18,1,0,2,2,5
+gaza,gaza10,Gaza City military operation,2025-08-01,1,1,2,4,8
+ai_governance,ai01,G7 Hiroshima AI Process,2023-05-19,0,0,2,0,2
+ai_governance,ai02,Bletchley Declaration,2023-11-01,1,0,2,0,3
+ai_governance,ai03,UN AI resolution A/RES/78/265,2024-03-21,1,0,2,0,3
+ai_governance,ai04,AI Seoul Summit,2024-05-21,1,1,2,0,4
+ai_governance,ai05,UN High-Level Advisory Body on AI,2024-09-19,1,2,2,0,5
+ai_governance,ai06,Security Council AI briefing,2024-07-02,0,1,2,0,3
+ai_governance,ai07,Global Digital Compact,2024-09-22,3,0,2,0,5
+ai_governance,ai08,Paris AI Action Summit,2025-02-10,1,0,2,0,3
