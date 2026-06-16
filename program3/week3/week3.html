@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quant-Mate Session 5 &amp; 6</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Lato:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1c22;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+            font-family: 'Lato', 'Nanum Gothic', sans-serif;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0a0e14;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 100px;
+            height: 4px;
+            background-color: #00f2ff;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; margin: 0; }
+        .slide-title {
+            font-size: 44px;
+            margin-bottom: 30px;
+            border-left: 6px solid #00f2ff;
+            padding-left: 20px;
+            z-index: 1;
+            color: #ffffff;
+        }
+
+        p, li, td, th { font-size: 20px; color: #b0b0b0; line-height: 1.6; }
+        strong { color: #00f2ff; }
+        code { background: #1a1c22; color: #adff2f; padding: 2px 8px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        .title-layout { text-align: center; align-items: center; justify-content: center; height: 100%; }
+        .title-layout h1 { font-size: 64px; margin-bottom: 20px; color: #00f2ff; }
+        .title-layout .subtitle { font-size: 30px; color: #ffffff; margin-top: 20px; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; align-items: center; }
+        .section-title-layout h2 { font-size: 60px; color: #ffffff; }
+        .section-title-layout hr { width: 120px; border: 2px solid #00f2ff; margin: 30px auto; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; }
+        .three-column { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; }
+
+        .tile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .tile { background: #151a21; padding: 30px; border-radius: 12px; border-bottom: 4px solid #00f2ff; }
+        .tile h3 { font-size: 22px; color: #ffffff; margin-bottom: 12px; }
+        .tile i { font-size: 28px; color: #adff2f; margin-bottom: 12px; display: block; }
+
+        .image-wrapper { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #333; background: #151a21; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 40px; margin-bottom: 15px; }
+        .bullet-list i { position: absolute; left: 0; top: 5px; color: #00f2ff; font-size: 22px; }
+
+        .code-box { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid #adff2f; font-family: 'Courier New', Courier, monospace; color: #adff2f; font-size: 17px; line-height: 1.6; overflow: hidden; white-space: pre-wrap; }
+        .code-box .cm { color: #6272a4; font-style: italic; }
+        .code-box .kw { color: #ff79c6; }
+        .code-box .str { color: #f1fa8c; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #151a21; }
+        th { background: #1c232b; color: #00f2ff; text-align: left; padding: 14px; border-bottom: 2px solid #333; font-size: 16px; }
+        td { padding: 14px; border-bottom: 1px solid #222; color: #ffffff; font-size: 16px; }
+
+        .highlight-box { background: rgba(0, 242, 255, 0.05); border: 1px dashed #00f2ff; padding: 20px; border-radius: 10px; text-align: center; }
+        .danger-box { background: rgba(255, 71, 87, 0.05); border: 1px dashed #ff4757; padding: 20px; border-radius: 10px; }
+
+        #formula { font-size: 28px; color: #ffffff; background: #000; padding: 18px; border-radius: 10px; display: inline-block; margin: 10px 0; }
+
+        .schema-card { background: #151a21; padding: 20px 24px; border-radius: 12px; border-left: 4px solid #00f2ff; }
+        .schema-card h4 { font-family: 'Poppins', sans-serif; color: #00f2ff; font-size: 18px; margin: 0 0 8px 0; }
+        .schema-card p { font-size: 15px; color: #cfcfcf; margin: 0; }
+        .schema-card code { font-size: 14px; }
+
+        .footer-note { position: absolute; bottom: 30px; right: 60px; font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide-container" id="slide1">
+    <div class="content-area title-layout">
+        <p style="color: #adff2f; letter-spacing: 5px; font-weight: bold;">AI QUANT-MATE SESSION 05 &amp; 06</p>
+        <h1>데이터베이스 구축</h1>
+        <p class="subtitle">"데이터 베이스 사용법"</p>
+        <p style="margin-top: 30px; color: #888;">SQLite를 활용하여 스냅샷에서 시계열로</p>
+    </div>
+</div>
+
+<!-- Slide 2: Section Title — PHASE C -->
+<div class="slide-container" id="slide2">
+    <div class="content-area section-title-layout">
+        <p style="color: #00f2ff; letter-spacing: 3px;">PHASE C: DATA PERSISTENCE</p>
+        <hr>
+        <h2>매일을 기록한다는 것</h2>
+        <p style="max-width: 800px; margin: 20px auto;">"오늘의 분석은 내일이면 사라진다. 우리는 사라지지 않게 만든다."</p>
+    </div>
+</div>
+
+<!-- Slide 3: 오늘의 목표 -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">오늘의 목표</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <i class="fa-solid fa-database"></i>
+                <h3>DB 구조 이해</h3>
+                <p>왜 CSV가 아니라 데이터베이스인가. SQLite의 위치를 잡는다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <h3>매일 누적 저장</h3>
+                <p>주가와 AI 비평을 같은 DB에 매일 쌓는 패턴을 익힌다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <h3>과거 vs 현재 비교</h3>
+                <p>SQL과 pandas로 시점 간 차이를 뽑아내고 시각화한다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-sitemap"></i>
+                <h3>스키마 설계 감각</h3>
+                <p>정규화·인덱스·JOIN을 통해 분석에 강한 구조를 만든다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: 문제 제기 — CSV 한계 -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">문제 제기: CSV는 왜 부족한가</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>1, 2주차에서 우리는 모든 결과를 CSV로 저장했다. 어제 분석은 어디 갔을까?</p>
+                <ul class="bullet-list" style="margin-top: 15px;">
+                    <li><i class="fa-solid fa-circle-exclamation"></i> <strong>덮어쓰기</strong> — 새로 저장하면 어제 값이 사라진다</li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> <strong>타입 손실</strong> — 숫자가 문자로 읽힌다</li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> <strong>검색 불가</strong> — 특정 종목·기간만 뽑기 어렵다</li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> <strong>동시성 위험</strong> — 두 노트북이 같이 쓰면 깨진다</li>
+                </ul>
+            </div>
+            <div class="danger-box">
+                <p style="color: #ff4757; font-size: 22px;"><strong style="color:#ff4757;"><i class="fa-solid fa-warning"></i> 분석가의 진짜 자산은 데이터가 아니다.</strong></p>
+                <p style="margin-top: 10px;">"<strong>누적된 데이터</strong>가 자산이다. CSV는 자산을 못 쌓는다."</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: 핵심 개념 — 데이터베이스란 -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">핵심 개념: 데이터베이스란</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <i class="fa-solid fa-table-list"></i>
+                <h3>표(Table)들의 모음</h3>
+                <p>여러 개의 엑셀 시트가 한 파일에 모인 것. 시트끼리 연결도 가능하다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>타입 강제</h3>
+                <p>숫자 칸에 문자가 들어오면 거부한다. 데이터 품질을 강제로 보장.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>빠른 조회</h3>
+                <p>인덱스 덕분에 100만 행에서도 즉시 원하는 행을 찾는다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-lock"></i>
+                <h3>동시 안전</h3>
+                <p>여러 프로그램이 동시에 써도 망가지지 않게 트랜잭션이 보호한다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: SQLite 소개 -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">SQLite: 서버 없는 단일 파일 DB</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul class="bullet-list">
+                    <li><i class="fa-solid fa-check"></i> <strong>설치 불필요</strong> — Python 표준 라이브러리에 내장(<code>sqlite3</code>)</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>파일 하나</strong> — <code>quant.db</code> 한 파일이 곧 DB 전체</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>이식성 최강</strong> — 그 파일을 USB로 옮기면 끝</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>실전급</strong> — Firefox, iOS, Android가 내부적으로 사용</li>
+                </ul>
+            </div>
+            <div class="highlight-box">
+                <p style="font-size: 22px;">"<strong>학습용</strong>이지만 <strong>장난감</strong>이 아니다."</p>
+                <p style="font-size: 16px; margin-top: 10px;">개인 퀀트 시스템이 다루는 수만 행 규모는 SQLite로 충분히 감당된다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: SQL CRUD -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">SQL 4대 동사 (CRUD)</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile" style="border-bottom-color:#adff2f;">
+                <h3 style="color:#adff2f;">CREATE</h3>
+                <p>새 표(Table)를 만든다. 컬럼 이름과 타입을 정의.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#00f2ff;">
+                <h3 style="color:#00f2ff;">INSERT</h3>
+                <p>표에 새 행(Row)을 추가한다. 매일의 시세가 여기서 들어간다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#ffa502;">
+                <h3 style="color:#ffa502;">SELECT</h3>
+                <p>원하는 행을 뽑아본다. 분석의 99%는 SELECT다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#ff4757;">
+                <h3 style="color:#ff4757;">UPDATE / DELETE</h3>
+                <p>고치거나 지운다. 잘못 쓰면 위험. 기록 시스템에선 거의 쓰지 않는다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: 데이터 타입 -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">데이터 타입: 칸에 무엇을 넣을 것인가</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>SQLite 타입</th>
+                    <th>의미</th>
+                    <th>예시</th>
+                    <th>퀀트 사용처</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong style="color:#adff2f;">TEXT</strong></td><td>문자열</td><td>"005930", "삼성전자"</td><td>ticker, name, sector</td></tr>
+                <tr><td><strong style="color:#adff2f;">INTEGER</strong></td><td>정수</td><td>78500, 1500000</td><td>volume, quantity</td></tr>
+                <tr><td><strong style="color:#adff2f;">REAL</strong></td><td>실수(부동소수점)</td><td>0.0234, 142.85</td><td>weight, log_return</td></tr>
+                <tr><td><strong style="color:#adff2f;">DATE</strong></td><td>실제는 TEXT (ISO8601 권장)</td><td>"2026-04-29"</td><td>거래일자, 분석시각</td></tr>
+            </tbody>
+        </table>
+        <p style="font-size: 16px; margin-top: 10px; color: #888;">* SQLite는 실제 DATE 타입이 없다. <strong>"YYYY-MM-DD"</strong> 문자열로 저장하면 정렬·비교가 사전식으로도 정상 동작한다.</p>
+    </div>
+</div>
+
+<!-- Slide 9: 첫 연결 -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">1단계: DB 파일 열기</h2>
+    <div class="content-area">
+        <p>파일이 없으면 만들고, 있으면 그냥 연다. 초기화 비용이 없다.</p>
+        <div class="code-box"><span class="kw">import</span> sqlite3
+
+conn = sqlite3.<span style="color:#50fa7b;">connect</span>(<span class="str">"quant.db"</span>)   <span class="cm"># 없으면 자동 생성</span>
+cur  = conn.<span style="color:#50fa7b;">cursor</span>()                  <span class="cm"># SQL을 실행할 손잡이</span></div>
+        <p style="margin-top: 15px;"><strong>연결(connection)</strong>은 DB 파일과의 통신 채널, <strong>커서(cursor)</strong>는 그 채널로 SQL을 실어 보내는 도구다.</p>
+    </div>
+</div>
+
+<!-- Slide 10: CREATE TABLE prices -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">2단계: 일별 시세 테이블 만들기</h2>
+    <div class="content-area">
+        <div class="code-box">cur.<span style="color:#50fa7b;">execute</span>(<span class="str">"""</span>
+<span class="str">    CREATE TABLE IF NOT EXISTS prices (</span>
+<span class="str">        ticker  TEXT    NOT NULL,</span>
+<span class="str">        date    TEXT    NOT NULL,</span>
+<span class="str">        open    REAL,</span>
+<span class="str">        high    REAL,</span>
+<span class="str">        low     REAL,</span>
+<span class="str">        close   REAL,</span>
+<span class="str">        volume  INTEGER,</span>
+<span class="str">        PRIMARY KEY (ticker, date)</span>
+<span class="str">    )</span>
+<span class="str">"""</span>)</div>
+        <p style="margin-top: 15px; font-size: 17px;"><strong>복합 PRIMARY KEY (ticker, date)</strong> — "한 종목의 한 거래일은 단 한 행"이라는 규칙을 DB가 강제한다. 같은 날을 두 번 넣으면 거부된다.</p>
+    </div>
+</div>
+
+<!-- Slide 11: INSERT -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">3단계: 데이터 넣기</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 한 행</span>
+cur.<span style="color:#50fa7b;">execute</span>(
+    <span class="str">"INSERT INTO prices VALUES (?, ?, ?, ?, ?, ?, ?)"</span>,
+    (<span class="str">"005930"</span>, <span class="str">"2026-04-29"</span>, 78000, 79100, 77800, 78500, 12_345_678)
+)
+
+<span class="cm"># 여러 행 — pykrx로 받은 1년치를 한 번에</span>
+rows = [(t, d, o, h, l, c, v) <span class="kw">for</span> ... <span class="kw">in</span> df.itertuples()]
+cur.<span style="color:#50fa7b;">executemany</span>(<span class="str">"INSERT INTO prices VALUES (?,?,?,?,?,?,?)"</span>, rows)
+
+conn.<span style="color:#50fa7b;">commit</span>()   <span class="cm"># 디스크에 확정 — 이걸 안 부르면 사라진다</span></div>
+        <p style="margin-top: 12px; font-size: 16px; color:#888;">* <code>?</code> 플레이스홀더는 <strong>SQL 인젝션을 막는 표준 방어선</strong>이다. 절대 f-string으로 값을 직접 끼워 넣지 않는다.</p>
+    </div>
+</div>
+
+<!-- Slide 12: SELECT -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">4단계: 데이터 꺼내기</h2>
+    <div class="content-area">
+        <div class="code-box">cur.<span style="color:#50fa7b;">execute</span>(<span class="str">"""</span>
+<span class="str">    SELECT date, close, volume</span>
+<span class="str">    FROM prices</span>
+<span class="str">    WHERE ticker = ?</span>
+<span class="str">    ORDER BY date DESC</span>
+<span class="str">    LIMIT 5</span>
+<span class="str">"""</span>, (<span class="str">"005930"</span>,))
+
+<span class="kw">for</span> row <span class="kw">in</span> cur.<span style="color:#50fa7b;">fetchall</span>():
+    <span style="color:#50fa7b;">print</span>(row)</div>
+        <p style="margin-top: 15px;"><strong>SELECT</strong> + <strong>WHERE</strong> + <strong>ORDER BY</strong> + <strong>LIMIT</strong>. 이 4개 키워드만으로 분석의 80%가 가능하다.</p>
+    </div>
+</div>
+
+<!-- Slide 13: pandas <-> SQLite -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">pandas ↔ SQLite: 두 줄로 끝나는 다리</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3 style="color:#00f2ff; margin-bottom: 12px;">DataFrame → DB</h3>
+                <div class="code-box" style="font-size: 15px;">df.<span style="color:#50fa7b;">to_sql</span>(
+    <span class="str">"prices"</span>,
+    conn,
+    if_exists=<span class="str">"append"</span>,
+    index=<span class="kw">False</span>
+)</div>
+            </div>
+            <div>
+                <h3 style="color:#adff2f; margin-bottom: 12px;">DB → DataFrame</h3>
+                <div class="code-box" style="font-size: 15px;">df = pd.<span style="color:#50fa7b;">read_sql_query</span>(
+    <span class="str">"SELECT * FROM prices "</span>
+    <span class="str">"WHERE ticker = ?"</span>,
+    conn,
+    params=(<span class="str">"005930"</span>,)
+)</div>
+            </div>
+        </div>
+        <p style="margin-top: 18px; text-align:center; font-size: 18px;">"DB는 pandas의 <strong>영구 저장 백엔드</strong>다. 메모리에서 굴리던 표를 그대로 디스크에 박는다."</p>
+    </div>
+</div>
+
+<!-- Slide 14: UPSERT -->
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">5단계: 매일 누적 저장 (UPSERT)</h2>
+    <div class="content-area">
+        <p>매일 cron으로 돌리는 적재 스크립트는 <strong>중복 거부</strong>가 아니라 <strong>덮어쓰기 허용</strong>이 편하다.</p>
+        <div class="code-box"><span class="cm"># 같은 (ticker, date)가 있으면 갈아끼움, 없으면 새로 추가</span>
+cur.<span style="color:#50fa7b;">executemany</span>(<span class="str">"""</span>
+<span class="str">    INSERT OR REPLACE INTO prices</span>
+<span class="str">    (ticker, date, open, high, low, close, volume)</span>
+<span class="str">    VALUES (?, ?, ?, ?, ?, ?, ?)</span>
+<span class="str">"""</span>, rows)
+conn.<span style="color:#50fa7b;">commit</span>()</div>
+        <p style="margin-top: 15px;"><strong>INSERT OR REPLACE</strong> — UNIQUE/PK 충돌 시 이전 행을 지우고 새 값으로 덮는다. 정정공시·수정주가 반영에 유용.</p>
+    </div>
+</div>
+
+<!-- Slide 15: AI 비평 스키마 -->
+<div class="slide-container" id="slide15">
+    <h2 class="slide-title">6단계: AI 비평을 위한 별도 테이블</h2>
+    <div class="content-area">
+        <p>주가와 AI 출력은 <strong>성격이 다른 데이터</strong>다. 한 표에 섞지 않는다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>컬럼</th>
+                    <th>타입</th>
+                    <th>설명</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>id</code></td><td>INTEGER PK AUTOINCREMENT</td><td>자동 증가하는 고유 번호</td></tr>
+                <tr><td><code>ticker</code></td><td>TEXT</td><td>대상 종목 (FK → tickers.ticker)</td></tr>
+                <tr><td><code>date</code></td><td>TEXT</td><td>분석 시점 (YYYY-MM-DD)</td></tr>
+                <tr><td><code>model</code></td><td>TEXT</td><td>"gpt-4o-mini", "claude-opus-4-7" 등</td></tr>
+                <tr><td><code>persona</code></td><td>TEXT</td><td>"공격적 트레이더" / "보수적 투자자"</td></tr>
+                <tr><td><code>score</code></td><td>INTEGER</td><td>모멘텀 스코어 0~100</td></tr>
+                <tr><td><code>text</code></td><td>TEXT</td><td>AI 응답 원문</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Slide 16: Section Title — PHASE D -->
+<div class="slide-container" id="slide16">
+    <div class="content-area section-title-layout">
+        <p style="color: #00f2ff; letter-spacing: 3px;">PHASE D: TIME TRAVEL &amp; DESIGN</p>
+        <hr>
+        <h2>쌓인 데이터로 무엇을 할 것인가</h2>
+        <p style="max-width: 800px; margin: 20px auto;">"기록은 시작이다. 진짜는 <strong>비교</strong>에서 나온다."</p>
+    </div>
+</div>
+
+<!-- Slide 17: 시계열 조회 BETWEEN/ORDER BY -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">7단계: 시계열 조회</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 최근 한 달치만</span>
+SELECT date, close
+FROM prices
+WHERE ticker = <span class="str">'005930'</span>
+  AND date BETWEEN <span class="str">'2026-03-29'</span> AND <span class="str">'2026-04-29'</span>
+ORDER BY date ASC;</div>
+        <p style="margin-top: 15px;"><strong>BETWEEN</strong>은 양 끝을 포함하는 범위 필터다. ISO 날짜 문자열이라 사전식 비교가 그대로 시간 비교가 된다.</p>
+        <p style="font-size: 16px; color:#888;">* <code>ORDER BY date ASC</code>(오래된 → 최신) 정렬은 차트 그리기 전 거의 항상 필요하다.</p>
+    </div>
+</div>
+
+<!-- Slide 18: GROUP BY -->
+<div class="slide-container" id="slide18">
+    <h2 class="slide-title">8단계: 집계 — GROUP BY</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 종목별 거래일 수 + 평균 종가 + 최고가</span>
+SELECT
+    ticker,
+    COUNT(*)     AS days,
+    AVG(close)   AS avg_close,
+    MAX(high)    AS peak
+FROM prices
+GROUP BY ticker
+ORDER BY peak DESC;</div>
+        <p style="margin-top: 15px;">2주차의 <code>df.groupby("sector")["weight"].sum()</code> — SQL의 <strong>GROUP BY</strong>가 그 원형이다. 같은 패턴, 다른 문법.</p>
+    </div>
+</div>
+
+<!-- Slide 19: 과거 vs 현재 비교 -->
+<div class="slide-container" id="slide19">
+    <h2 class="slide-title">9단계: 과거 vs 현재 비교 쿼리</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 30일 전 종가와 오늘 종가를 한 행에 — 자기 자신과 JOIN</span>
+SELECT
+    today.ticker,
+    today.date     AS today,
+    today.close    AS close_now,
+    past.close     AS close_30d,
+    (today.close - past.close) * 1.0 / past.close AS ret_30d
+FROM prices today
+JOIN prices past
+  ON  past.ticker = today.ticker
+  AND past.date   = date(today.date, <span class="str">'-30 day'</span>);</div>
+        <p style="margin-top: 12px; font-size: 17px;"><strong>self-join</strong> — 같은 표를 두 번 부르면 "어제의 나"와 "오늘의 나"가 한 행에 나온다. 시계열 비교의 정석.</p>
+    </div>
+</div>
+
+<!-- Slide 20: 시각화 가치 -->
+<div class="slide-container" id="slide20">
+    <h2 class="slide-title">10단계: 누적 데이터의 진짜 가치</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>한 시점 차트는 정보, <strong>여러 시점 차트는 통찰</strong>이다.</p>
+                <ul class="bullet-list" style="margin-top: 12px;">
+                    <li><i class="fa-solid fa-chart-line"></i> 종가 시계열 → 추세</li>
+                    <li><i class="fa-solid fa-arrows-up-down"></i> 일별 수익률 분포 → 변동성</li>
+                    <li><i class="fa-solid fa-layer-group"></i> 섹터 비중 변화 → 포트 회전</li>
+                    <li><i class="fa-solid fa-comments"></i> AI 스코어 변화 → 의견 일관성</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 12px;">
+                    <p style="font-size:17px;">DB → pandas → matplotlib/plotly. 이 파이프라인이 <strong>1주차 + 2주차</strong>를 시간축으로 묶는다.</p>
+                </div>
+            </div>
+            <div class="image-wrapper" style="height: 380px;">
+                <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&q=80&w=1280" alt="Time-series visualization" onerror="this.src='https://via.placeholder.com/600x400/151a21/00f2ff?text=Time+Series+Chart'">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 21: AI 비평 변화 추적 -->
+<div class="slide-container" id="slide21">
+    <h2 class="slide-title">11단계: AI 비평의 시간 추적</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 같은 종목·페르소나에 대한 AI 스코어 추이</span>
+SELECT date, score, substr(text, 1, 40) AS preview
+FROM ai_reviews
+WHERE ticker = <span class="str">'005930'</span>
+  AND persona = <span class="str">'보수적 투자자'</span>
+ORDER BY date ASC;</div>
+        <p style="margin-top: 15px;">AI는 같은 차트도 <strong>날마다 다른 답</strong>을 줄 수 있다. 그 흔들림 자체가 분석 대상이다.</p>
+        <div class="highlight-box" style="margin-top: 10px;">
+            <p style="font-size: 17px;">"AI 의견이 일관되지 않다는 사실 → <strong>모델·프롬프트의 한계</strong>를 수치로 본다."</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 22: 정규화 -->
+<div class="slide-container" id="slide22">
+    <h2 class="slide-title">12단계: 정규화 (1NF · 2NF · 3NF)</h2>
+    <div class="content-area">
+        <p>"외울 필요 없다. 한 문장만 기억한다 — <strong>중복을 줄이고, 한 사실은 한 곳에만 둔다.</strong>"</p>
+        <div class="three-column">
+            <div class="schema-card">
+                <h4>1NF — 원자성</h4>
+                <p>한 셀에 한 값. <code>"NVDA, AMD"</code>처럼 콤마로 묶지 않는다.</p>
+            </div>
+            <div class="schema-card" style="border-left-color:#adff2f;">
+                <h4>2NF — 부분종속 제거</h4>
+                <p>복합 PK의 일부에만 매달리는 컬럼은 따로 뺀다. <code>name</code>은 ticker에만 의존 → 분리.</p>
+            </div>
+            <div class="schema-card" style="border-left-color:#ffa502;">
+                <h4>3NF — 이행종속 제거</h4>
+                <p>"섹터명 → 섹터설명"처럼 비키 칼럼끼리 매달리면 따로 뺀다.</p>
+            </div>
+        </div>
+        <p style="margin-top: 15px; font-size: 16px; color:#888;">* 분석용 단일 표(분석 마트)는 일부러 비정규화하기도 한다. 원칙은 "기록 테이블은 정규화, 조회용 표는 펼친다."</p>
+    </div>
+</div>
+
+<!-- Slide 23: 스키마 분리 -->
+<div class="slide-container" id="slide23">
+    <h2 class="slide-title">13단계: 스키마 — 3개 테이블로 분리</h2>
+    <div class="content-area">
+        <div class="three-column">
+            <div class="schema-card">
+                <h4><i class="fa-solid fa-bookmark"></i> tickers</h4>
+                <p style="font-family:'Courier New',monospace;">ticker (PK)<br>name<br>sector<br>market</p>
+                <p style="margin-top:8px;">종목 마스터. 이름·섹터는 여기 한 곳에만.</p>
+            </div>
+            <div class="schema-card" style="border-left-color:#adff2f;">
+                <h4 style="color:#adff2f;"><i class="fa-solid fa-chart-line"></i> prices</h4>
+                <p style="font-family:'Courier New',monospace;">ticker (FK)<br>date<br>open / high / low / close<br>volume<br>PK = (ticker, date)</p>
+                <p style="margin-top:8px;">매일 적재. 시계열의 본체.</p>
+            </div>
+            <div class="schema-card" style="border-left-color:#ffa502;">
+                <h4 style="color:#ffa502;"><i class="fa-solid fa-robot"></i> ai_reviews</h4>
+                <p style="font-family:'Courier New',monospace;">id (PK)<br>ticker (FK)<br>date<br>model / persona<br>score / text</p>
+                <p style="margin-top:8px;">AI 출력 로그. 변경 없이 append-only.</p>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top: 18px; font-size: 18px;">"<strong>tickers</strong>가 정체성, <strong>prices</strong>가 사실, <strong>ai_reviews</strong>가 의견."</p>
+    </div>
+</div>
+
+<!-- Slide 24: INDEX -->
+<div class="slide-container" id="slide24">
+    <h2 class="slide-title">14단계: INDEX — 빠른 조회의 비밀</h2>
+    <div class="content-area">
+        <div class="code-box">CREATE INDEX idx_prices_ticker_date
+ON prices(ticker, date);
+
+CREATE INDEX idx_reviews_ticker_date
+ON ai_reviews(ticker, date);</div>
+        <p style="margin-top: 15px;">책 뒷부분의 <strong>색인(index)</strong>과 같다. 본문을 다 읽지 않고 단어 위치를 바로 찾는 장치.</p>
+        <ul class="bullet-list" style="margin-top: 10px;">
+            <li><i class="fa-solid fa-check"></i> WHERE / JOIN / ORDER BY에 자주 쓰는 컬럼이 인덱스 후보</li>
+            <li><i class="fa-solid fa-check"></i> 단점: 디스크 공간 + INSERT 약간 느려짐. 그래도 조회가 100배 빠르다</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Slide 25: JOIN -->
+<div class="slide-container" id="slide25">
+    <h2 class="slide-title">15단계: JOIN — 흩어진 표 합치기</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 시세 + 종목명 + 최근 AI 스코어를 한 표로</span>
+SELECT
+    t.name, p.date, p.close, r.score, r.persona
+FROM prices p
+JOIN tickers   t USING(ticker)
+LEFT JOIN ai_reviews r
+       ON r.ticker = p.ticker AND r.date = p.date
+WHERE p.date = <span class="str">'2026-04-29'</span>
+ORDER BY r.score DESC NULLS LAST;</div>
+        <p style="margin-top: 15px;"><strong>INNER JOIN</strong>은 양쪽에 다 있는 행만, <strong>LEFT JOIN</strong>은 왼쪽 기준으로 모두 + 매칭만 합쳐온다.</p>
+    </div>
+</div>
+
+<!-- Slide 26: 트랜잭션 -->
+<div class="slide-container" id="slide26">
+    <h2 class="slide-title">16단계: 트랜잭션 (ACID)</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile" style="border-bottom-color:#00f2ff;">
+                <h3>A — Atomic</h3>
+                <p>전부 성공 아니면 전부 롤백. 중간에 끊겨 반쪽 상태로 남지 않는다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#adff2f;">
+                <h3>C — Consistent</h3>
+                <p>제약 조건(NOT NULL, UNIQUE)이 항상 유지된다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#ffa502;">
+                <h3>I — Isolated</h3>
+                <p>동시에 도는 작업끼리 서로의 중간 상태를 안 본다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#ff4757;">
+                <h3>D — Durable</h3>
+                <p>commit한 결과는 정전이 나도 디스크에 살아남는다.</p>
+            </div>
+        </div>
+        <div class="code-box" style="margin-top: 18px; font-size: 16px;"><span class="kw">with</span> conn:                  <span class="cm"># 블록 끝에서 자동 commit / 예외 시 rollback</span>
+    cur.<span style="color:#50fa7b;">executemany</span>(...)
+    cur.<span style="color:#50fa7b;">execute</span>(...)</div>
+    </div>
+</div>
+
+<!-- Slide 27: 에러 다루기 -->
+<div class="slide-container" id="slide27">
+    <h2 class="slide-title">17단계: 에러 다루기</h2>
+    <div class="content-area">
+        <ul class="bullet-list">
+            <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>UNIQUE 위반</strong> — 같은 (ticker, date)를 또 넣을 때. 의도한 거면 <code>INSERT OR REPLACE</code>로 바꾼다.</li>
+            <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>NOT NULL 위반</strong> — 필수 컬럼이 비었다. 입력 데이터 검증을 INSERT 전에 한다.</li>
+            <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>타입 강제 실패</strong> — 숫자 칸에 "N/A". pykrx가 결측을 내는 날을 처리해 둔다.</li>
+        </ul>
+        <div class="code-box" style="margin-top: 14px; font-size: 16px;"><span class="kw">try</span>:
+    cur.<span style="color:#50fa7b;">executemany</span>(<span class="str">"INSERT INTO prices VALUES (?,?,?,?,?,?,?)"</span>, rows)
+    conn.<span style="color:#50fa7b;">commit</span>()
+<span class="kw">except</span> sqlite3.IntegrityError <span class="kw">as</span> e:
+    <span style="color:#50fa7b;">print</span>(<span class="str">"중복 또는 NULL 위반:"</span>, e)
+    conn.<span style="color:#50fa7b;">rollback</span>()</div>
+    </div>
+</div>
+
+<!-- Slide 28: 백업과 마이그레이션 -->
+<div class="slide-container" id="slide28">
+    <h2 class="slide-title">18단계: 백업과 마이그레이션</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3 style="color:#00f2ff; margin-bottom: 10px;">백업</h3>
+                <ul class="bullet-list" style="margin:0;">
+                    <li><i class="fa-solid fa-copy"></i> SQLite는 파일 하나 → <code>cp quant.db quant.bak.db</code> 끝</li>
+                    <li><i class="fa-solid fa-cloud-arrow-up"></i> 매일 백업을 Drive/Git에 올리면 분석 이력이 영구화</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color:#adff2f; margin-bottom: 10px;">마이그레이션</h3>
+                <ul class="bullet-list" style="margin:0;">
+                    <li><i class="fa-solid fa-plus"></i> 컬럼 추가: <code>ALTER TABLE prices ADD COLUMN adj_close REAL</code></li>
+                    <li><i class="fa-solid fa-pen"></i> 이름 변경/삭제는 SQLite에서 까다로움 → 새 표 만들고 INSERT…SELECT</li>
+                </ul>
+            </div>
+        </div>
+        <div class="danger-box" style="margin-top: 15px;">
+            <p style="color:#ff4757;"><strong style="color:#ff4757;"><i class="fa-solid fa-warning"></i> 운영 원칙</strong> — 스키마를 바꿀 때는 <strong>먼저 백업</strong>. 분석가의 자산은 데이터다.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 29: 핵심 메시지 -->
+<div class="slide-container" id="slide29">
+    <h2 class="slide-title">핵심 메시지</h2>
+    <div class="content-area">
+        <ul class="bullet-list">
+            <li><i class="fa-solid fa-star"></i> 분석은 <strong>스냅샷이 아니라 시계열</strong>이다. DB가 시간을 만들어 준다.</li>
+            <li><i class="fa-solid fa-star"></i> <strong>스키마는 분석의 뼈대</strong>다. tickers / prices / ai_reviews — 성격이 다르면 표를 나눈다.</li>
+            <li><i class="fa-solid fa-star"></i> SQL의 <strong>SELECT + WHERE + GROUP BY + JOIN</strong>이 분석의 80%다. 외우지 말고 익숙해진다.</li>
+            <li><i class="fa-solid fa-star"></i> DB는 <strong>기록 도구</strong>이자 <strong>대화 도구</strong>다 — 과거의 나에게 질문할 수 있다.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Slide 30: 과제 + 다음 주 예고 -->
+<div class="slide-container" id="slide30">
+    <h2 class="slide-title">3주차 과제 + 다음 주 예고</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3 style="color:#00f2ff; margin-bottom: 12px;">과제</h3>
+                <ul class="bullet-list">
+                    <li><i class="fa-solid fa-database"></i> 본인 종목 5개 × 7일 시세를 <code>quant.db</code>에 적재</li>
+                    <li><i class="fa-solid fa-robot"></i> 같은 5종목에 대해 1주차 AI 분석 함수를 <strong>3일 이상 실행</strong>해 <code>ai_reviews</code>에 누적</li>
+                    <li><i class="fa-solid fa-clock-rotate-left"></i> SQL로 "3일 전 vs 오늘" 종가·AI 스코어를 한 표로 뽑기</li>
+                    <li><i class="fa-solid fa-pen"></i> AI 의견이 가장 크게 흔들린 종목 1개를 골라 회고 작성</li>
+                </ul>
+            </div>
+            <div class="highlight-box" style="display:flex; flex-direction:column; justify-content:center;">
+                <p style="color:#adff2f; letter-spacing:2px;">NEXT — WEEK 04 (Session 7 &amp; 8)</p>
+                <h3 style="color:#ffffff; font-size: 26px; margin-top: 8px;">"AI 스트레스 테스터"</h3>
+                <p style="margin-top: 12px; font-size: 16px;">MDD·VaR로 하락장 시나리오를 계산하고, "금리 인상 시 내 포트는 얼마나 깨질까?"를 AI에게 묻는다.</p>
+                <p style="color:#00f2ff; margin-top: 8px;">#MDD #VaR #StressTest</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p class="footer-note">AI Quant-Mate | Session 5 &amp; 6 — Database Construction</p>
+
+</body>
+</html>

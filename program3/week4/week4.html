@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quant-Mate Session 7 &amp; 8</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Lato:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1c22;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+            font-family: 'Lato', 'Nanum Gothic', sans-serif;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0a0e14;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 100px;
+            height: 4px;
+            background-color: #00f2ff;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; margin: 0; }
+        .slide-title {
+            font-size: 44px;
+            margin-bottom: 30px;
+            border-left: 6px solid #00f2ff;
+            padding-left: 20px;
+            z-index: 1;
+            color: #ffffff;
+        }
+
+        p, li, td, th { font-size: 20px; color: #b0b0b0; line-height: 1.6; }
+        strong { color: #00f2ff; }
+        code { background: #1a1c22; color: #adff2f; padding: 2px 8px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        .title-layout { text-align: center; align-items: center; justify-content: center; height: 100%; }
+        .title-layout h1 { font-size: 64px; margin-bottom: 20px; color: #00f2ff; }
+        .title-layout .subtitle { font-size: 30px; color: #ffffff; margin-top: 20px; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; align-items: center; }
+        .section-title-layout h2 { font-size: 60px; color: #ffffff; }
+        .section-title-layout hr { width: 120px; border: 2px solid #00f2ff; margin: 30px auto; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; }
+        .three-column { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; }
+
+        .tile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .tile { background: #151a21; padding: 30px; border-radius: 12px; border-bottom: 4px solid #00f2ff; }
+        .tile h3 { font-size: 22px; color: #ffffff; margin-bottom: 12px; }
+        .tile i { font-size: 28px; color: #adff2f; margin-bottom: 12px; display: block; }
+
+        .image-wrapper { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid #333; background: #151a21; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 40px; margin-bottom: 15px; }
+        .bullet-list i { position: absolute; left: 0; top: 5px; color: #00f2ff; font-size: 22px; }
+
+        .code-box { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid #adff2f; font-family: 'Courier New', Courier, monospace; color: #adff2f; font-size: 17px; line-height: 1.6; overflow: hidden; white-space: pre-wrap; }
+        .code-box .cm { color: #6272a4; font-style: italic; }
+        .code-box .kw { color: #ff79c6; }
+        .code-box .str { color: #f1fa8c; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #151a21; }
+        th { background: #1c232b; color: #00f2ff; text-align: left; padding: 14px; border-bottom: 2px solid #333; font-size: 16px; }
+        td { padding: 14px; border-bottom: 1px solid #222; color: #ffffff; font-size: 16px; }
+
+        .highlight-box { background: rgba(0, 242, 255, 0.05); border: 1px dashed #00f2ff; padding: 20px; border-radius: 10px; text-align: center; }
+        .danger-box { background: rgba(255, 71, 87, 0.05); border: 1px dashed #ff4757; padding: 20px; border-radius: 10px; }
+
+        #formula { font-size: 28px; color: #ffffff; background: #000; padding: 18px; border-radius: 10px; display: inline-block; margin: 10px 0; }
+
+        .schema-card { background: #151a21; padding: 20px 24px; border-radius: 12px; border-left: 4px solid #00f2ff; }
+        .schema-card h4 { font-family: 'Poppins', sans-serif; color: #00f2ff; font-size: 18px; margin: 0 0 8px 0; }
+        .schema-card p { font-size: 15px; color: #cfcfcf; margin: 0; }
+        .schema-card code { font-size: 14px; }
+
+        .formula-box { background: #000; padding: 20px 28px; border-radius: 10px; display: inline-block; font-size: 24px; color: #ffffff; border-left: 4px solid #00f2ff; }
+
+        .footer-note { position: absolute; bottom: 30px; right: 60px; font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide-container" id="slide1">
+    <div class="content-area title-layout">
+        <p style="color: #adff2f; letter-spacing: 5px; font-weight: bold;">AI QUANT-MATE SESSION 07 &amp; 08</p>
+        <h1>AI 스트레스 테스터</h1>
+        <p class="subtitle">"내 포트폴리오는 얼마나 취약할까?"</p>
+        <p style="margin-top: 30px; color: #888;">MDD·VaR로 하락장 시나리오를 정량화한다</p>
+    </div>
+</div>
+
+<!-- Slide 2: Section Title — PHASE E -->
+<div class="slide-container" id="slide2">
+    <div class="content-area section-title-layout">
+        <p style="color: #00f2ff; letter-spacing: 3px;">PHASE E: RISK MEASUREMENT</p>
+        <hr>
+        <h2>"평균"으로는 보이지 않는 것</h2>
+    </div>
+</div>
+
+<!-- Slide 3: 오늘의 목표 -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">오늘의 목표</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+                <h3>MDD 직접 계산</h3>
+                <p>최고점 대비 최대 낙폭. 한 줄짜리 pandas 트릭으로 끝낸다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-percent"></i>
+                <h3>VaR / CVaR</h3>
+                <p>"95% 확률로 하루에 얼마까지 잃을 수 있나"를 수치로 답한다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-bolt-lightning"></i>
+                <h3>시나리오 스트레스</h3>
+                <p>금리 인상·환율 급등 같은 충격을 포트에 입혀 본다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-robot"></i>
+                <h3>AI에게 시나리오 묻기</h3>
+                <p>"이런 충격이면 어떤 종목부터 깨지나" — 함수 호출로 질문.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: 문제 제기 — 평균은 거짓말한다 -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">문제 제기: 평균은 거짓말한다</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>2주차에서 본 연 평균 수익률 8%. 그것만 보고 들어갔다면?</p>
+                <ul class="bullet-list" style="margin-top: 15px;">
+                    <li><i class="fa-solid fa-circle-exclamation"></i> <strong>평균 8%</strong> 안에는 -40% 한 해도 들어 있다</li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> 하락장은 <strong>몇 달 만에 누적 수익을 갉아먹는다</strong></li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> 투자자가 무너지는 건 평균이 아니라 <strong>최악의 순간</strong></li>
+                    <li><i class="fa-solid fa-circle-exclamation"></i> "버틸 수 있는가"는 평균이 아니라 <strong>꼬리</strong>가 결정한다</li>
+                </ul>
+            </div>
+            <div class="danger-box">
+                <p style="color: #ff4757; font-size: 22px;"><strong style="color:#ff4757;"><i class="fa-solid fa-warning"></i> 리스크 = 평균에서의 이탈이 아니다.</strong></p>
+                <p style="margin-top: 10px;">"리스크는 <strong>최악의 시나리오에서 살아남을 수 있는가</strong>이다. 그래서 평균이 아니라 <strong>분포의 꼬리</strong>를 본다."</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: 핵심 개념 — 리스크의 4얼굴 -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">핵심 개념: 리스크의 네 얼굴</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <i class="fa-solid fa-wave-square"></i>
+                <h3>변동성 (Volatility)</h3>
+                <p>일일 수익률의 표준편차. 흔들리는 폭. 우상향 ETF도 이게 크면 멀미한다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+                <h3>MDD (낙폭)</h3>
+                <p>고점 대비 최대 손실폭. <strong>경험한 가장 아픈 순간.</strong></p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-chart-area"></i>
+                <h3>VaR / CVaR</h3>
+                <p>확률적 최악. "95% 신뢰수준에서 잃을 수 있는 액수."</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>시나리오 충격</h3>
+                <p>"만약 금리 +200bp가 한 번에 오면?" — 가정에 기반한 미래 손실.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: MDD 정의 -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">MDD: Maximum Drawdown</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>"역사상 가장 깊은 골짜기까지 얼마나 내려갔나."</p>
+                <ul class="bullet-list" style="margin-top: 12px;">
+                    <li><i class="fa-solid fa-mountain"></i> <strong>고점(Peak)</strong>에서</li>
+                    <li><i class="fa-solid fa-arrow-down"></i> <strong>저점(Trough)</strong>까지의</li>
+                    <li><i class="fa-solid fa-percent"></i> <strong>비율</strong> 손실</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 12px;">
+                    <p style="font-size: 18px;">"평균은 -10%지만 MDD는 -45% — <strong>중간에 못 버티고 던진다</strong>는 신호."</p>
+                </div>
+            </div>
+            <div style="text-align: center; align-self: center;">
+                <div class="formula-box">
+                    $\text{MDD} = \dfrac{\text{최저점 (Trough)} - \text{최고점 (Peak)}}{\text{최고점 (Peak)}} \times 100$
+                </div>
+                <p style="margin-top: 16px; font-size: 16px; color:#888;">"고점에서 저점까지의 비율 손실(%)." 단, <strong>저점은 그 고점 이후</strong>여야 한다 — 그래서 코드는 <code>cummax</code>(지금까지의 누적 최고점)를 쓴다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: MDD 코드 -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">1단계: MDD를 한 줄로</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cm"># df["close"]: 종가 시계열 (DB에서 SELECT)</span>
+nav     = df[<span class="str">"close"</span>] / df[<span class="str">"close"</span>].iloc[0]   <span class="cm"># 누적 수익 곡선</span>
+peak    = nav.<span style="color:#50fa7b;">cummax</span>()                       <span class="cm"># 지금까지의 최고점</span>
+drawdn  = nav / peak - 1                       <span class="cm"># 현재 낙폭 (음수)</span>
+
+mdd      = drawdn.<span style="color:#50fa7b;">min</span>()                      <span class="cm"># 가장 깊은 골</span>
+mdd_date = drawdn.<span style="color:#50fa7b;">idxmin</span>()                   <span class="cm"># 그 날짜</span>
+
+<span style="color:#50fa7b;">print</span>(<span class="str">f"MDD = </span>{mdd:.2%}<span class="str"> @ </span>{mdd_date}<span class="str">"</span>)</div>
+        <p style="margin-top: 15px;"><strong>cummax()</strong>는 "지금까지의 누적 최댓값". 이 한 함수가 MDD 계산의 핵심이다.</p>
+    </div>
+</div>
+
+<!-- Slide 8: VaR 정의 -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">VaR: Value at Risk</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>"95% 신뢰수준 1일 VaR이 -2.4%다" 의 진짜 뜻:</p>
+                <ul class="bullet-list" style="margin-top: 10px;">
+                    <li><i class="fa-solid fa-check"></i> 정상적인 100거래일 중 95일은 -2.4%보다 덜 잃는다</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>나머지 5일</strong>은 -2.4%보다 더 잃을 수 있다</li>
+                    <li><i class="fa-solid fa-xmark" style="color:#ff4757;"></i> "최대 -2.4%까지 잃는다"가 아니다 (오해 1위)</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="font-size: 17px;">VaR은 <strong>경계선</strong>이지 <strong>한계</strong>가 아니다. 5%의 꼬리는 늘 더 깊다.</p>
+                </div>
+            </div>
+            <div style="text-align: center; align-self: center;">
+                <div class="formula-box">
+                    $\text{VaR}_{\alpha} = -Q_{\alpha}(R)$
+                </div>
+                <p style="margin-top: 16px; font-size: 16px; color:#888;">$Q_{\alpha}(R)$ = 수익률 분포의 $\alpha$-분위수.<br>$\alpha = 5\%$이면 분포 하위 5% 지점.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: VaR 3가지 방법 -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">VaR을 구하는 세 가지 방법</h2>
+    <div class="content-area">
+        <div class="three-column">
+            <div class="schema-card">
+                <h4>① Historical</h4>
+                <p>과거 수익률 분포의 5% 분위수를 그대로 사용. 가장 단순, 분포 가정 없음.</p>
+                <p style="margin-top:6px; color:#888;">단점: 과거에 없던 충격은 못 본다.</p>
+            </div>
+            <div class="schema-card" style="border-left-color:#adff2f;">
+                <h4 style="color:#adff2f;">② Parametric</h4>
+                <p>수익률이 정규분포라고 가정. $\mu - 1.65\sigma$ (95%) 같이 닫힌 공식.</p>
+                <p style="margin-top:6px; color:#888;">단점: 꼬리를 과소평가.</p>
+            </div>
+            <div class="schema-card" style="border-left-color:#ffa502;">
+                <h4 style="color:#ffa502;">③ Monte Carlo</h4>
+                <p>가정한 분포에서 1만 번 시뮬레이션. 분포·상관관계 자유롭게 설계 가능.</p>
+                <p style="margin-top:6px; color:#888;">단점: 가정을 잘못하면 의미 없음.</p>
+            </div>
+        </div>
+        <p style="margin-top: 18px; text-align: center; font-size: 17px;">"<strong>역사적 VaR</strong>로 시작해, 부족하면 시뮬레이션으로 보완한다."</p>
+    </div>
+</div>
+
+<!-- Slide 10: Historical VaR 코드 -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">2단계: Historical VaR (한 종목)</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+returns = df[<span class="str">"close"</span>].<span style="color:#50fa7b;">pct_change</span>().<span style="color:#50fa7b;">dropna</span>()
+
+var_95  = np.<span style="color:#50fa7b;">percentile</span>(returns, 5)        <span class="cm"># 하위 5% 분위수</span>
+cvar_95 = returns[returns &lt;= var_95].<span style="color:#50fa7b;">mean</span>()    <span class="cm"># 그 너머의 평균</span>
+
+<span style="color:#50fa7b;">print</span>(<span class="str">f"VaR  95% (1d) = </span>{var_95:.2%}<span class="str">"</span>)
+<span style="color:#50fa7b;">print</span>(<span class="str">f"CVaR 95% (1d) = </span>{cvar_95:.2%}<span class="str">"</span>)</div>
+        <p style="margin-top: 15px;"><strong>CVaR(=ES)</strong>는 "VaR 너머 5%의 평균 손실". VaR이 경계선이라면 CVaR은 <strong>그 너머 평균</strong> — 꼬리의 두께를 본다.</p>
+    </div>
+</div>
+
+<!-- Slide 11: Parametric VaR -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">3단계: Parametric VaR</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="kw">from</span> scipy.stats <span class="kw">import</span> norm
+
+mu    = returns.<span style="color:#50fa7b;">mean</span>()
+sigma = returns.<span style="color:#50fa7b;">std</span>()
+
+<span class="cm"># 정규분포 가정 — 95% 신뢰수준</span>
+var_95_param = mu + sigma * norm.<span style="color:#50fa7b;">ppf</span>(0.05)
+<span style="color:#50fa7b;">print</span>(<span class="str">f"Parametric VaR 95% = </span>{var_95_param:.2%}<span class="str">"</span>)</div>
+        <p style="margin-top: 15px; font-size: 17px;">$\text{VaR}_{95\%} = \mu - 1.645 \sigma$. 한 줄짜리 공식의 정체.</p>
+        <div class="danger-box" style="margin-top: 8px;">
+            <p style="color:#ff4757;"><strong style="color:#ff4757;"><i class="fa-solid fa-warning"></i> 함정</strong> — 실제 주가 수익률은 정규분포보다 <strong>꼬리가 두껍다</strong>. 2008·2020 같은 사건은 정규분포에선 "수만 년에 한 번."</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Monte Carlo 개념 -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">4단계: Monte Carlo VaR</h2>
+    <div class="content-area">
+        <div class="code-box">N    = 10_000
+sims = np.random.<span style="color:#50fa7b;">normal</span>(mu, sigma, N)   <span class="cm"># 1만 번 가상 하루</span>
+
+var_mc  = np.<span style="color:#50fa7b;">percentile</span>(sims, 5)
+cvar_mc = sims[sims &lt;= var_mc].<span style="color:#50fa7b;">mean</span>()
+
+<span style="color:#50fa7b;">print</span>(<span class="str">f"MC VaR  95% = </span>{var_mc:.2%}<span class="str">"</span>)
+<span style="color:#50fa7b;">print</span>(<span class="str">f"MC CVaR 95% = </span>{cvar_mc:.2%}<span class="str">"</span>)</div>
+        <p style="margin-top: 15px;">"미래를 직접 알 수 없으니, <strong>가능한 미래 1만 개</strong>를 시뮬레이션해서 분포로 본다." 다자산·비선형 상품으로 확장하기 좋은 그릇.</p>
+    </div>
+</div>
+
+<!-- Slide 13: 포트폴리오 단위로 -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">5단계: 포트폴리오 단위 VaR</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 종목별 종가 → 일일 수익률 행렬 (열=종목)</span>
+ret_mat = prices.<span style="color:#50fa7b;">pct_change</span>().<span style="color:#50fa7b;">dropna</span>()
+
+<span class="cm"># 포트 비중 (1주차 가중치)</span>
+w = np.<span style="color:#50fa7b;">array</span>([0.4, 0.3, 0.2, 0.1])
+
+<span class="cm"># 포트폴리오 일일 수익률 시계열</span>
+port_ret = ret_mat @ w
+
+var_95_p  = np.<span style="color:#50fa7b;">percentile</span>(port_ret, 5)
+cvar_95_p = port_ret[port_ret &lt;= var_95_p].<span style="color:#50fa7b;">mean</span>()</div>
+        <p style="margin-top: 15px;">"개별 종목의 VaR을 더한 값보다 <strong>포트 VaR이 작다</strong>" — 그 차이가 <strong>분산효과(diversification benefit)</strong>다.</p>
+    </div>
+</div>
+
+<!-- Slide 14: 상관관계 -->
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">6단계: 상관관계 — 분산의 진짜 엔진</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>"같이 떨어지면 분산이 아니다." 위기에는 상관계수가 <strong>1로 수렴</strong>한다.</p>
+                <ul class="bullet-list" style="margin-top: 12px;">
+                    <li><i class="fa-solid fa-equals"></i> 평시 $\rho \approx 0.3$</li>
+                    <li><i class="fa-solid fa-arrow-up"></i> 위기 $\rho \to 0.9$</li>
+                    <li><i class="fa-solid fa-bolt"></i> 분산효과는 <strong>가장 필요한 순간 사라진다</strong></li>
+                </ul>
+            </div>
+            <div>
+                <div class="code-box" style="font-size: 16px;"><span class="cm"># 상관계수 행렬 — pandas 한 줄</span>
+ret_mat.<span style="color:#50fa7b;">corr</span>()
+
+<span class="cm"># 공분산 → 포트 분산 → 포트 표준편차</span>
+cov = ret_mat.<span style="color:#50fa7b;">cov</span>()
+port_var = w @ cov.values @ w
+port_std = np.<span style="color:#50fa7b;">sqrt</span>(port_var)</div>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 12px;">
+            <p style="font-size: 17px;">"<strong>분산이 만능이 아니다</strong> — 위기일수록 $\rho$를 의심해야 한다."</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 15: 시각화 -->
+<div class="slide-container" id="slide15">
+    <h2 class="slide-title">7단계: 분포로 보는 VaR</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <ul class="bullet-list">
+                    <li><i class="fa-solid fa-chart-column"></i> 일별 수익률 히스토그램</li>
+                    <li><i class="fa-solid fa-arrow-left-long"></i> 좌측 5% 위치에 <strong>VaR 수직선</strong></li>
+                    <li><i class="fa-solid fa-fill-drip"></i> 그 너머 영역을 색칠 → <strong>CVaR 영역</strong></li>
+                    <li><i class="fa-solid fa-eye"></i> 학생이 "꼬리"라는 단어를 <strong>눈으로</strong> 이해한다</li>
+                </ul>
+                <div class="code-box" style="margin-top: 8px; font-size: 14px;">plt.<span style="color:#50fa7b;">hist</span>(port_ret, bins=60)
+plt.<span style="color:#50fa7b;">axvline</span>(var_95_p, color=<span class="str">"red"</span>)
+plt.<span style="color:#50fa7b;">axvspan</span>(min, var_95_p, alpha=0.2)</div>
+            </div>
+            <div class="image-wrapper" style="height: 380px;">
+                <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1280" alt="VaR distribution chart" onerror="this.src='https://via.placeholder.com/600x400/151a21/00f2ff?text=VaR+Distribution'">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 16: Section Title — PHASE F -->
+<div class="slide-container" id="slide16">
+    <div class="content-area section-title-layout">
+        <p style="color: #00f2ff; letter-spacing: 3px;">PHASE F: SCENARIO &amp; AI</p>
+        <hr>
+        <h2>"만약 그날이 다시 온다면"</h2>
+        <p style="max-width: 800px; margin: 20px auto;">"VaR이 통계라면, 스트레스 테스트는 <strong>이야기</strong>다."</p>
+    </div>
+</div>
+
+<!-- Slide 17: 스트레스 테스트란 -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">스트레스 테스트: 가정으로 만든 미래</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <h3>역사 시나리오</h3>
+                <p>"2008-09 금융위기가 다시 오면?" 그 기간 수익률을 <strong>그대로</strong> 입혀본다.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <h3>가설 시나리오</h3>
+                <p>"금리 +200bp, 환율 +10%, 코스피 -15%" 같이 <strong>분석가가 설계</strong>.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-arrows-spin"></i>
+                <h3>민감도 (Sensitivity)</h3>
+                <p>한 변수만 흔들었을 때의 영향. <strong>베타·듀레이션</strong>이 핵심 도구.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-bolt-lightning"></i>
+                <h3>역(逆)스트레스</h3>
+                <p>"내 포트가 -30% 깨지려면 무엇이 일어나야 하는가?" 거꾸로 묻는다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: 시나리오 설계 -->
+<div class="slide-container" id="slide18">
+    <h2 class="slide-title">8단계: 시나리오 설계 — 무엇을 흔들 것인가</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>시나리오</th>
+                    <th>충격 변수</th>
+                    <th>크기</th>
+                    <th>예상 영향</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong style="color:#adff2f;">금리 인상</strong></td><td>국고채 10년 금리</td><td>+200bp</td><td>성장주·리츠 약세, 채권 가격 하락</td></tr>
+                <tr><td><strong style="color:#adff2f;">환율 급등</strong></td><td>USD/KRW</td><td>+10%</td><td>수출주 우호, 항공·내수 부담</td></tr>
+                <tr><td><strong style="color:#adff2f;">유가 급등</strong></td><td>WTI</td><td>+30%</td><td>정유 수혜, 운송·항공 손상</td></tr>
+                <tr><td><strong style="color:#adff2f;">코스피 폭락</strong></td><td>KOSPI</td><td>-15% (1주)</td><td>전 종목 하락, 베타 큰 종목이 더 큼</td></tr>
+            </tbody>
+        </table>
+        <p style="font-size: 16px; margin-top: 12px; color:#888;">* 시나리오는 <strong>스토리</strong>다. "왜 이 가정을 보는가"를 먼저 정한다.</p>
+    </div>
+</div>
+
+<!-- Slide 19: 시나리오 적용 코드 -->
+<div class="slide-container" id="slide19">
+    <h2 class="slide-title">9단계: 시나리오를 포트에 입히기</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 종목별 베타 (시장 수익률에 대한 민감도) — 회귀로 이미 추정</span>
+betas = pd.<span style="color:#50fa7b;">Series</span>({<span class="str">"005930"</span>: 1.10, <span class="str">"035720"</span>: 1.35,
+                   <span class="str">"068270"</span>: 0.85, <span class="str">"051910"</span>: 1.20})
+
+market_shock = -0.15                 <span class="cm"># 코스피 -15%</span>
+stock_shock  = betas * market_shock  <span class="cm"># 종목별 충격</span>
+
+port_shock = (stock_shock * weights).<span style="color:#50fa7b;">sum</span>()
+<span style="color:#50fa7b;">print</span>(<span class="str">f"포트 충격 = </span>{port_shock:.2%}<span class="str">"</span>)</div>
+        <p style="margin-top: 15px;"><strong>베타 × 시장충격 × 비중</strong>의 합 — 가장 단순한 1요인 스트레스 모델. 실제는 금리·유가·환율 다요인으로 확장한다.</p>
+    </div>
+</div>
+
+<!-- Slide 20: 다요인 스트레스 -->
+<div class="slide-container" id="slide20">
+    <h2 class="slide-title">10단계: 다요인 충격 합산</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 종목 i의 충격 = Σ (factor_j 민감도 × factor_j 충격)</span>
+sensitivities = pd.<span style="color:#50fa7b;">DataFrame</span>({
+    <span class="str">"market"</span>:    [1.10, 1.35, 0.85, 1.20],
+    <span class="str">"rate"</span>:      [-0.20, -0.30, 0.05, -0.10],   <span class="cm"># 금리 +1%당</span>
+    <span class="str">"fx_usd"</span>:    [0.40, 0.10, 0.50, -0.20],    <span class="cm"># USD +1%당</span>
+}, index=tickers)
+
+shocks = pd.<span style="color:#50fa7b;">Series</span>({<span class="str">"market"</span>: -0.15, <span class="str">"rate"</span>: 0.02, <span class="str">"fx_usd"</span>: 0.10})
+
+stock_returns = sensitivities @ shocks
+port_return   = (stock_returns * weights).<span style="color:#50fa7b;">sum</span>()</div>
+        <p style="margin-top: 15px;">"<strong>민감도 행렬 × 충격 벡터</strong> = 종목별 손익." 이게 사실상 모든 위험관리 시스템의 뼈대다.</p>
+    </div>
+</div>
+
+<!-- Slide 21: AI를 끌어들이는 이유 -->
+<div class="slide-container" id="slide21">
+    <h2 class="slide-title">11단계: 왜 AI에게 묻는가</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>지금까지는 <strong>분석가가 시나리오를 설계</strong>했다. AI에게 두 가지를 더 시킨다.</p>
+                <ul class="bullet-list" style="margin-top: 12px;">
+                    <li><i class="fa-solid fa-lightbulb"></i> <strong>시나리오 발굴</strong> — "지금 시점에서 가장 위협적인 시나리오 3개"</li>
+                    <li><i class="fa-solid fa-comments"></i> <strong>해석</strong> — 숫자만 던지면 결론이 안 나온다. AI가 "이게 의미하는 바"를 정리</li>
+                    <li><i class="fa-solid fa-screwdriver-wrench"></i> <strong>도구 호출</strong> — AI가 직접 stress_test() 함수를 부르게 한다</li>
+                </ul>
+            </div>
+            <div class="highlight-box">
+                <p style="font-size: 22px;">"<strong>분석은 사람이</strong>, <strong>실행은 코드가</strong>, <strong>해석은 AI가</strong>."</p>
+                <p style="font-size: 16px; margin-top: 10px;">셋이 분업해야 의사결정이 빨라진다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 22: Function Calling 설계 -->
+<div class="slide-container" id="slide22">
+    <h2 class="slide-title">12단계: Function Calling 도구 정의</h2>
+    <div class="content-area">
+        <div class="code-box">tools = [{
+    <span class="str">"name"</span>: <span class="str">"run_stress_test"</span>,
+    <span class="str">"description"</span>: <span class="str">"포트폴리오에 거시 시나리오 충격을 적용한 손익을 계산"</span>,
+    <span class="str">"input_schema"</span>: {
+        <span class="str">"type"</span>: <span class="str">"object"</span>,
+        <span class="str">"properties"</span>: {
+            <span class="str">"market_shock"</span>: {<span class="str">"type"</span>: <span class="str">"number"</span>, <span class="str">"description"</span>: <span class="str">"코스피 충격, 예 -0.15"</span>},
+            <span class="str">"rate_shock"</span>:   {<span class="str">"type"</span>: <span class="str">"number"</span>, <span class="str">"description"</span>: <span class="str">"금리 변화 % 단위, 예 0.02"</span>},
+            <span class="str">"fx_shock"</span>:     {<span class="str">"type"</span>: <span class="str">"number"</span>, <span class="str">"description"</span>: <span class="str">"USD/KRW 변화율"</span>},
+        },
+        <span class="str">"required"</span>: [<span class="str">"market_shock"</span>],
+    },
+}]</div>
+        <p style="margin-top: 15px; font-size: 17px;">AI는 자연어로 "금리 +200bp 시나리오 돌려줘"를 받아 → 위 함수로 <strong>구조화된 호출</strong>로 바꾼다.</p>
+    </div>
+</div>
+
+<!-- Slide 23: AI 호출 흐름 -->
+<div class="slide-container" id="slide23">
+    <h2 class="slide-title">13단계: AI ↔ 코드 핸드셰이크</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="kw">import</span> anthropic
+client = anthropic.<span style="color:#50fa7b;">Anthropic</span>()
+
+resp = client.messages.<span style="color:#50fa7b;">create</span>(
+    model=<span class="str">"claude-sonnet-4-6"</span>,
+    max_tokens=1024,
+    tools=tools,
+    messages=[{
+        <span class="str">"role"</span>: <span class="str">"user"</span>,
+        <span class="str">"content"</span>: <span class="str">"금리 +200bp, 코스피 -10% 시나리오로 내 포트 영향 알려줘"</span>
+    }],
+)
+
+<span class="kw">if</span> resp.stop_reason == <span class="str">"tool_use"</span>:
+    args   = resp.content[-1].input
+    result = <span style="color:#50fa7b;">run_stress_test</span>(**args)   <span class="cm"># 우리가 만든 파이썬 함수</span>
+    <span class="cm"># 결과를 다시 AI에게 넘겨 자연어 요약 받기</span></div>
+        <p style="margin-top: 12px; font-size: 16px; color:#888;">* 1주차 SDK 호출 패턴 + <strong>tools=[]</strong> 인자가 추가되었을 뿐. 흐름은 같다.</p>
+    </div>
+</div>
+
+<!-- Slide 24: AI 응답 활용 -->
+<div class="slide-container" id="slide24">
+    <h2 class="slide-title">14단계: 결과를 AI가 해설하게 하기</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># 두 번째 호출 — tool_result를 같이 넘긴다</span>
+followup = client.messages.<span style="color:#50fa7b;">create</span>(
+    model=<span class="str">"claude-sonnet-4-6"</span>,
+    max_tokens=1024,
+    tools=tools,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: question},
+        {<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: resp.content},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: [{
+            <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+            <span class="str">"tool_use_id"</span>: tool_id,
+            <span class="str">"content"</span>: json.<span style="color:#50fa7b;">dumps</span>(result),
+        }]},
+    ],
+)
+<span style="color:#50fa7b;">print</span>(followup.content[0].text)   <span class="cm"># "포트는 -8.4%, 가장 취약한 종목은…"</span></div>
+        <p style="margin-top: 12px; font-size: 17px;">계산은 결정적, 해석은 자연어. <strong>둘을 한 대화에서 연결</strong>하는 것이 핵심.</p>
+    </div>
+</div>
+
+<!-- Slide 25: 프롬프트 설계 -->
+<div class="slide-container" id="slide25">
+    <h2 class="slide-title">15단계: 스트레스 분석 프롬프트 템플릿</h2>
+    <div class="content-area">
+        <div class="code-box"><span class="cm"># system prompt</span>
+<span class="str">"""</span>
+<span class="str">너는 보수적인 리스크 매니저다. 다음 원칙을 지킨다:</span>
+<span class="str">- 숫자를 본문에 그대로 인용한다 (반올림 % 둘째 자리).</span>
+<span class="str">- "최악의 종목 3개 → 이유 → 헤지 아이디어" 순서로 쓴다.</span>
+<span class="str">- 데이터에 없는 추측은 하지 않는다. 모르면 "데이터 부족" 이라 답한다.</span>
+<span class="str">"""</span>
+
+<span class="cm"># user prompt</span>
+<span class="str">"""</span>
+<span class="str">[시나리오] 금리 +200bp, 코스피 -10%, USD/KRW +5%</span>
+<span class="str">[포트 결과] {tool_result}</span>
+<span class="str">[질문] 이 시나리오에서 가장 위험한 종목과 그 이유, 그리고 즉시 줄여야 할 비중을 제안하라.</span>
+<span class="str">"""</span></div>
+        <p style="margin-top: 12px; font-size: 17px;"><strong>제약을 명시</strong>할수록 AI 답이 단단해진다. "추측 금지"는 LLM 환각을 줄이는 가장 효과적인 한 줄.</p>
+    </div>
+</div>
+
+<!-- Slide 26: 한계와 윤리 -->
+<div class="slide-container" id="slide26">
+    <h2 class="slide-title">16단계: 한계 — 모델은 모델이다</h2>
+    <div class="content-area">
+        <div class="tile-grid">
+            <div class="tile" style="border-bottom-color:#ff4757;">
+                <h3>꼬리는 늘 더 두껍다</h3>
+                <p>역사 데이터에 없는 사건은 VaR이 못 본다. "코로나 같은 일은 또 온다"는 가정.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#ffa502;">
+                <h3>상관관계는 변한다</h3>
+                <p>평시의 $\rho$로 위기를 추정하면 손실을 과소평가한다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#00f2ff;">
+                <h3>AI는 숫자를 잘 못 한다</h3>
+                <p>계산은 코드에, 해석만 AI에. 절대 AI에게 직접 평균·VaR을 묻지 않는다.</p>
+            </div>
+            <div class="tile" style="border-bottom-color:#adff2f;">
+                <h3>의사결정의 책임은 사람</h3>
+                <p>AI는 시나리오 제안자·해설자. <strong>매수·매도는 사람이</strong> 결정한다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 27: 백테스트와 검증 -->
+<div class="slide-container" id="slide27">
+    <h2 class="slide-title">17단계: VaR 백테스트 (Kupiec 검정)</h2>
+    <div class="content-area">
+        <p>"VaR이 정말 95% 신뢰수준인가?" — 과거 데이터로 직접 세어 본다.</p>
+        <div class="code-box"><span class="cm"># 매일의 VaR 추정 vs 실제 손실 비교 (rolling window)</span>
+exceptions = (port_ret &lt; rolling_var_95).<span style="color:#50fa7b;">sum</span>()
+expected   = len(port_ret) * 0.05
+
+<span style="color:#50fa7b;">print</span>(<span class="str">f"실제 위반: </span>{exceptions}<span class="str">회 / 예상: </span>{expected:.0f}<span class="str">회"</span>)</div>
+        <ul class="bullet-list" style="margin-top: 12px;">
+            <li><i class="fa-solid fa-check"></i> 위반 ≈ 5% 근처면 모델 적정</li>
+            <li><i class="fa-solid fa-circle-exclamation"></i> 위반이 훨씬 많으면 → <strong>VaR 과소추정</strong>, 정규분포 가정 의심</li>
+            <li><i class="fa-solid fa-circle-exclamation"></i> 위반이 너무 적으면 → 보수적이지만 자본 비효율</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Slide 28: DB와의 연결 -->
+<div class="slide-container" id="slide28">
+    <h2 class="slide-title">18단계: 3주차 DB와 다시 연결</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3 style="color:#00f2ff; margin-bottom: 10px;">새 테이블: stress_runs</h3>
+                <ul class="bullet-list" style="margin:0;">
+                    <li><i class="fa-solid fa-database"></i> <code>id, date, scenario_name</code></li>
+                    <li><i class="fa-solid fa-database"></i> <code>params (JSON), port_pnl</code></li>
+                    <li><i class="fa-solid fa-database"></i> <code>worst_ticker, ai_summary</code></li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color:#adff2f; margin-bottom: 10px;">활용</h3>
+                <ul class="bullet-list" style="margin:0;">
+                    <li><i class="fa-solid fa-chart-line"></i> 같은 시나리오를 매주 재실행 → <strong>취약성 시계열</strong></li>
+                    <li><i class="fa-solid fa-clock-rotate-left"></i> "포트 비중 바꾼 뒤 -200bp 시나리오는 어떻게 변했나"</li>
+                </ul>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 12px;">
+            <p style="font-size: 17px;">"3주차 DB가 <strong>기록</strong>이라면, 4주차는 그 기록 위에 <strong>가정 실험</strong>을 쌓는 단계."</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 29: 핵심 메시지 -->
+<div class="slide-container" id="slide29">
+    <h2 class="slide-title">핵심 메시지</h2>
+    <div class="content-area">
+        <ul class="bullet-list">
+            <li><i class="fa-solid fa-star"></i> 리스크는 평균이 아니라 <strong>꼬리</strong>다. MDD·VaR·CVaR로 그 꼬리를 수치화한다.</li>
+            <li><i class="fa-solid fa-star"></i> 통계만으로는 부족하다. <strong>시나리오 = 이야기</strong>가 통계의 빈 칸을 메운다.</li>
+            <li><i class="fa-solid fa-star"></i> 분업의 원칙: <strong>계산은 코드</strong>, <strong>해석은 AI</strong>, <strong>판단은 사람</strong>.</li>
+            <li><i class="fa-solid fa-star"></i> 모든 모델은 가정 위에 선다. 가정이 깨지는 그날을 <strong>가정 자체로</strong> 검증한다.</li>
+        </ul>
+    </div>
+</div>
+
+
+<p class="footer-note">AI Quant-Mate | Session 7 &amp; 8 — AI Stress Tester</p>
+
+</body>
+</html>
