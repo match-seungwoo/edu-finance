@@ -35,7 +35,7 @@ md("""# Session 2 — 외교 성명문, *어떻게* 말했나
 > **능동/수동의 차이를 숫자로** 잡아낸다."
 
 지난 세션(S1) 복습 2줄:
-1. 4개 소스(UN·한국·중국·프랑스) 우크라이나 성명문 **85건**을 정제해 `data/ukraine_working.json` 에 저장했다.
+1. 4개 소스(UN·한국·중국·프랑스) 우크라이나 성명문 **157건**을 정제해 `data/ukraine_working.json` 에 저장했다.
 2. **침묵 지도** — 누가 어떤 사건에 말하지 않았는지 — 를 그렸다. "침묵도 데이터다."
 
 오늘의 목표 — **문장의 *구조*를 자동으로 읽는다.** 손으로 만들 세 가지 지표 + 확장 한 차원:
@@ -53,7 +53,7 @@ code('!pip install spacy plotly -q\n!python -m spacy download en_core_web_sm -q'
 code(SETUP),
 
 md("""## Step 1 — 오늘의 데이터 불러오기 + 안전망
-S1이 저장한 `data/ukraine_working.json`(우크라이나 85건)을 쓴다.
+S1이 저장한 `data/ukraine_working.json`(우크라이나 157건)을 쓴다.
 혹시 그 파일이 없어도(노트북을 따로 돌렸어도) **백업 코퍼스에서 직접 우크라이나만 걸러** 동작하게 한다.
 분석은 항상 "데이터가 진짜 있나"부터 확인한다."""),
 code(r'''import pandas as pd, json, os
@@ -187,8 +187,8 @@ md("""## Step 4 — 지표 ②: Verb Strength Ladder (동사 강도)
 | 2 | acknowledge, recognize |
 | 3 | regret, lament |
 | 4 | concern, worry, trouble |
-| 5 | deplore, denounce, decry |
-| 6 | **condemn**, censure |
+| 5 | deplore, denounce, decry, reject, oppose |
+| 6 | **condemn**, censure, urge |
 | 7 | **demand**, insist, require |
 
 **핵심:** `token.lemma_`(기본형)로 매칭한다. `condemned`/`condemns`/`condemning` → 전부 `condemn`."""),
@@ -198,8 +198,8 @@ VERB_LADDER = {
     "acknowledge": 2, "recognize": 2, "recognise": 2,
     "regret": 3, "lament": 3,
     "concern": 4, "worry": 4, "trouble": 4,
-    "deplore": 5, "denounce": 5, "decry": 5,
-    "condemn": 6, "censure": 6,
+    "deplore": 5, "denounce": 5, "decry": 5, "reject": 5, "oppose": 5,
+    "condemn": 6, "censure": 6, "urge": 6,
     "demand": 7, "insist": 7, "require": 7,
 }
 
@@ -312,10 +312,10 @@ if tok.dep_ in ("nsubj", "nsubjpass"):
 둘 다 잡아야 "당했다"류 문장의 주어도 분포에 들어간다.
 </details>"""),
 
-md("""## Step 6 — 85건 전체에 적용 → 소스별 비교표 📊
+md("""## Step 6 — 157건 전체에 적용 → 소스별 비교표 📊
 
-세 함수를 우크라이나 85건에 모두 돌려 한 행 = 한 문서인 표를 만든다.
-spaCy가 85개 문서를 파싱하므로 **몇 초 걸린다.** 진행 표시를 같이 본다."""),
+세 함수를 우크라이나 157건에 모두 돌려 한 행 = 한 문서인 표를 만든다.
+spaCy가 157개 문서를 파싱하므로 **몇 초 걸린다.** 진행 표시를 같이 본다."""),
 code(r'''rows = []
 for i, d in enumerate(ukr.to_dict("records")):
     t = d["text"]
@@ -362,19 +362,19 @@ md("""## Step 7 — 무엇이 보이나 (그리고 무엇을 조심해야 하나
 
 표를 읽어보자. 우리가 실제로 얻는 패턴:
 
-**① 동사 강도 (verb_strength_max 평균):** 대략 **CN ≈ 5.9 > UN ≈ 5.3 > KR ≈ 2.6 > FR ≈ 2.4**
+**① 동사 강도 (verb_strength_max 평균):** 대략 **CN ≈ 6.2 > UN ≈ 5.6 > KR ≈ 2.8 > FR ≈ 2.5**
 - 중국·UN이 `condemn/deplore` 급 강한 동사를 더 쓴다.
-- 한국·프랑스는 `note/regret` 급 약한 동사에 머문다.
+- 프랑스·한국은 `note/acknowledge` 급 약한 동사에 머문다.
 
 > ⚠️ **함정 경고 (정직하게):** 이 숫자는 **문서 길이에 오염(length-confounded)** 돼 있다.
 > 중국 문서는 정례 브리핑이라 **길다** → 길면 강한 동사가 한 번이라도 나올 확률이 올라간다.
 > `verb_strength_max`(최댓값)는 특히 길이에 약하다. **이건 4주차(S4) 검증에서 길이를 통제**해 다시 본다.
 > 오늘은 "패턴이 보인다, 그러나 아직 결론이 아니다"까지만.
 
-**② 직설성 (directness_index 평균):** 대략 **CN 0.86, UN 0.78, KR 0.77, FR 0.75**
+**② 직설성 (directness_index 평균):** 대략 **CN 0.85, UN 0.81, KR 0.79, FR 0.73**
 - 차이가 **작다.** 솔직하게: 네 소스 모두 꽤 직설적(능동절 위주)이다. "미묘한 차이"가 정직한 결론.
 
-**③ 주어 1인칭(subject_first_person):** **중국이 가장 높고, 한국은 거의 0.**
+**③ 주어 1인칭(subject_first_person):** **중국이 가장 높고, 한국은 0.**
 - 한국은 "We condemn" 보다 "The Republic of Korea / The Ministry ..." 같은 **기관 목소리**로 쓴다.
 - 중국은 "We(중국)" 를 주어로 더 자주 내세운다."""),
 code(r'''# 주어 1인칭 비율만 따로 — "기관 목소리 vs 1인칭" 대비
@@ -459,14 +459,14 @@ for s in ["UN", "CN", "FR", "KR"]:
     v = blame_dir[s]
     avg = round(_______ / len(v), 2) if v else None   # ← 빈칸: 합을 무엇으로?
     print(f"{s:8}{str(avg):>22}{len(v):>12}")'''),
-code(r'''# CHECK Step8 — 실제 데이터 패턴(UN > CN > FR, KR=없음) 재현
+code(r'''# CHECK Step8 — 실제 데이터 패턴(FR > UN > CN, CN 최저, KR=없음) 재현
 try:
     mean = {s: (round(sum(v)/len(v), 2) if v else None) for s, v in blame_dir.items()}
     assert mean.get("UN") and mean.get("CN") and mean.get("FR"), "UN/CN/FR 발동 문서가 있어야"
-    assert mean["UN"] > mean["CN"] > mean["FR"], "UN > CN > FR 순서가 안 맞는다"
+    assert mean["FR"] > mean["UN"] > mean["CN"], "FR > UN > CN 순서가 안 맞는다"
     assert not blame_dir["KR"], "한국은 귀속 0건이어야 (공격을 서술하지 않음)"
-    print("✅ PASS — blame_directness: UN", mean["UN"], "> CN", mean["CN"],
-          "> FR", mean["FR"], "| KR=없음(귀속 0건)")
+    print("✅ PASS — blame_directness: FR", mean["FR"], "> UN", mean["UN"],
+          "> CN", mean["CN"], "| KR=없음(귀속 0건)")
 except Exception as e:
     print("❌ FAIL —", e, "\n힌트: avg = sum(v)/len(v)")'''),
 md("""<details><summary>💡 힌트 / 정답</summary>
@@ -476,12 +476,13 @@ avg = round(sum(v) / len(v), 2) if v else None   # 빈칸 = sum(v)
 ```
 
 **읽어라 (핵심 해석).** 실제 결과는 대략:
-- **UN 0.34 > 중국 0.26 > 프랑스 0.20**, **한국은 귀속 0건**(평균 정의 안 됨).
+- **프랑스 0.43 > UN 0.38 > 중국 0.30**, **한국은 귀속 0건**(평균 정의 안 됨).
 - 한국은 공격을 *구체적으로 서술하지 않고* "깊이 우려·규탄한다" 식으로 **추상적으로만** 말한다 → 가해 동사가 안 나와 발동 자체가 0건.
-- 중국은 공격을 언급하더라도 **행위자를 가리는 수동태 비율이 UN보다 높다** → 명시(named)가 적어 directness가 낮다.
+- 중국은 공격을 언급하더라도 **행위자를 가리는 수동태 비율이 가장 높다(최저 0.30)** → 명시(named)가 적어 directness가 낮다.
+- 단, **프랑스는 발동 문서가 7건뿐**이라 표본이 작다 → 절대 수치보다 "중국이 가장 가린다 / 한국은 서술 자체가 없다"는 *구조적 신호*에 무게를 둔다.
 
 ⚠️ **함정 경고 (정직하게):**
-> 1. 귀속은 **가해를 서술한 문장에서만** 발동한다 → 희소하다(전체 162건 중 ~48건만 발동).
+> 1. 귀속은 **가해를 서술한 문장에서만** 발동한다 → 희소하다(전체 304건 중 ~101건만 발동).
 > 2. 소형 spaCy 모델은 **복문(여러 절이 접속된 긴 문장)** 에서 일부 SVO를 놓친다 → 카운트가 과소될 수 있다.
 > 3. 그래서 우크라이나만으론 표본이 작아 **가자까지 합쳐** 봤다. 절대 수치보다 **소스 간 *상대* 순서**를 신뢰한다.
 </details>"""),

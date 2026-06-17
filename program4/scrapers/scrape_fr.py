@@ -48,9 +48,9 @@ OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data",
 OUT_PATH = os.path.join(OUT_DIR, "FR.json")
 
 TIMEOUT = 20
-MAX_PER_EVENT = 4
-GLOBAL_CAP = 80
-SEARCH_PAGES = 1          # pages of search results per query (each ~10-12 items)
+MAX_PER_EVENT = 6        # raised from 4 to grow the corpus
+GLOBAL_CAP = 140         # raised from 80; merge/dedup is the real gate
+SEARCH_PAGES = 2          # pages of search results per query (each ~10-12 items)
 MIN_TEXT = 150
 
 MONTHS = {m: i for i, m in enumerate(
@@ -76,6 +76,23 @@ TOPIC_REQUIRE = {
 
 _session = requests.Session()
 _session.headers.update(HEADERS)
+
+
+_WB_PREFIX_RE = re.compile(r"https?://web\.archive\.org/web/\d+(?:id_)?/", re.I)
+
+
+def canonical_url(url):
+    """Reduce any URL to its original diplomatie.gouv.fr form for dedup:
+    strip a leading web.archive.org/web/<ts>id_/ wrapper, drop the query
+    string and trailing slash, and normalise the scheme/host casing."""
+    if not url:
+        return ""
+    u = _WB_PREFIX_RE.sub("", url)
+    u = u.split("#", 1)[0].split("?", 1)[0].rstrip("/")
+    # normalise scheme + host so http/https and www variants collapse
+    u = re.sub(r"^https?://", "", u, flags=re.I)
+    u = u.lower()
+    return u
 
 
 def fetch(url, params=None, tries=3):
@@ -231,20 +248,36 @@ def keyword_match(text, title, keywords, topic):
 CDX = "http://web.archive.org/cdx/search/cdx"
 WB_RAW = "http://web.archive.org/web/{ts}id_/{url}"
 WB_TIMEOUT = 25
-WB_MAX_FETCH_PER_EVENT = 16   # cap raw fetches per event (budget control)
-WB_CACHE = os.path.join(OUT_DIR, ".wayback_cdx_cache.json")
+WB_MAX_FETCH_PER_EVENT = 22   # cap raw fetches per event (budget control)
+WB_CACHE = os.path.join(OUT_DIR, ".wayback_cdx_cache_v2.json")
+CDX_FROM = "20220101"
+CDX_TO = "20250630"   # extend past 2024 so wide 2025 windows can be recovered
 
-# url prefixes to enumerate via CDX (article pages hold dated statements)
+# URL prefixes to enumerate via CDX (article pages hold dated statements).
+# A single broad "/en/country-files/*" glob is alphabetically truncated by the
+# CDX `limit` before it ever reaches Russia/Ukraine, so we enumerate the
+# topic-relevant country files individually, plus the general foreign-policy
+# tree (official statements/speeches/communiqués + the daily "Point de presse"
+# press briefings). This is the change that recovers MANY more 2022-2024 docs.
 CDX_PREFIXES = [
-    "diplomatie.gouv.fr/en/country-files/*",
+    "diplomatie.gouv.fr/en/country-files/ukraine/*",
+    "diplomatie.gouv.fr/en/country-files/russia/*",
+    "diplomatie.gouv.fr/en/country-files/israel-palestinian-territories/*",
+    "diplomatie.gouv.fr/en/country-files/israel/*",
+    "diplomatie.gouv.fr/en/country-files/palestinian-territories/*",
     "diplomatie.gouv.fr/en/french-foreign-policy/*",
 ]
 
-# keywords that must appear in the slug for a candidate to be worth fetching
+# keywords that must appear in the slug for a candidate to be worth fetching.
+# Broadened to catch communiqués, joint statements and daily press briefings
+# ("Point de presse" / "press-briefing") that comment on Ukraine or Gaza.
 WB_SLUG_KW = [
-    "ukraine", "russia", "russian",
-    "gaza", "israel", "israeli", "palestin", "hamas", "rafah",
+    "ukraine", "ukrainian", "russia", "russian", "kyiv", "kherson",
+    "kakhovka", "bucha", "donbass", "crimea", "zaporizhzhia",
+    "gaza", "israel", "israeli", "palestin", "hamas", "rafah", "hostage",
+    "ceasefire", "humanitarian",
     "artificial-intelligence", "intelligence",
+    "press-briefing", "point-de-presse",
 ]
 
 _MON3 = {m: i for i, m in enumerate(
@@ -288,17 +321,19 @@ def cdx_enumerate():
         print(f"  [cdx] querying {prefix} ...", flush=True)
         r = wb_fetch(CDX, params={
             "url": prefix, "output": "json",
-            "from": "20220101", "to": "20241231",
+            "from": CDX_FROM, "to": CDX_TO,
             "filter": "statuscode:200", "collapse": "urlkey",
             "limit": "30000",
         }, timeout=120)
-        if not r:
+        if not r or not r.text.strip():
             print(f"  [cdx] FAILED {prefix}")
             continue
         try:
             rows = r.json()
         except Exception:
+            print(f"  [cdx] non-JSON response for {prefix}")
             continue
+        before = len(by_slug)
         for row in rows[1:]:
             ts, original = row[1], row[2]
             if "/article/" not in original:
@@ -310,7 +345,9 @@ def cdx_enumerate():
             clean = original.split("?")[0]
             if slug not in by_slug or ts < by_slug[slug][0]:
                 by_slug[slug] = (ts, clean)
-        time.sleep(1.0)
+        print(f"  [cdx]   +{len(by_slug) - before} candidates "
+              f"({len(rows) - 1} rows scanned)", flush=True)
+        time.sleep(1.5)
 
     print(f"  [cdx] {len(by_slug)} unique relevant article candidates")
     try:
@@ -403,6 +440,40 @@ def parse_wayback(ts, original_url):
     return d, title, text
 
 
+_EVENT_ORDER = {e[1]: i for i, e in enumerate(EVENTS)}
+
+
+def finalize(docs):
+    """Dedup by canonical (original diplomatie.gouv.fr) url, drop too-short
+    bodies, renumber ids per event (FR-<event_id>-<n>) and emit schema-exact
+    dicts. Returns the cleaned list."""
+    seen = set()
+    cleaned = []
+    for d in docs:
+        cu = canonical_url(d.get("url", ""))
+        if not cu or cu in seen:
+            continue
+        if len((d.get("text") or "")) < MIN_TEXT:
+            continue
+        seen.add(cu)
+        cleaned.append(d)
+    # stable order: by event order, then by date
+    cleaned.sort(key=lambda d: (_EVENT_ORDER.get(d.get("event_id", ""), 999),
+                                d.get("date", "")))
+    per_event = {}
+    out = []
+    for d in cleaned:
+        ev = d.get("event_id", "")
+        per_event[ev] = per_event.get(ev, 0) + 1
+        d = dict(d)
+        d["id"] = f"FR-{ev}-{per_event[ev]}"
+        d["source"] = "FR"
+        d["lang"] = "en"
+        d.setdefault("collected_via", "live_scrape")
+        out.append({k: d.get(k, "") for k in DOCUMENT_SCHEMA})
+    return out
+
+
 def recover_wayback():
     """Recover 2022-2024 France statements from the Wayback Machine and APPEND
     them to FR.json (preserving the existing live-scraped docs)."""
@@ -417,7 +488,8 @@ def recover_wayback():
         except Exception:
             existing = []
     docs = list(existing)
-    seen_urls = {d.get("url", "") for d in docs}
+    # dedup on the ORIGINAL diplomatie.gouv.fr url (wayback prefix stripped)
+    seen_urls = {canonical_url(d.get("url", "")) for d in docs}
     per_event_n = {}
     for d in docs:
         ev = d.get("event_id", "")
@@ -454,7 +526,7 @@ def recover_wayback():
         # date-unknown slugs that match the topic gate (we'll check body date).
         in_window, unknown = [], []
         for d_hint, ts, url, slug in cand_list:
-            if url in seen_urls:
+            if canonical_url(url) in seen_urls:
                 continue
             if not any(g in slug.lower() for g in slug_gate):
                 continue
@@ -466,14 +538,17 @@ def recover_wayback():
         in_window.sort()
         ranked = [(ts, url) for _, ts, url in in_window] + unknown
 
+        # respect a TOTAL per-event ceiling (existing live docs + wayback adds),
+        # so strong events don't balloon past MAX_PER_EVENT after a merge.
+        have = sum(1 for d in docs if d.get("event_id") == event_id)
         kept = 0
         fetched = 0
         lo_x = center - timedelta(days=window)   # exact event window
         hi_x = center + timedelta(days=window)
         for ts, url in ranked:
-            if kept >= MAX_PER_EVENT or fetched >= WB_MAX_FETCH_PER_EVENT:
+            if have + kept >= MAX_PER_EVENT or fetched >= WB_MAX_FETCH_PER_EVENT:
                 break
-            if url in seen_urls:
+            if canonical_url(url) in seen_urls:
                 continue
             fetched += 1
             try:
@@ -487,7 +562,7 @@ def recover_wayback():
                     continue
                 if not keyword_match(text, title, all_kw, topic):
                     continue
-                seen_urls.add(url)
+                seen_urls.add(canonical_url(url))
                 per_event_n[event_id] = per_event_n.get(event_id, 0) + 1
                 docs.append({
                     "id": f"FR-{event_id}-{per_event_n[event_id]}",
@@ -517,7 +592,7 @@ def recover_wayback():
             with open(OUT_PATH, "w", encoding="utf-8") as f:
                 json.dump(snap, f, ensure_ascii=False, indent=2)
 
-    docs = [{k: x.get(k, "") for k in DOCUMENT_SCHEMA} for x in docs]
+    docs = finalize(docs)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(docs, f, ensure_ascii=False, indent=2)
 
@@ -535,12 +610,25 @@ def recover_wayback():
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
-    docs = []
-    seen_urls = set()
+
+    # LOAD + MERGE existing docs so the live scraper grows (not replaces) the
+    # corpus. Dedup is by canonical original url.
+    existing = []
+    if os.path.exists(OUT_PATH):
+        try:
+            with open(OUT_PATH, encoding="utf-8") as f:
+                existing = json.load(f)
+        except Exception:
+            existing = []
+    docs = list(existing)
+    seen_urls = {canonical_url(d.get("url", "")) for d in docs}
     topic_counts = {}
+    for d in docs:
+        topic_counts[d.get("topic", "")] = topic_counts.get(d.get("topic", ""), 0) + 1
     zero_events = []
 
     print(f"France Diplomatie scraper — {len(EVENTS)} events")
+    print(f"Loaded {len(docs)} existing docs to merge into")
     print(f"Search endpoint: {SEARCH}?search_api_fulltext=...\n")
 
     for topic, event_id, name, date_str, window, keywords in EVENTS:
@@ -563,16 +651,19 @@ def main():
                 if u not in cu_seen:
                     cu_seen.add(u)
                     candidate_urls.append(u)
-            if len(candidate_urls) >= 25:
+            if len(candidate_urls) >= 40:
                 break
 
+        # how many docs this event already has (from a prior merge); only add
+        # up to MAX_PER_EVENT total.
+        have = sum(1 for d in docs if d.get("event_id") == event_id)
         kept = 0
         fetched = 0
         for url in candidate_urls:
-            if kept >= MAX_PER_EVENT or fetched >= 18:
+            if have + kept >= MAX_PER_EVENT or fetched >= 24:
                 break
             fetched += 1
-            if url in seen_urls:
+            if canonical_url(url) in seen_urls:
                 continue
             try:
                 res = parse_article(url)
@@ -586,10 +677,9 @@ def main():
                 if not keyword_match(text, title, all_kw, topic):
                     continue
 
-                seen_urls.add(url)
-                n = kept + 1
+                seen_urls.add(canonical_url(url))
                 docs.append({
-                    "id": f"FR-{event_id}-{n}",
+                    "id": f"FR-{event_id}-{have + kept + 1}",
                     "source": "FR",
                     "topic": topic,
                     "event_id": event_id,
@@ -608,9 +698,11 @@ def main():
                 print(f"    ! error on {url[:70]}: {e}")
                 continue
 
-        status = f"{kept} doc(s)" if kept else "0 docs"
+        total_for_event = have + kept
+        status = f"+{kept} (now {total_for_event})" if kept else \
+                 (f"0 new ({have} existing)" if have else "0 docs")
         print(f"[{event_id}] {name[:42]:42s} {status}", flush=True)
-        if kept == 0:
+        if total_for_event == 0:
             zero_events.append(f"{event_id} ({name})")
 
         # incremental save (schema-exact) so partial progress survives
@@ -622,11 +714,14 @@ def main():
             print(f"\nReached global cap {GLOBAL_CAP}, stopping.")
             break
 
-    # ensure schema-exact dicts
-    docs = [{k: doc.get(k, "") for k in DOCUMENT_SCHEMA} for doc in docs]
-
+    # dedup + renumber + schema-exact
+    docs = finalize(docs)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(docs, f, ensure_ascii=False, indent=2)
+
+    topic_counts = {}
+    for d in docs:
+        topic_counts[d["topic"]] = topic_counts.get(d["topic"], 0) + 1
 
     print("\n===== SUMMARY =====")
     print(f"Total docs: {len(docs)}")
@@ -639,8 +734,15 @@ def main():
 
 if __name__ == "__main__":
     # `python scrape_fr.py wayback` -> recover 2022-2024 from the Archive and
-    # APPEND to FR.json. Bare `python scrape_fr.py` -> the live-search scraper.
-    if len(sys.argv) > 1 and sys.argv[1] == "wayback":
+    #     MERGE into FR.json (preserves + grows existing docs).
+    # `python scrape_fr.py all`     -> run live search THEN wayback (full build).
+    # bare `python scrape_fr.py`    -> the live-search scraper (2025+).
+    mode = sys.argv[1] if len(sys.argv) > 1 else "live"
+    if mode == "wayback":
+        recover_wayback()
+    elif mode == "all":
+        main()
+        print("\n--- now running Wayback recovery ---\n")
         recover_wayback()
     else:
         main()

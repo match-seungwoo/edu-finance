@@ -59,7 +59,7 @@ code(SETUP),
 
 md("""## Step 1 — 지난주 복습 + 오늘의 입력 불러오기
 
-S1에서 저장한 `data/ukraine_working.json`(85건)을 다시 쓴다. **"지난주 산출물이 이번 주 입력."**
+S1에서 저장한 `data/ukraine_working.json`(157건)을 다시 쓴다. **"지난주 산출물이 이번 주 입력."**
 
 > **복습 한 문장:** S2 = *구조=문법* (능동/수동, 동사 강도). S3 = *의미=뉘앙스* (단어를 *왜* 골랐나)."""),
 code(r'''import pandas as pd, json, os
@@ -70,7 +70,7 @@ ukr[["source","event_id","date","title"]].head(3)'''),
 code(r'''# CHECK Step1 — 입력 데이터가 제대로 올라왔는지
 try:
     assert len(ukr) > 50 and set(ukr["source"].unique()) >= {"UN","KR","CN","FR"}
-    print("✅ PASS — 85건 내외, 4개 소스 모두 존재. 분석 시작 OK")
+    print("✅ PASS — 157건 내외, 4개 소스 모두 존재. 분석 시작 OK")
 except Exception as e:
     print("❌ FAIL —", e)'''),
 
@@ -96,12 +96,16 @@ md("""## Step 3 — Mutuality Index (상호성 지수) 🎯 **오늘의 핵심**
 ### 측정 방법
 양면적 표현 사전을 만들고, **1000단어당 등장 횟수**(밀도)로 잰다.
 밀도로 재는 이유? 문서 길이가 제각각이라(프랑스는 짧고 UN은 길다) **횟수만 세면 불공평**하다."""),
-code(r'''# 상호성 사전 — 양면적/상호적 표현 목록 (toolkit 과 동일)
+code(r'''# 상호성 사전 — 양면적/상호적 표현 목록 (toolkit v3 와 동일)
 MUTUALITY_TERMS = [
     "mutual", "both sides", "all sides", "all parties", "shared",
     "common interest", "common ground", "win-win", "dialogue",
     "cooperation", "consultation", "peaceful", "negotiation",
     "political settlement", "all relevant parties", "common security",
+    # v3 보강: 양측 자제·평화적 해결 프레임 (확대 코퍼스 데이터 기반)
+    # 주: ceasefire 는 '분쟁 이벤트어'라 구성타당도 위해 제외
+    "restraint", "de-escalation", "de-escalate",
+    "two-state", "political solution", "diplomatic solution", "good faith",
 ]
 print("상호성 표현", len(MUTUALITY_TERMS), "개:", MUTUALITY_TERMS[:5], "...")'''),
 md("""### TODO — `mutuality_index` 직접 구현하기
@@ -157,7 +161,7 @@ for s in ["CN","KR","UN","FR"]:
     rows.append((s, round(avg,2), len(mut[s])))
     print(f"{s:8}{avg:>22.2f}{len(mut[s]):>8}")
 mut_avg = {s:a for s,a,_ in rows}'''),
-md("""> **읽어라.** 대략 **CN ≈ 10.1, KR ≈ 7.2, UN ≈ 3.7, FR ≈ 1.1**.
+md("""> **읽어라.** 대략 **CN ≈ 12.0, KR ≈ 5.9, UN ≈ 3.6, FR ≈ 1.0**.
 > 중국이 압도적 1위다. **"중국 외교언어 = 양면성"** 이라는 통념이 *실제 데이터로 재현*된 것이다.
 > 프랑스는 거의 안 쓴다 — 가해자를 직접 지목하는 직설적 언어를 택했다는 신호.
 >
@@ -165,7 +169,7 @@ md("""> **읽어라.** 대략 **CN ≈ 10.1, KR ≈ 7.2, UN ≈ 3.7, FR ≈ 1.1*
 code(r'''# CHECK Step3-b — 핵심 발견(중국>한국>UN>프랑스) 재현 확인
 try:
     assert mut_avg["CN"] > mut_avg["KR"] > mut_avg["UN"] > mut_avg["FR"], "순서가 안 맞는다"
-    assert mut_avg["CN"] > 8, "중국 상호성이 예상보다 낮다"
+    assert mut_avg["CN"] > 9, "중국 상호성이 예상보다 낮다"
     print("✅ PASS — 핵심 발견 재현: CN > KR > UN > FR")
     print("   중국이 프랑스의", round(mut_avg["CN"]/max(mut_avg["FR"],0.01),1), "배")
 except Exception as e:
@@ -177,12 +181,14 @@ md("""## Step 4 — Hedging Density (완곡어 밀도)
 **완곡/유보 표현**("may", "appears to", "reportedly", "we believe"...)은 단정을 피하는 장치다.
 "러시아가 공격했다"가 아니라 "공격이 있었던 것으로 보인다(appears to)"라고 쓰면 책임 추궁이 약해진다.
 상호성과 짝을 이루는 또 다른 '거리두기' 신호다."""),
-code(r'''# 완곡어 사전 (toolkit 과 동일). 앞뒤 공백은 단어 경계를 흉내내는 트릭.
+code(r'''# 완곡어 사전 (toolkit v3 와 동일). 앞뒤 공백은 단어 경계를 흉내내는 트릭.
 HEDGES = [
     "may ", "might ", "could ", "appears to", "seems to", "possibly",
     "perhaps", "allegedly", "reportedly", "we believe", "it is hoped",
     "would ", "likely", "potentially", "to some extent", "in some cases",
     "it seems", "arguably", "presumably", "apparently",
+    # v3 보강: 외교적 희망/유보 (확대 코퍼스 데이터 기반)
+    "we hope", "hope ", "hopes ", "hoping",
 ]
 
 def hedging_density(text):
@@ -211,9 +217,9 @@ for s in ["UN","CN","FR","KR"]:
     print(f"{s:8}{avg:>16.2f}")'''),
 code(r'''# CHECK Step4
 try:
-    assert hed_avg["KR"] == min(hed_avg.values()), "한국이 최저 완곡어가 아니다"
-    assert hed_avg["UN"] >= 2.0 or hed_avg["CN"] >= 2.0, "UN/CN 완곡어가 예상보다 낮다"
-    print("✅ PASS — 한국이 가장 단정적(완곡어 최저), UN/CN 이 가장 완곡:", hed_avg)
+    assert hed_avg["FR"] == min(hed_avg.values()), "프랑스가 최저 완곡어가 아니다"
+    assert hed_avg["CN"] == max(hed_avg.values()), "중국이 최고 완곡어가 아니다"
+    print("✅ PASS — 프랑스가 가장 단정적(완곡어 최저), 중국이 가장 완곡:", hed_avg)
 except Exception as e:
     print("❌ FAIL —", e, "\n힌트: 빈칸은 hedging_density")'''),
 md("""<details><summary>💡 힌트 / 정답</summary>
@@ -221,8 +227,9 @@ md("""<details><summary>💡 힌트 / 정답</summary>
 ```python
 hed[d["source"]].append(hedging_density(d["text"])["hedging_density"])
 ```
-대략 **UN/CN ≈ 2.5, FR ≈ 2.0, KR ≈ 0.8~1.3**. 한국은 짧고 단정적인 규탄 성명을 내고,
-UN은 신중한 다자 언어를 쓴다. 상호성(중국 1위)과 완곡어(UN/중국 상위)는 *다른* 거리두기 전략임에 주목.
+대략 **CN ≈ 5.0, UN ≈ 3.2, KR ≈ 2.7, FR ≈ 1.8**. 중국은 'hope(희망)' 같은 유보·희망 표현을
+가장 많이 쓰고, 프랑스는 짧고 단정적이라 완곡어가 가장 적다. 상호성(중국 1위)과 완곡어(중국 1위)가
+*둘 다* 중국 상위 — 중국 외교언어의 '거리두기' 성향이 두 차원에서 함께 드러난다.
 </details>"""),
 
 # ════════════════ ADD #1: 부정·범위 처리 (negation scope) ════════════════
@@ -549,12 +556,12 @@ oth = sum(crit[s][a] for a in OTHER)   # 빈칸 = OTHER
 ```
 
 **읽어라 (핵심 해석).** most_criticized 분포는 대략:
-- **UN** {Russia 18, Israel 10} — 비판이 **가해자 측(러시아·이스라엘)에 집중**.
-- **France** {Russia 18, Israel 12, Palestinians 13} — 역시 가해자 측에 무게(+팔레스타인 일부).
-- **China** {Russia 11, Ukraine 6, Israel 8, Palestinians 9} — **양측을 거의 균등하게 비판**.
-- **Korea** 작고 균형적(표본 적음).
+- **UN** {Russia 33, Israel 26, Ukraine 9, Palestinians 8} — 비판이 **가해자 측(러시아·이스라엘)에 압도적으로 집중**(가해자 59 vs 상대 17).
+- **France** {Russia 28, Palestinians 22, Israel 16, Ukraine 9} — 가해자 측에 무게(가해자 44 vs 상대 31).
+- **China** {Russia 27, Palestinians 20, Israel 18, Ukraine 13} — **네 행위자를 두루 비판**(가해자 45 vs 상대 33).
+- **Korea** 작지만 비교적 균형적(표본 적음).
 
-→ UN·프랑스는 비판이 한쪽으로 쏠리는데 **중국만 양측을 고르게 비판**한다.
+→ UN은 비판이 가해자 한쪽으로 강하게 쏠리는데 **중국은 네 행위자에 비판을 고루 분산**한다.
 이건 Step 3에서 본 **mutuality(중국 최고)** 를, *완전히 다른 방법*(대상별 감정)으로 **독립 재확인**한 것이다.
 한 차원의 우연이 아니라 **여러 차원에서 일관된 '균형 프레이밍'** = 발견의 신뢰도가 또 올라간다.
 </details>"""),

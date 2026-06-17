@@ -39,8 +39,8 @@ LISTING_FIRST = "index.html"
 MAX_PAGES = 150                                # archive is ~143 pages (Apr 2022→now)
 OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "raw")
 OUT_PATH = os.path.abspath(os.path.join(OUT_DIR, "CN.json"))
-CAP_TOTAL = 80
-PER_EVENT = 2  # keep breadth: every event gets a fair share under the cap
+CAP_TOTAL = 150
+PER_EVENT = 5  # China holds DAILY press conferences -> deepen each event
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
@@ -236,13 +236,25 @@ def main():
         print("FATAL: empty catalogue; aborting.")
         sys.exit(1)
 
-    docs = []
-    seen_urls = set()
-    per_topic = Counter()
-    per_event = Counter()
+    # ── load existing corpus and seed in-memory state (KEEP & grow) ──────────
+    existing = []
+    if os.path.exists(OUT_PATH):
+        try:
+            with open(OUT_PATH, encoding="utf-8") as f:
+                existing = json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            print(f"WARN: could not read existing CN.json ({e}); starting fresh")
+            existing = []
+    old_total = len(existing)
+    print(f"Loaded {old_total} existing docs from {OUT_PATH}")
+
+    docs = list(existing)  # carry forward every existing doc; only grow
+    seen_urls = {d["url"] for d in existing}
+    per_topic = Counter(d["topic"] for d in existing)
+    per_event = Counter(d["event_id"] for d in existing)
     zero_events = []
     start = time.time()
-    budget = 7 * 60  # seconds
+    budget = 9 * 60  # seconds (runtime budget ~10 min)
 
     for topic, eid, ename, datestr, window, keywords in EVENTS:
         if len(docs) >= CAP_TOTAL:
@@ -262,7 +274,7 @@ def main():
         seed = [(ev_date, "", su) for su in SEED_URLS.get(eid, [])
                 if su not in {c[2] for c in cands}]
         cands = seed + cands
-        n = 0
+        n = per_event[eid]  # already-collected docs for this event count toward PER_EVENT
         for d, t, u in cands:
             if n >= PER_EVENT or len(docs) >= CAP_TOTAL:
                 break
@@ -310,6 +322,17 @@ def main():
             zero_events.append(eid)
             print(f"  [{eid}] 0 docs (candidates in window: {len(cands)})")
 
+    # ── re-number ids per event (CN-<event_id>-<n>) in EVENTS order ──────────
+    order = {e[1]: i for i, e in enumerate(EVENTS)}
+    docs.sort(key=lambda d: (order.get(d["event_id"], 999), d["date"], d["url"]))
+    ev_counter = Counter()
+    for d in docs:
+        ev_counter[d["event_id"]] += 1
+        d["id"] = f"CN-{d['event_id']}-{ev_counter[d['event_id']]}"
+        # enforce canonical key order/values for the schema
+        d["source"] = "CN"
+        d["lang"] = "en"
+
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(docs, f, ensure_ascii=False, indent=2)
@@ -317,7 +340,7 @@ def main():
     # validate schema
     bad = [d["id"] for d in docs if list(d.keys()) != DOCUMENT_SCHEMA]
     print("\n" + "=" * 60)
-    print(f"TOTAL docs: {len(docs)}  -> {OUT_PATH}")
+    print(f"TOTAL docs: {old_total} -> {len(docs)}  -> {OUT_PATH}")
     print("Per-topic:")
     for tp in ("ukraine", "gaza", "ai_governance"):
         print(f"  {tp:16s} {per_topic[tp]}")

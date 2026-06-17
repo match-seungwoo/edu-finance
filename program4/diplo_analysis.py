@@ -115,8 +115,8 @@ VERB_LADDER = {
     "acknowledge": 2, "recognize": 2, "recognise": 2,
     "regret": 3, "lament": 3,
     "concern": 4, "worry": 4, "trouble": 4,
-    "deplore": 5, "denounce": 5, "decry": 5,
-    "condemn": 6, "censure": 6,
+    "deplore": 5, "denounce": 5, "decry": 5, "reject": 5, "oppose": 5,
+    "condemn": 6, "censure": 6, "urge": 6,
     "demand": 7, "insist": 7, "require": 7,
 }
 
@@ -183,16 +183,23 @@ MUTUALITY_TERMS = [  # en 기본 (s2/s3 노트북 호환 유지)
     "common interest", "common ground", "win-win", "dialogue",
     "cooperation", "consultation", "peaceful", "negotiation",
     "political settlement", "all relevant parties", "common security",
+    # v3 보강: 양측 자제·평화적 해결 프레임 (확대 코퍼스 데이터 기반)
+    # 주: ceasefire/cease-fire는 '분쟁 이벤트어'라 구성타당도 위해 제외 (Q2 오염 방지)
+    "restraint", "de-escalation", "de-escalate",
+    "two-state", "political solution", "diplomatic solution", "good faith",
 ]
 MUTUALITY_LEX = {
     "en": MUTUALITY_TERMS,
     "ko": ["상호", "양측", "모든 당사자", "공동", "대화", "협력", "협의",
-           "평화적", "협상", "관련 당사자", "함께", "공동이익"],
+           "평화적", "협상", "관련 당사자", "함께", "공동이익",
+           "자제", "긴장 완화", "두 국가", "정치적 해결"],
     "zh": ["相互", "双方", "各方", "共同", "对话", "合作", "协商",
-           "和平", "谈判", "共赢", "有关各方", "共同利益"],
+           "和平", "谈判", "共赢", "有关各方", "共同利益",
+           "克制", "降温", "两国方案", "政治解决"],
     "fr": ["mutuel", "les deux parties", "toutes les parties", "commun",
            "dialogue", "coopération", "consultation", "pacifique",
-           "négociation", "intérêt commun", "ensemble"],
+           "négociation", "intérêt commun", "ensemble",
+           "retenue", "désescalade", "deux États", "solution politique"],
 }
 
 def _word_count(text, lang):
@@ -221,6 +228,8 @@ HEDGES = [  # en 기본 (노트북 호환)
     "perhaps", "allegedly", "reportedly", "we believe", "it is hoped",
     "would ", "likely", "potentially", "to some extent", "in some cases",
     "it seems", "arguably", "presumably", "apparently",
+    # v3 보강: 외교적 희망/유보 (확대 코퍼스 데이터 기반)
+    "we hope", "hope ", "hopes ", "hoping",
 ]
 HEDGE_LEX = {
     "en": HEDGES,
@@ -418,7 +427,10 @@ ACTORS = {
 SENT_NEG = {"en": ["condemn", "violat", "illegal", "brutal", "atrocit", "aggress",
                    "unacceptable", "kill", "attack", "crime", "occupation", "terror",
                    "threat", "destroy", "deplore", "massacre", "abduct",
-                   "indiscriminate", "disproportionate", "deliberate"]}
+                   "indiscriminate", "disproportionate", "deliberate",
+                   # v3 보강 (확대 코퍼스 데이터 기반)
+                   "genocide", "war crime", "ethnic cleansing", "displacement",
+                   "famine", "siege", "starvation", "collective punishment"]}
 SENT_POS = {"en": ["support", "solidarity", "defend", "legitimate", "protect",
                    "sovereignty", "right to", "welcome", "commend", "assist", "aid",
                    "self-defen", "territorial integrity"]}

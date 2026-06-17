@@ -39,6 +39,19 @@
     "collected_via": "live_scrape"
   },
   {
+    "id": "KR-ukr01-4",
+    "source": "KR",
+    "topic": "ukraine",
+    "event_id": "ukr01",
+    "event_name": "Russian invasion begins",
+    "date": "2022-02-28",
+    "title": "Korean Government’s Decision Regarding Situation in Ukraine",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322003",
+    "lang": "en",
+    "text": "1. The Korean government has strongly condemned Russia's armed invasion against Ukraine. As a responsible member of the international community, the Korean government has decided to actively join the international community’s efforts, including economic sanctions, for a peaceful resolution of the situation.\n2. In this regard, the Korean government decided today, February 28, to take the following measures.\no The Korean government's review of export control on Russia will be strengthened to block the export of strategic items to Russia. Regarding non-strategic items*, relevant ministries will review and finalize actionable measures in the near future. As for today’s decision on the export control, the Korean government has notified the U.S. through a diplomatic channel.\n* Fifty-seven low-specification items unilaterally controlled by the U.S., including microelectronics, telecommunications items, sensors, navigation equipment, avionics, marine equipment, and aircraft components\no The Korean government will participate in the exclusion of Russian banks from SWIFT and will further decide on the details through interagency consultations.\n3. At the same time, the Korean government has decided to promote additional  release from the Strategic Petroleum Reserve to help stabilize the global energy market. The Korean government will further review additional measures including diverting LNG to Europe.\no The government also plans to increase its humanitarian assistance to Ukraine in coordination with the international community.",
+    "collected_via": "live_scrape"
+  },
+  {
     "id": "KR-ukr02-1",
     "source": "KR",
     "topic": "ukraine",
@@ -104,6 +117,19 @@
     "collected_via": "live_scrape"
   },
   {
+    "id": "KR-ukr03-3",
+    "source": "KR",
+    "topic": "ukraine",
+    "event_id": "ukr03",
+    "event_name": "Bucha civilian killings",
+    "date": "2022-04-20",
+    "title": "Korea Sends Additional Medical Supplies to Ukraine",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322033",
+    "lang": "en",
+    "text": "1. The Korean\r\ngovernment, in order to provide assistance to the Ukrainian people and refugees\r\nfacing a severe crisis due to the continued invasion by Russia, sent around 20\r\ntons of additional humanitarian assistance items to Ukraine on April 19.\n° This assistance\r\nforms part of the additional US$30 million humanitarian assistance announced by\r\nthe Korean government, in addition to the US$10 million humanitarian assistance\r\nimplemented previously in March.\n° This assistance\r\nincludes items such as defibrillators, general-purpose ventilators, and\r\nfirst-aid kits.\n※\nThe Korean government announced a total of US$40 million humanitarian\r\nassistance for the Ukrainian people and refugees.\n- 1\nst\nassistance: announced on\r\nFebruary 28, worth US$10 million\n- Additional assistance: announced on April\r\n7, worth US$30 million\n2. The Korean\r\ngovernment is working closely with the Embassy of Ukraine in Korea on details\r\nof the humanitarian assistance, and has prioritized the request of Ukraine in\r\nselecting items.\n3. The Korean government\r\nhopes that the assistance will help relieve the suffering of the Ukrainian\r\npeople and refugees, and the government will positively consider further\r\nassistance if necessary.",
+    "collected_via": "live_scrape"
+  },
+  {
     "id": "KR-ukr04-1",
     "source": "KR",
     "topic": "ukraine",
@@ -117,6 +143,58 @@
     "collected_via": "live_scrape"
   },
   {
+    "id": "KR-ukr07-1",
+    "source": "KR",
+    "topic": "ukraine",
+    "event_id": "ukr07",
+    "event_name": "Kherson liberation",
+    "date": "2022-11-29",
+    "title": "Korean Government to Join “Grain from Ukraine” Initiative",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322105",
+    "lang": "en",
+    "text": "1. The Korean government has decided to join the “Grain from Ukraine” initiative under which Ukrainian grain will be provided to countries with acute food insecurity.\n※ The “Grain from Ukraine” initiative involves a humanitarian aid program that provides part of the Ukrainian grain that is exported through the Black Sea Grain Initiative to countries facing food insecurity; and the President of Ukraine introduced the initiative in his speech at the G20 Summit on November 15, calling for participation of the international community.\n2. The Korean government will provide USD 3 million, through the UN World Food Programme, in humanitarian assistance to countries facing severe food crises under the “Grain from Ukraine” initiative.\nㅇ This financial contribution will help feed people in countries suffering from serious food insecurity, including Sudan and Yemen.\n3. The Korean government’s support for the “Grain from Ukraine” initiative is regarded as a meaningful contribution as a global pivotal state to the efforts of the international community to help relieve the global food crises.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ukr08-1",
+    "source": "KR",
+    "topic": "ukraine",
+    "event_id": "ukr08",
+    "event_name": "One-year mark / UNGA resolution",
+    "date": "2023-02-24",
+    "title": "MOFA Spokesperson’s Statement on 1-Year Mark of Ukrainian War",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322155",
+    "lang": "en",
+    "text": "1. The government of the Republic of Korea reaffirms its consistent position on the occasion of the 1-year mark of the Ukrainian war that the sovereignty, territorial integrity and independence of Ukraine should be respected.\n2. The government of the Republic of Korea, as a responsible member of the international community, supports various diplomatic and economic efforts of the international community to contribute to the end of the Ukrainian war and the restoration of peace, and will more actively participate in those efforts.\n3. The government of the Republic of Korea pledges $130 million in additional assistance for the Ukrainian people suffering from the war and plans to continue possible assistance through this, focusing mainly on humanitarian assistance including demining, financial assistance for Ukraine, aid in the construction of infrastructure such as the restoration of power grid, and support for reconstruction through grant ODA projects.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ukr09-1",
+    "source": "KR",
+    "topic": "ukraine",
+    "event_id": "ukr09",
+    "event_name": "Kakhovka dam destruction",
+    "date": "2023-05-18",
+    "title": "Foreign Minister Meets with First Lady of Ukraine",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322196",
+    "lang": "en",
+    "text": "1. On May 17, Minister of Foreign Affairs Park Jin met with First Lady of Ukraine Olena Zelenska, who was on a visit to Korea for the 14th Asian Leadership Conference hosted by The Chosunilbo newspaper. In the meeting, the two sides discussed the Ukrainian situation, humanitarian assistance to Ukraine, and ways for Korea and the country to work together in the reconstruction of the latter.\n2. Foreign Minister Park conveyed the Korean government’s support for and solidarity with the country and offered condolences to the families of those killed in the war and the rest of the Ukrainian people, saying that Korea, as a country that experienced a horrendous war, sympathizes with the suffering and plight of the Ukrainian people.\n3. First Lady Zelenska extended appreciation to the Korean government for its solidarity, support and humanitarian assistance. Underscoring Ukraine’s need for humanitarian assistance amid the hardships triggered by the war, she asked for the Korean government’s attention and cooperation. She went on to express hope for provision of equipment, such as ambulances -- ordinary and armored -- in urgent humanitarian assistance for use on battlefields.\n4. Foreign Minister Park iterated the Korean government’s position that, having pledged US$130 million in humanitarian assistance to Ukraine in addition to US$1 million provided last year, it will respond actively to the Ukrainian people’s humanitarian needs in the face of the crisis caused by the war.\n5. Foreign Minister Park, highlighting Korea’s experience of rebuilding itself and achieving economic growth from the ashes of the Korean War, noted that Korea will contribute actively to the reconstruction of Ukraine through development cooperation between the two countries.\n6. The two sides agreed to continue close cooperation for a swift restoration of peace and daily lives in Ukraine.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ukr09-2",
+    "source": "KR",
+    "topic": "ukraine",
+    "event_id": "ukr09",
+    "event_name": "Kakhovka dam destruction",
+    "date": "2023-05-23",
+    "title": "President Yoon to host summit with Canadian Prime Minister, had meeting with the First Lady of Ukraine, hosted dinner for the former Prime Minister of the UK",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5674/view.do?seq=320821",
+    "lang": "en",
+    "text": "PRESIDENTIAL OFFICE\nPresident Yoon Suk Yeol (left) on Sept. 23, 2022, holds a joint news conference with Canadian Prime Minister Justin Trudeau in Ottawa, Canada.\nPresident Yoon Suk Yeol on May 17 will host a summit with Canadian Prime Minister Justin Trudeau at the Office of the President in Seoul.\nThe prime minister was invited to visit Korea by President Yoon during the latter's trip to Canada in September last year, presidential spokesperson Lee Do Woon said in a news release.\nTo mark the 60th anniversary of bilateral ties, the Canadian leader's trip will see discussion of stronger cooperation in supply chains and expansion of science and technology and interpersonal exchanges. His visit is the first of its kind in nine years.\nBoth leaders on May 17 will hold a summit, after which they will attend a joint news conference. An official dinner will follow.\nThis will be the third summit between the two sides since President Yoon assumed office. The first was in June last year on the sidelines of the NATO Summit in Madrid, Spain, and the second last September when President Yoon visited Ottawa, Canada.\nPresident Yoon Suk Yeol on May 16 shakes hands with First Lady of Ukraine, Olena Zelenska, wife of President of Ukraine, Volodymyr Zelenskyy, at the Office of the President in Seoul.\nMeanwhile, President Yoon on May 16 hosted talks with First Lady of Ukraine, Olena Zelenska, wife of President of Ukraine, Volodymyr Zelenskyy, at the Office of the President.\nIn his meeting with the first lady, who visited Korea as a special presidential envoy, President Yoon conveyed the support and solidarity of the Korean government and people with Ukraine and condolences to the families of victims and the Ukrainian people.\nOn the same day, he hosted a dinner for former Prime Minister of the UK, Boris Johnson, at the official residence of the president, who was visiting Korea to attend the 14th Asian Leadership Conference in Seoul. There, the president asked the former Prime Minister to pay extra attention to and support the development of bilateral relations, spokesperson Lee said in a news release.\nPresident Yoon Suk Yeol (right) on May 16 talks over dinner to former British Prime Minister Boris Johnson at the official residence of the president in Seoul.\nkorea.net",
+    "collected_via": "live_scrape"
+  },
+  {
     "id": "KR-ukr11-1",
     "source": "KR",
     "topic": "ukraine",
@@ -127,6 +205,19 @@
     "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322424",
     "lang": "en",
     "text": "1. Minister of Foreign Affairs Cho Tae-yul attended the United Nations Security Council briefing marking the second anniversary of the war in Ukraine, held at the UN headquarters on the afternoon of February 23 (New York time).\n2. Foreign Minister Cho reaffirmed the Korean government’s consistent position that the sovereignty, territorial integrity and independence of Ukraine should be respected, and stressed that Russia’s armed invasion of Ukraine is a clear violation of the UN Charter and international law.\n3. Additionally, Foreign Minister Cho explained the Korean government’s efforts to end the war in Ukraine and restore peace. He stated that under the “Ukraine Peace and Solidarity Initiative” announced during President Yoon Suk Yeol's visit to Ukraine in July 2023, the Korean government will continue various forms of support for Ukraine - a contribution worth $2.3 billion in total. Foreign Minister Cho also mentioned that Korea will continue to actively participate in international efforts for the cessation of the war in Ukraine and the restoration of peace, as shown in its recent participation of the “Multi-agency Donor Coordination Platform for Ukraine (MDCP).”\n4. Furthermore, Foreign Minister Cho pointed out that military cooperation between Russia and North Korea constitutes a violation of UN Security Council resolutions and undermines the global non-proliferation regime, and urged Russia and North Korea to comply with relevant Security Council resolutions.\n5. This briefing marked the first official Security Council meeting attended by the Foreign Minister of Korea since Korea assumed its membership of the UN Security Council for the 2024-25 term. It served as an opportunity to raise international awareness of Korea’s role and contribution to promote international peace and security.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ukr11-2",
+    "source": "KR",
+    "topic": "ukraine",
+    "event_id": "ukr11",
+    "event_name": "Two-year mark",
+    "date": "2024-02-27",
+    "title": "Minister of Foreign Affairs Cho Tae-yul Attends UN Security Council Briefing on Occasion of the Second Anniversary of the War in Ukraine",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5674/view.do?seq=320949",
+    "lang": "en",
+    "text": "Minister of Foreign Affairs Cho Tae-yul attended the United Nations Security Council briefing marking the second anniversary of the war in Ukraine, held at the UN headquarters on the afternoon of February 23 (New York time).\nForeign Minister Cho reaffirmed the Korean government’s consistent position that the sovereignty, territorial integrity and independence of Ukraine should be respected, and stressed that Russia’s armed invasion of Ukraine is a clear violation of the UN Charter and international law.\nAdditionally, Foreign Minister Cho explained the Korean government’s efforts to end the war in Ukraine and restore peace. He stated that under the “Ukraine Peace and Solidarity Initiative” announced during President Yoon Suk Yeol's visit to Ukraine in July 2023, the Korean government will continue various forms of support for Ukraine - a contribution worth $2.3 billion in total. Foreign Minister Cho also mentioned that Korea will continue to actively participate in international efforts for the cessation of the war in Ukraine and the restoration of peace, as shown in its recent participation of the “Multi-agency Donor Coordination Platform for Ukraine (MDCP).”\nFurthermore, Foreign Minister Cho pointed out that military cooperation between Russia and North Korea constitutes a violation of UN Security Council resolutions and undermines the global non-proliferation regime, and urged Russia and North Korea to comply with relevant Security Council resolutions.\nThis briefing marked the first official Security Council meeting attended by the Foreign Minister of Korea since Korea assumed its membership of the UN Security Council for the 2024-25 term. It served as an opportunity to raise international awareness of Korea’s role and contribution to promote international peace and security.",
     "collected_via": "live_scrape"
   },
   {
@@ -169,6 +260,45 @@
     "collected_via": "live_scrape"
   },
   {
+    "id": "KR-gaza01-3",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza01",
+    "event_name": "October 7 attack",
+    "date": "2023-10-20",
+    "title": "Minister of Foreign Affairs Park Jin Meets with Israeli Ambassador to ROK",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322318",
+    "lang": "en",
+    "text": "1. Minister of Foreign Affairs Park Jin met with Ambassador of Israel to the Republic of Korea, Akiva Tor, on October 20.\n2. Foreign Minister Park extended condolences to the victims of the Israel-Hamas armed conflict and their bereaved families, and wished for a safe release of the hostages being held in Gaza Strip.\n3. In addition, Foreign Minister Park hoped that the situation will de-escalate as soon as possible and that no more lives will be lost, and stated that the relevant parties need to take measures to protect civilians in compliance with international humanitarian law.\n4. Particularly, Foreign Minister Park requested Israel’s interest and cooperation for the safety of Korean nationals staying in Israel, and Ambassador Tor said that Israel will continue to cooperate closely with the Korean side for the safety of Korean nationals.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-gaza01-4",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza01",
+    "event_name": "October 7 attack",
+    "date": "2023-10-20",
+    "title": "Korean Government to Provide Humanitarian Assistance in Response to Israel-Hamas Armed Conflict",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322312",
+    "lang": "en",
+    "text": "1. The Korean government has decided to provide US$2 million in humanitarian assistance for civilians affected by the Israel-Hamas armed conflict that began on October 7 through international organizations.\n2. The Korean government will continue close consultations with relevant organizations to ensure that this assistance is fully used for humanitarian purposes.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-gaza01-5",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza01",
+    "event_name": "October 7 attack",
+    "date": "2023-10-20",
+    "title": "Spokesperson's Press Briefing (October 19, 2023)",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5679/view.do?seq=320053",
+    "lang": "en",
+    "text": "Press Briefing\nSpokesperson and Deputy Minister for Public Affairs Soosuk Lim\nOctober 19, 2023  14:30  KST\nGood afternoon. Let me start today’s briefing.\nThe Korean government has decided to provide US$2 million in humanitarian assistance for civilians affected by the Israel-Hamas armed conflict through international organizations.\nThe Korean government will continue close consultations with relevant organizations to ensure that this assistance is fully used for humanitarian purposes.\n(A question-and-answer session followed.)",
+    "collected_via": "live_scrape"
+  },
+  {
     "id": "KR-gaza02-1",
     "source": "KR",
     "topic": "gaza",
@@ -205,6 +335,19 @@
     "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322345",
     "lang": "en",
     "text": "1. The 19th Korea-Middle East Cooperation Forum was held at the Ritz-Carlton hotel in Doha, Qatar, on November 6. It was co-sponsored by the Ministries of Foreign Affairs of Korea and Qatar and co-organized by the Diplomatic Institute at Qatar’s Ministry of Foreign Affairs, the Middle East Council on Global Affairs, the Korea-Arab Society, Ibn Khaldon Center at Qatar University, and the Jeju Peace Institute.\n2. The Forum, held under the theme “Korea and the Middle East: Towards Stronger Cooperation and Partnership,” consisted of three sessions on Future Prospects for Korea and the Middle East, Promoting Economic Partnerships in an Era of Green Transition, and Culture and People: The Future of Korea-Middle East Ties. In the sessions, experts from Korea and the Middle East engaged in in-depth discussions through presentations and debates.\n3. In his congratulatory remarks at the opening ceremony of the Forum, Chung Byung-won, Deputy Minister for Political Affairs of the Ministry of Foreign Affairs, appreciated the diversification of cooperative relations with the Middle East through President Yoon Suk Yeol’s recent visit to the region, and suggested that Korea, which will serve as a non-permanent member of the UN Security Council from next year, and countries in the Middle East work together more closely to contribute to peace and stability in the Middle East.\n4. Furthermore, Deputy Minister Chung commended the Qatari government for its continued efforts to resolve regional conflicts and disputes as a mediator amidst the worsening situation and deepening humanitarian crises in the Middle East, and stressed the importance of resolving the issue through diplomacy and dialogue.\n5. Al-Hammadi, Secretary-General at Qatar’s Ministry of Foreign Affairs, also delivered congratulatory remarks, in which he appreciated that Korea and Qatar have been developing strategic cooperative relations, with next year marking the 50th anniversary of the establishment of diplomatic relations.\n6. At the Forum, various experts presented views on the direction of Korea-Middle East cooperation, providing valuable insights for shaping Korea’s Middle East policy. The Forum was especially significant as it further promoted private-sector exchanges by establishing cooperative networks between experts and research institutes of the two sides.\n7. Forum participants expressed anticipation for the 20th Korea-Middle East Cooperation Forum, which will be co-organized by Korean research institutes and the Middle East Council on Global Affairs in Korea next year, and committed to continue communication to hold a successful forum again next year.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-gaza02-4",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza02",
+    "event_name": "Gaza ground operation begins",
+    "date": "2023-10-30",
+    "title": "Foreign Minister Park Jin’s Telephone Conversations with Foreign Ministers of Israel, UAE and Jordan on the Situation in the Middle East",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322325",
+    "lang": "en",
+    "text": "1. Minister of Foreign Affairs Park Jin had a series of telephone calls with the Minister of Foreign Affairs of Israel, Eli Cohen, the Minister of Foreign Affairs and International Cooperation of the United Arab Emirates, Sheikh Abdullah bin Zayed Al Nahyan, and the Minister of Foreign Affairs and Expatriates of Jordan, Ayman Al-Safadi, on Sunday, October 29 and discussed the recent escalation of the armed conflict between Israel and Hamas.\n2. Foreign Minister Park expressed deep concern over the current situation where the total death toll has exceeded 9,400 due to the escalation of the armed conflict, and in particular, casualties are surging as airstrikes have intensified to the highest level and ground operations have expanded in Gaza over the weekend.\n3. During the conversation with Israeli Foreign Minister Cohen, Foreign Minister Park strongly condemned Hamas's indiscriminate attacks and expressed his hope for the immediate release of the hostages, while stressing the importance of complying with international law to protect civilians and mentioning the necessity to prevent any further harm to innocent civilians.\n4. Foreign Minister Park and the UAE and Jordanian Foreign Ministers concurred that the armed conflict must not spread further and a humanitarian pause is necessary to prevent the crisis from worsening.\n5. In addition, Foreign Minister Park commended the UAE for its leadership in calling for an emergency UN Security Council meeting, sharing the need for urgent discussions at the UN Security Council.\n6. Furthermore, Foreign Minister Park also called for the full attention and cooperation of the Foreign Ministers to ensure the safety of Korean nationals in the region including Israel and Lebanon.\n7. Foreign Minister Park had a phone call with the Foreign Minister of Saudi Arabia, Prince Faisal bin Farhan Al Saud, on October 20 and with the Prime Minister and Foreign Minister of Qatar, Mohammed bin Abdulrahman Al-Thani, on October 21. Foreign Minister Park also met respectively with the Saudi Arabian Foreign Minister in Riyadh on October 22 and the Qatari Foreign Minister in Doha on October 25. He shared his concerns about the current situation and asked them to work closely together to prevent the situation from deteriorating.\n8. This series of conversations served as an opportunity for the government of the Republic of Korea to strengthen timely communication with relevant countries in the Middle East, express its commitment to cooperating in resolving this issue, and secure support for protection of overseas nationals in the midst of the intensifying armed conflict, which is a major issue for the international community.",
     "collected_via": "live_scrape"
   },
   {
@@ -260,6 +403,32 @@
     "collected_via": "live_scrape"
   },
   {
+    "id": "KR-gaza07-1",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza07",
+    "event_name": "Rafah operation",
+    "date": "2024-04-19",
+    "title": "Vice Minister Kang Insun Checks Safety of Korean Nationals Overseas and Protective Measures with Regard to Recent Developments in Middle East",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322555",
+    "lang": "en",
+    "text": "1. On April 19, Vice Minister of Foreign Affairs Kang Insun chaired a joint meeting between the headquarters and overseas diplomatic missions to check the safety of Korean nationals overseas and protective measures for them regarding the recent developments in the Middle East.\no The meeting was attended by Government Representative for Korean Nationals Overseas Protection and Consular Affairs Hong Seok-in and other senior officials from the Ministry of Foreign Affairs, as well as the Korean Ambassadors to Israel and Iran.\n2. The meeting, a follow-up to the one chaired by Foreign Minister Cho Tae-yul on April 15, was held to discuss the situation and security landscape in the Middle East as well as to come up with protective measures for Korean nationals overseas after the Iranian attack on Israeli territory.\n3. Vice Foreign Minister Kang requested the participants to make every effort to ensure the safety of Korean nationals overseas and to maintain around-the-clock communication channels between the headquarters and overseas diplomatic missions, while closely monitoring possible dramatic changes in the Middle East landscape.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-gaza07-2",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza07",
+    "event_name": "Rafah operation",
+    "date": "2024-04-17",
+    "title": "Minister Cho Tae-yul Holds Joint Meeting between Headquarters and Diplomatic Missions to Assess Situation in Middle East",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5674/view.do?seq=320983",
+    "lang": "en",
+    "text": "On April 15, Minister of Foreign Affairs Cho Tae-yul chaired a joint meeting between the headquarters and diplomatic missions to analyze future prospects for the situation in the Middle East and review measures to protect overseas Korean nationals after Iran’s attack on Israel.\nThe meeting was attended by Vice Minister of Foreign Affairs Kang Insun and other high-level officials from the Ministry of Foreign Affairs, as well as the Korean Ambassadors to Israel, Iran and Lebanon, and the Head of the Representative Office of the Republic of Korea to Palestine.\nAt the meeting, the participants discussed recent developments in and future prospects for the regional security of the Middle East, as well as measures to protect Korean nationals residing in Israel, Iran, and nearby Middle Eastern regions.\nForeign Minister Cho emphasized the need for close cooperation between the headquarters and diplomatic missions to ensure the safety of Korean nationals in the region while closely monitoring the regional situation.\nIn particular, Foreign Minister Cho requested that the heads of diplomatic missions thoroughly prepare safety measures for Korean nationals, companies, ships and diplomatic missions abroad, which President Yoon Suk Yeol mentioned at the emergency meeting on economy and security focusing on the situation in the Middle East on the previous day. In addition, he stressed to the heads of diplomatic missions that it is important to review prospects for the situation and risk factors regarding Korea’s economy and security and come up with detailed plans.\nThe Ministry of Foreign Affairs will continue to monitor the situation in the Middle East for national interests and the safety of Korean nationals, while seeking ways to ensure their safety.",
+    "collected_via": "live_scrape"
+  },
+  {
     "id": "KR-gaza08-1",
     "source": "KR",
     "topic": "gaza",
@@ -270,6 +439,19 @@
     "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322734",
     "lang": "en",
     "text": "1. The government of the Republic of Korea welcomes the agreement reached on January 15 regarding the ceasefire and hostage release in the Gaza Strip, and highly appreciates the diplomatic efforts made by the United States, Qatar and Egypt, which played critical roles in achieving this agreement.\n2. The ROK government hopes that all hostages will be released and the humanitarian situation in Gaza will improve through the complete and swift implementation of the agreement. Moreover, the government hopes that talks on diplomatic solutions for regional peace and stability will be accelerated harnessing the positive momentum generated by the agreement.\n3. As a non-permanent member of the UN Security Council, the government of the Republic of Korea will continue to join the international community’s efforts to restore and promote peace in the Middle East.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-gaza08-2",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza08",
+    "event_name": "Ceasefire deal",
+    "date": "2025-01-17",
+    "title": "MOFA Spokesperson’s Statement on Ceasefire Agreement in Gaza",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5674/view.do?seq=321100",
+    "lang": "en",
+    "text": "The government of the Republic of Korea welcomes the agreement reached on January 15 regarding the ceasefire and hostage release in the Gaza Strip, and highly appreciates the diplomatic efforts made by the United States, Qatar and Egypt, which played critical roles in achieving this agreement.\nThe ROK government hopes that all hostages will be released and the humanitarian situation in Gaza will improve through the complete and swift implementation of the agreement. Moreover, the government hopes that talks on diplomatic solutions for regional peace and stability will be accelerated harnessing the positive momentum generated by the agreement.\nAs a non-permanent member of the UN Security Council, the government of the Republic of Korea will continue to join the international community’s efforts to restore and promote peace in the Middle East.",
     "collected_via": "live_scrape"
   },
   {
@@ -286,6 +468,19 @@
     "collected_via": "live_scrape"
   },
   {
+    "id": "KR-gaza10-2",
+    "source": "KR",
+    "topic": "gaza",
+    "event_id": "gaza10",
+    "event_name": "Gaza City military operation",
+    "date": "2025-08-11",
+    "title": "MOFA Spokesperson’s Commentary on Israel’s Approval of Plan to Take Control of Gaza City",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5674/view.do?seq=321164",
+    "lang": "en",
+    "text": "The government of the Republic of Korea expresses grave concern that the humanitarian crisis in the Gaza Strip could further deteriorate due to Israel’s August 8 approval of the plan to take control of Gaza City.\nThe government of the Republic of Korea has consistently supported the two-state solution and opposes all measures undermining the realization of the two-state solution.\nFurthermore, the government of the Republic of Korea strongly calls on all relevant parties to make every effort to protect civilians, including an immediate ceasefire and the release of hostages, guarantees of humanitarian access, and compliance with international law such as international humanitarian law.",
+    "collected_via": "live_scrape"
+  },
+  {
     "id": "KR-ai04-1",
     "source": "KR",
     "topic": "ai_governance",
@@ -296,6 +491,45 @@
     "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322590",
     "lang": "en",
     "text": "- Discussion on ways to maintain and strengthen close interagency cooperation for the success of the REAIM Summit 2024 (September 9-10, Seoul) -\n1. With the Responsible Artificial Intelligence (AI) in the Military Domain (REAIM) Summit 2024 just 100 days away, the Ministry of Foreign Affairs of the Republic of Korea (ROK) hosted an interagency meeting on June 3 to review preparations for the Summit which will take place from September 9 to 10, 2024, in Seoul. The meeting was presided over by Lee Won Ik, Ambassador and Head of the REAIM Summit 2024 Preparatory Team.\n※ The meeting brought together officials of not only the Ministry of Foreign Affairs and the Ministry of National Defense -- the co-hosts of the Summit -- but also the Korea Institute for Defense Analyses (KIDA), the Agency for Defense Development, the Personal Information Protection Commission, the Army, the Navy and the Air Force, among others.\n2. Ambassador Lee said, “The ROK’s hosting of the REAIM Summit 2024 in September, along with the AI Seoul Summit in May, demonstrates that the ROK is playing a pivotal role in the establishment of international norms regarding AI which is advancing at a blistering pace,” and urged the related ministries to cooperate closely to achieve meaningful results.\n3. Participants from relevant ministries and agencies agreed to actively cooperate to create synergy among three major events that will take place back to back in the presence of foreign affairs and defense officials and experts from home and abroad -- the REAIM Summit 2024 (September 9-10, co-hosted by the Ministry of Foreign Affairs and the Ministry of National Defense), the ROK-UN Command Member States (UNCMS) Defense Ministerial Meeting (September 10, hosted by the Ministry of National Defense), and the Seoul Defense Dialogue (September 11-12, hosted by the Ministry of National Defense).\n4. The REAIM Summit is an international conference launched to enhance understanding of the responsible development, deployment and use of AI in the military domain and contribute to the establishment of related international norms. The inaugural REAIM Summit was co-hosted by the ROK and the Netherlands from February 15 to 16, 2023, in The Hague, the Netherlands. The second REAIM Summit will be co-hosted by the ROK, the Netherlands and Singapore from September 9 to 10 in Seoul, bringing together diverse stakeholders including governments, industries, academia and civil society.\n※ The first REAIM Summit was joined by various stakeholders from more than 80 countries, including governments, industries, academia and civil society.\n5. The Preparatory Team will continue to maintain and strengthen the close interagency collaboration for the success of the REAIM Summit 2024.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ai04-2",
+    "source": "KR",
+    "topic": "ai_governance",
+    "event_id": "ai04",
+    "event_name": "AI Seoul Summit",
+    "date": "2024-05-23",
+    "title": "Annex Seoul Statement of Intent toward International Cooperation on AI Safety Science",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5674/view.do?seq=321008",
+    "lang": "en",
+    "text": "PRESIDENTIAL OFFICE\nAnnex\nSeoul Statement of Intent toward International Cooperation on AI Safety Science\n1. Gathered at the AI Seoul Summit on 21st May 2024, and following on from the AI Safety Summit in Bletchley Park on 2nd November 2023 and acknowledging the Safety Testing Chair’s Statement of Session Outcomes from the Bletchley Leaders’ Session, world leaders representing Australia, Canada, the European Union, France, Germany, Italy, Japan, the Republic of Korea, the Republic of Singapore, the United Kingdom, and the United States of America affirm the importance of international coordination and collaboration, based in openness, transparency, and reciprocity, to advance the science of AI safety. We affirm that safety is a key element in furtherance of responsible AI innovation.\n2. We commend the collective work to create or expand public and/or government-backed institutions, including AI Safety Institutes, that facilitate AI safety research, testing, and/or developing guidance to advance AI safety for commercially and publicly available AI systems.\n2.1 We acknowledge the need for a reliable, interdisciplinary, and reproducible body of evidence to inform policy efforts related to AI safety. We recognize the role of scientific inquiry and the benefits of international coordination for the advancement of such inquiry, so that ultimately the benefits of AI development and deployment are shared equitably around the globe.\n2.2 We affirm our intention to leverage and promote common scientific understandings through assessments such as the International AI Safety Report, to guide and align our respective policies, where appropriate, and to enable safe, secure, and trustworthy AI innovation, in line with our governance frameworks.\n2.3 We express our shared intent to take steps toward fostering common international scientific understanding on aspects of AI safety, including by endeavoring to promote complementarity and interoperability in our technical methodologies and overall approaches.\n2.4 These steps may include taking advantage of existing initiatives; the mutual strengthening of research, testing, and guidance capacities; the sharing of information about models, including their capabilities, limitations, and risks as appropriate; the monitoring of AI harms and safety incidents; the exchange or joint creation of evaluations, data sets and associated criteria, where appropriate; the establishment of shared technical resources for purposes of advancing the science of AI safety; and the promotion of appropriate research security practices in the field.\n2.5 We intend to coordinate our efforts to maximize efficiency, define priorities, report progress, enhance our outputs’ scientific rigor and robustness, promote the development and adoption of international standards, and accelerate the advancement of evidence-based approaches to AI safety.\n3. We articulate our shared ambition to develop an international network among key partners to accelerate the advancement of the science of AI safety. We look forward to close future collaboration, dialogue, and partnership on these and related endeavors.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ai04-3",
+    "source": "KR",
+    "topic": "ai_governance",
+    "event_id": "ai04",
+    "event_name": "AI Seoul Summit",
+    "date": "2024-06-07",
+    "title": "REAIM Regional Workshop Held in Africa",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322612",
+    "lang": "en",
+    "text": "1. The REAIM regional workshop for Africa was held in Nairobi, Kenya, from Wednesday, June 5, to Thursday, June 6.\n2. This REAIM regional workshop was the fourth of its kind, following the ones held in Asia (February 26-27 in Singapore), Southeast Europe, the Middle East, the South Caucasus, and Central Asia (May 22-23 in Türkiye), and Europe and North America (virtual on May 30). The event was organized in partnership with the Centre for Humanitarian Dialogue (HD Centre) and the National Defence University-Kenya.\n3. In addition to the co-hosting countries -- Kenya, the Netherlands, and the Republic of Korea -- officials from the foreign and defense ministries of 12 countries* in Africa, as well as regional organizations, participated in the REAIM regional workshop. Experts from the United Nations Office for Disarmament Affairs (UNODA) and the United Nations Institute for Disarmament Research (UNIDIR) as well as experts from the region also attended the workshop.\n* Burundi, Cameroon, Egypt, Ethiopia, Ghana, Morocco, Namibia, Rwanda, Senegal, South Africa, Tanzania, Uganda\n4. Participating countries exchanged information on their national approaches, policies and practices pertaining to responsible application of AI in the military domain.\n5. This regional workshop aimed to enhance regional understanding and engagement on the military application of AI in the run-up to the second REAIM Summit. The last REAIM regional workshop is planned to be held in Chile for Latin American and Caribbean countries to continue to promote regional understanding and engagement.\n6. The REAIM Summit is global dialogue aimed at exploring ways for cooperation and exchanging insights for the responsible development, deployment and use of AI in the military domain. As part of its efforts to contribute as a Global Pivotal State to establishing international norms for the responsible use of AI, the Republic of Korea, together with the Netherlands, hosted the first REAIM Summit in The Hague in February 2023. The second REAIM Summit will be held in Seoul from September 9 to 10 this year.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ai04-4",
+    "source": "KR",
+    "topic": "ai_governance",
+    "event_id": "ai04",
+    "event_name": "AI Seoul Summit",
+    "date": "2024-05-22",
+    "title": "Opening Remarks by H.E. Cho Tae-yul Minister of Foreign Affairs for AI Global Forum",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5689/view.do?seq=319630",
+    "lang": "en",
+    "text": "Opening Remarks\nAI Global Forum\nH.E. Cho Tae-yul\nMinister of Foreign Affairs\nRepublic of Korea\nMay 22nd, 2024\nYour Excellency,\nPrime Minister Han Duck-soo,\nMy fellow Ministers,\nDistinguished Guests,\nLadies and Gentlemen,\nIt gives me a great pleasure to welcome each and every one to the AI Global Forum.\nI would like to extend my deep gratitude to the distinguished panelists with a wide-range of backgrounds who have traveled from afar to join this event.\nAs you know, the AI Global Forum is taking place in parallel with the AI Seoul Summit.\nSo I wish to take a moment to acknowledge our co-host for the AI Seoul Summit.\nOur special thanks go out to Secretary of State Michelle Donelan and the entire UK delegation for their tireless efforts as the co-hosts.\nThe UK’s visionary leadership in organizing high-level forums such as the Bletchley Park Summit and spearheading global dialogues on AI governance deserves our full appreciation.\nIn a similar spirit, the aim of the AI Global Forum is to provide a multi-stakeholder platform, recognizing the critical need for an inclusive dialogue on AI.\nAs a leading producer of both AI software and hardware, and with a robust indigenous AI ecosystem, Korea is well-placed to assume unique roles and responsibilities within the emerging global AI governance framework.\nKorea can also help shape the rules of the road in conformity with the foundational values we collectively hold dear, such as human rights, the rule of law and freedom of speech.\nIt is clear that the advent of generative AI has created unique challenges that policy-makers are ill-equipped to tackle alone.\nGenerative AI transcends national borders, impacting diverse domains, each with distinct ethical, technical, and economic implications.\nThe complexity has naturally led to a wide spectrum of governance initiatives, tailored to different emerging contexts.\nFor instance, Korea co-hosted the Third Summit for Democracy with Ecuador, the United Kingdom and the United States last March.\nUnder the central theme of emerging technologies and democracy, the Summit sought to galvanize global action to counter AI-empowered misinformation, disinformation, and digital surveillance, in order to uphold the foundations of democratic societies.\nWe are also playing an integral part in shaping global conversations on the responsible use of AI in the military domain.\nTogether with the Netherlands, we will be hosting the 2nd Summit on the Responsible Use of Artificial Intelligence in the Military Domain (REAIM) in September.\nKorea is also an active contributor to other important fora such as the OECD, G20, the Global Partnership on Artificial Intelligence, and the United Nations and its bodies.\nAgainst the plethora of governance initiatives, it is crucial that the international community coordinate these multiple efforts to avoid fragmentation and to strive for coherent and interoperable international governance frameworks.\nFor we know very well that fragmentation leads to a patchwork of regulations.\nIt complicates compliance for industries and creates ambiguities regarding the protection of civic rights, among others, in this new era.\nReflecting this need, President Yoon Suk Yeol, during his visit to Paris in June 2023, advocated for digital ethics and governance on AI on a global level.\nThis forum seeks to give further impetus to advancing this vision.\nWe have designed the sessions that will follow to facilitate candid face-to-face discussions, with a particular emphasis on translating ideals into actions.\nI sincerely that today’s forum will provide a timely platform to help the important stakeholders here to align on three common priorities of AI governance: innovation, safety and inclusivity.\nBy converging on common goals and making sure that we are moving in the same direction, our efforts as a whole will surely be greater than the sum of their parts.\nIt is our sincere hope that the deliberations over the coming days will enable us to harness our collective wisdom to shape a coherent vision of global AI governance.\nThank you.\n/End/",
     "collected_via": "live_scrape"
   },
   {
@@ -325,6 +559,32 @@
     "collected_via": "live_scrape"
   },
   {
+    "id": "KR-ai05-3",
+    "source": "KR",
+    "topic": "ai_governance",
+    "event_id": "ai05",
+    "event_name": "UN High-Level Advisory Body on AI",
+    "date": "2024-09-15",
+    "title": "Closing Remarks by H.E. Cho Tae-yul, Minister of Foreign Affairs of the Republic of Korea REAIM Summit 2024, September 10, 2024, Seoul",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5689/view.do?seq=319645",
+    "lang": "en",
+    "text": "Closing Remarks by H.E. Cho Tae-yul\nMinister of Foreign Affairs of the Republic of Korea\nREAIM Summit 2024\nSeptember 10, 2024, Seoul\nExcellencies,\nDistinguished Guests,\nLadies and gentlemen,\nAs we come to the conclusion of the 2nd REAIM Summit, I wish to express my deepest gratitude to all of you for your commitment, engagement, and thoughtful contributions during the last two days.\nOver the three plenary sessions, 47 break-out sessions and one Ministerial roundtable, our discussions revealed a reality defying easy solutions, requiring a nuanced and comprehensive understanding of the role that AI plays in the military domain today.\nAs we have seen, AI can pose various risks such as unintended escalation during conflict, failures resulting from algorithmic or systemic bias, and potentially devastating misalignment with human intent.\nAt the same time, AI can enhance operational precision, minimize harm to civilians, and even contribute to more efficient peacekeeping operations.\nThis duality--AI as both an enabler of security and a potential disruptor--underscores the complexity of building the normative and institutional frameworks for governing AI in the military domain.\nYet, the undeniable truth remains: it is not the technology, but our will and choices that will determine the future.\nWe are responsible for our future.\nI am, thus, proud to present the Blueprint for Action, which represents our collective answer to the Call to Action adopted at the first REAIM last year.\nWith the unequivocal support of more than 60 countries, Blueprint for Action is a joint achievement, a testament to our collaboration and a guiding framework for our future actions.\nIt also represents the combined wisdom of governments, academia, industry and civil society from around the world.\nBut, this is just the beginning.\nThe Blueprint is our foundation, and we must now build upon it.\nOur focus will be on translating principles into concrete actions and developing measures for implementation, while keeping pace with the speed of technological advancement.\nI’m also pleased that the REAIM Global Commission will return next year with their recommendations, which will further enlighten our way forward.\nOur collective wisdom from all stakeholders will be the key to success in the long quest of responsible AI in the military domain.\nWhat we build with this Blueprint will be dependent on the level of our commitment.\nWith the endorsement of the Blueprint for Action, I now close the REAIM Summit 2024.\nThank you so much for your active participation and support.\n/END/",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ai05-4",
+    "source": "KR",
+    "topic": "ai_governance",
+    "event_id": "ai05",
+    "event_name": "UN High-Level Advisory Body on AI",
+    "date": "2024-09-10",
+    "title": "Welcome Remarks by H.E. Cho Tae-yul Minister of Foreign Affairs of the Republic of Korea High-level Luncheon, REAIM Summit 2024(September 10, 2024, Seoul)",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5689/view.do?seq=319654",
+    "lang": "en",
+    "text": "Welcome Remarks by H.E. Cho Tae-yul\nMinister of Foreign Affairs of the Republic of Korea\nHigh-level Luncheon, REAIM Summit 2024\nSeptember 10, 2024, Seoul\nGood afternoon everyone.\nIt's great to see you all again.\nI would first like to acknowledge the co-hosts of this Summit: H.E. Ruben Brekelmans, Minister of Defence of the Netherlands; Dr. Ng Eng Hen Minister for Defence of Singapore; Honorable Roselinda Soipan Tuya, Cabinet Secretary for Defence of Kenya; and Lord Vernon Coaker, Minister of State for Defence of the United Kingdom.\nI’d also like to thank H.E. 윤병세, Co-chair of the Global Commission on REAIM for his invaluable role supporting the Summit.\nI'm very pleased to see how productive and fruitful our discussions have been.\nAs we deep dive into the issue surrounding the new technology of AI, some cautionary tales from history come to mind.\nTake, for instance, the words of the banker who refused to invest in the Ford Motor Company in 1903, stating: “The horse is here to stay, but the automobile is only a novelty--a fad.”\nIf his words were a gross underestimation, we also have the hyperbolic words of Lord Palmerstone, British Prime Minister, who upon receiving the first diplomatic telegram in 1860 declared, “My God! This is the end of diplomacy!”\nWith the benefit of hindsight, we know that they both missed the mark by a mile.\nFor one, diplomacy is very much alive today.\nYet, these stories tell us of more than just the limit of foresight, when it comes to new technology.\nThey remind us of the crucial necessity of having more than one voice in the room and the importance of pooling our wisdom together in a gathering such as this.\nThis is why the REAIM Summit embraces the inclusive, multi-stakeholder approach, bringing together governments, academia, industry, and civil society.\nThere is no one that embodies this spirit of inclusivity than the commissioners and experts of the REAIM Global Commission.\nThis esteemed group comprises some of the brightest minds from across the globe--leaders, policymakers, and innovator--each contributing a wealth of knowledge.\nTheir insights will be instrumental in guiding our discussions at the tables today.\nI hope this luncheon gives us a chance to deepen the friendships we have forged and serves as a bridge between the rich plenary discussions we’ve had so far and the key ministerial roundtable ahead.\nThrough the course of the ministerial roundtable, we will continue to share national viewpoints, discuss challenges, and explore avenues for international cooperation.\nIn a tribute to diversity, the meal for this lunch has been prepared in the Korean bansang style.\nBansang is a traditional Korean meal arrangement where a variety of dishes are thoughtfully prepared and served together, symbolizing harmony, balance, and the importance of every component in creating a complete dining experience.\nBefore I close, I would also like to call on all those who have not yet endorsed the Blueprint for Action to do so.\nRemember, there is no free lunch!\nSo, with that, I'd like to propose a toast to the resounding success of the REAIM Summit.\nTo REAIM for a brighter, safer, and more responsible future.\nCheers!\n/End/",
+    "collected_via": "live_scrape"
+  },
+  {
     "id": "KR-ai06-1",
     "source": "KR",
     "topic": "ai_governance",
@@ -335,6 +595,32 @@
     "url": "https://www.mofa.go.kr/eng/brd/m_5676/view.do?seq=322600",
     "lang": "en",
     "text": "1. The conclusion of the Latin America and Caribbean regional consultation/workshop held in Santiago from June 13 (Thursday) to 14 (Friday) marked the completion of the regional consultations/workshops to prepare for the second Responsible Artificial Intelligence (AI) in the Military Domain (REAIM) Summit, which will be co-hosted by the Korean and Dutch governments in Seoul this September.\n2. This REAIM regional consultation/workshop in Latin America and the Caribbean, co-hosted by Korea, the Netherlands, Chile and Costa Rica, followed the regional consultations/workshops held in Asia (February 26-27 in Singapore), Southeast Europe, the Middle East, the South Caucasus and Central Asia (May 22-23 in Türkiye), Europe and North America (virtual on May 30) and Africa (June 5-6 in Kenya). The event brought together officials from the foreign and defense ministries of 14 countries* in the Latin America and Caribbean region as well as experts from the United Nations Institute for Disarmament Research (UNIDIR), the Geneva-based Centre for Humanitarian Dialogue (HD) and the region.\n* Argentina, Brazil, Mexico, Uruguay, Colombia, Ecuador, the Dominican Republic, El Salvador, Peru, Jamaica, Paraguay, Trinidad and Tobago, Costa Rica and Chile\n3. The REAIM regional consultations/workshops aimed to enhance regional understanding and engagement on the military application of AI in the run-up to the second REAIM Summit. The Korean government will prepare for a successful second REAIM Summit by incorporating opinions gathered from the series of regional consultations/workshops.\n4. The REAIM Summit is global dialogue aimed at exploring ways for cooperation and exchanging insights for the responsible development, deployment and use of AI in the military domain. As part of its efforts to contribute as a Global Pivotal State to establishing international norms for the responsible use of AI, the Republic of Korea, together with the Netherlands, hosted the first REAIM Summit in The Hague in February 2023. The second REAIM Summit will be held in Seoul from September 9 to 10 this year.",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ai07-1",
+    "source": "KR",
+    "topic": "ai_governance",
+    "event_id": "ai07",
+    "event_name": "Global Digital Compact",
+    "date": "2024-09-09",
+    "title": "Welcome Remarks by H.E. Cho Tae-yul, Minister of Foreign Affairs of the Republic of Korea, Welcome Reception, REAIM Summit 2024 (September 9, 2024, Seoul)",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5689/view.do?seq=319644",
+    "lang": "en",
+    "text": "Welcome Remarks by H.E. Cho Tae-yul\nMinister of Foreign Affairs of the Republic of Korea\nWelcome Reception, REAIM Summit 2024\nSeptember 9, 2024, Seoul\nExcellencies,\nDistinguished Guests,\nLadies and Gentlemen,\nWelcome to the REAIM Summit 2024.\nI express my deepest gratitude for your presence tonight.\nSince the AI Deep Blue beat the world chess champion in 1997, it took almost two decades for another AI, Alpha-go, to outplay the world Go champion, Lee Se-Dol.\nIt was shocking enough that AI could master the intricate strategies of the ancient games.\nBut the next breakthrough took only another decade to emerge: the generative AI.\nNow, AI outperforms humans at many tasks, like data processing and analysis, produces impressive drawings and movies within seconds, and generates natural conversations, all skills that had been deemed uniquely human.\nThe speed and magnitude of the development of AI is pushing us to envision its application in every possible area.\nThe military domain is no exception.\nIt is quite likely that the next decade will bring applications in this domain that we cannot even fathom at the moment.\nAI will drastically impact the future of military affairs, and this impact may as well be devastating if unchecked.\nThe evolution of AI and its integration in the military domain demands the checks-and-balances in the form of rules, norms and principles on responsible use.\nSuch challenge may seem novel.\nBut in truth, it is rather familiar.\nAlmost every man-made invention has been leveraged for military purposes, and AI is the newest addition, admittedly a powerful one.\nWhat we face now is the classic mission of harnessing the use of new technology with wisdom.\nOur gathering here today is the auspicious proof that humanity possesses the will to create a responsible AI regime in the military domain.\nWe are committed to pass onto our future generations human-centric AI that contribute to international peace and security.\nI look forward to engaging in fruitful and productive discussions.\nAnd I am truly honored that Korea is a part of this important journey.\nSo, without further ado, I invite you to raise your glasses and join me in a toast to celebrate the REAIM Summit 2024, and our collective efforts towards the future governance of AI.\nCheers!\n/END/",
+    "collected_via": "live_scrape"
+  },
+  {
+    "id": "KR-ai07-2",
+    "source": "KR",
+    "topic": "ai_governance",
+    "event_id": "ai07",
+    "event_name": "Global Digital Compact",
+    "date": "2024-09-09",
+    "title": "Opening Remarks by H.E. Cho Tae-yul, Minister of Foreign Affairs of the Republic of Korea REAIM Summit 2024, September 9, 2024, Seoul",
+    "url": "https://www.mofa.go.kr/eng/brd/m_5689/view.do?seq=319642",
+    "lang": "en",
+    "text": "Opening Remarks by H.E. Cho Tae-yul\nMinister of Foreign Affairs of the Republic of Korea\nREAIM Summit 2024\nSeptember 9, 2024, Seoul\nExcellencies,\nDistinguished Guests,\nLadies and Gentlemen,\nIt is a great honor to officially open the 2nd Summit on Responsible AI in the Military Domain (REAIM).\nLet me extend a warm welcome to my fellow ministers, distinguished representatives from various disciplines, and experts who have joined us in Seoul to participate in this invaluable endeavor to establish responsible AI.\nI take this opportunity to acknowledge the visionary leadership of the Netherlands in launching the REAIM Summit in 2023.\nI also express my gratitude to Singapore, Kenya and the United Kingdom who join as co-hosts this year and the 62 organizations contributing to 47 breakout sessions.\nDistinguished Guests,\nArtificial intelligence holds an immense potential to transform our daily lives and to fundamentally reshape our future.\nThe advancement of AI brings with it not only the excitement of innovation and opportunities but also questions about where this path will ultimately lead.\nThe development of AI in the military domain, in particular, is unfolding in ways we could scarcely have imagined.\nSince the bronze warrior Talos in Greek mythology, humanity has long been fascinated by the idea of machines that both resemble us and protect us.\nToday’s military AI, however, goes beyond mere imitation.\nRather, it is transforming the entire dynamics of military operation, emerging as our strategist, field commander, and soldiers, and often blurring the line between them.\nIn the meantime, our geopolitical situation is becoming increasingly volatile.\nRecent years have seen the most serious acts of aggression which challenge the very foundation of rules-based international order.\nFaced with profound uncertainties on both technological and geopolitical fronts, it is all the more imperative that we set the norms and governance for responsible AI to ensure international peace and security and to preserve human dignity.\nTo this end, I offer that this Summit must serve to facilitate global discussion on three A’s: Assessment, Application, and Anchoring governance.\nFirst, assessment.\nWe must foster a balanced understanding of the impact of AI on international peace and security.\nThis understanding will allow us to establish the minimum guardrails necessary to prevent devastating consequences of AI in the military domain.\nFor instance, AI must not contribute to the proliferation of weapons of mass destruction, nor undermine international peace and security, nor should it ever pose a threat to human civilization.\nSecond, application.\nWe should pool our wisdom on how we can apply our commitment to responsible AI on the ground.\nLet us carefully break down what it means to be ‘responsible’ and unpack the issues related to the core principles to begin translating them into concrete actions.\nThe discussions will include concrete measures such as: legal review to ensure compliance with international law; mechanisms to prevent autonomous weapons from making life-and-death decisions without appropriate human oversight; and safeguards against the misuse of AI.\nThese much needed discussions will lay the foundation for the norms on responsible AI.\nThird, anchoring governance.\nWe must discuss the governance framework that will anchor our guardrails and specific actions for responsible AI.\nHere, the rapidly advancing AI technology requires us to establish an agile governance.\nAchieving this cannot be the work of states alone; it demands an inclusive multi-stakeholder approach.\nThis is the unique strength of REAIM process as a forum where diverse expertise and insights are embraced.\nAs we undertake these tasks at hand, I would like to draw some lessons learned from history.\nExactly 75 years ago, the international community set an inspirational example of what it can achieve when united by a common purpose, by adopting the Geneva Conventions.\nThese watershed documents laid the foundation for protecting human dignity in times of war.\nUnfortunately, they came into being in the aftermath of world wars that claimed countless lives.\nAs we enter a new era with AI, we must move forward with the same unity of purpose to develop the norms fit for our time—and before our time is up.\nAs the first multilateral and multi-stakeholder forum on military AI, the REAIM Summit bears testimony to the common purpose that binds us.\nFor Korea’s part, in particular, in line with our aspiration to serve as a Global Pivotal State (GPS), we are committed to working with global partners to align the development, deployment and use of AI with our shared values.\nIn the military AI space, the Republic of Korea will continue to bring the critical agenda of responsible AI to the forefront of the global agenda, as an early champion of the REAIM process.\nIn the civilian AI space, too, the Republic of Korea will do its part by upholding the comprehensive vision laid out in Seoul Declaration for Safe, Innovative and Inclusive AI, adopted during the AI Seoul Summit in May this year.\nLet me close with a quote from late Dr. Stephen Hawking: “Success in creating AI would be the biggest event in human history. Unfortunately, it might also be the last, unless we learn how to avoid the risks.”\nAs we stand at a fork in the road, the choices we make today will set the course for the generations to come.\nLet us embrace our responsibility to ensure a safer tomorrow.\nThank you.\n/END/",
     "collected_via": "live_scrape"
   }
 ]
