@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외교 언어 분석 — 강의 슬라이드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Lato:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. THE SETUP */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1c22;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+            font-family: 'Lato', 'Nanum Gothic', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0a0e14;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Abstract Background Decoration */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 100px;
+            height: 4px;
+            background-color: #00f2ff;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; margin: 0; }
+        .slide-title {
+            font-size: 44px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            border-left: 6px solid #00f2ff;
+            padding-left: 20px;
+            z-index: 1;
+            max-width: 1100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0;
+        }
+
+        p, li, td, th { font-size: 20px; color: #b0b0b0; line-height: 1.6; }
+        strong { color: #00f2ff; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        /* Layouts */
+        .title-layout { text-align: center; align-items: center; justify-content: center; height: 100%; }
+        .title-layout h1 { font-size: 80px; margin-bottom: 20px; color: #00f2ff; }
+        .title-layout .subtitle { font-size: 28px; color: #ffffff; margin-top: 20px; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; }
+        .section-title-layout h2 { font-size: 64px; color: #ffffff; }
+        .section-title-layout hr { width: 120px; border: 2px solid #00f2ff; margin: 30px auto; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; }
+        .tiled-content { display: flex; gap: 30px; width: 100%; }
+        .tile { 
+            flex: 1; background: #151a21; padding: 40px; border-radius: 15px; 
+            border-bottom: 4px solid #00f2ff; text-align: center;
+        }
+        .tile .icon { font-size: 50px; color: #adff2f; margin-bottom: 20px; }
+        .tile h3 { font-size: 24px; color: #ffffff; margin-bottom: 15px; }
+
+        .image-wrapper { 
+            width: 100%; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid #333; 
+            background: #151a21;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 40px; margin-bottom: 20px; }
+        .bullet-list i { position: absolute; left: 0; top: 5px; color: #00f2ff; font-size: 22px; }
+
+        .table-layout table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-layout th { background: #151a21; color: #00f2ff; text-align: left; padding: 20px; border-bottom: 2px solid #333; }
+        .table-layout td { padding: 20px; border-bottom: 1px solid #222; color: #ffffff; }
+
+        /* Formula Container */
+        #formula-container { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid #adff2f; display: inline-block; }
+
+        /* Bleed Image Right Custom */
+        .bleed-image-layout { padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+        .bleed-image-layout .content-container { padding: 60px; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        .bleed-image-layout .image-container { width: 100%; height: 720px; background: #151a21; }
+        .bleed-image-layout img { width: 100%; height: 720px; object-fit: cover; }
+
+        /* Code Block (초심자 슬라이드용) */
+        .code-block {
+            background: #000;
+            padding: 30px 35px;
+            border-radius: 10px;
+            border-left: 4px solid #adff2f;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            white-space: pre-wrap;
+        }
+        .code-block .kw { color: #ff79c6; }       /* 키워드 */
+        .code-block .fn { color: #50fa7b; }       /* 함수 */
+        .code-block .str { color: #f1fa8c; }      /* 문자열 */
+        .code-block .num { color: #bd93f9; }      /* 숫자 */
+        .code-block .cm  { color: #6272a4; font-style: italic; } /* 주석 */
+        .code-block .var { color: #8be9fd; }      /* 변수 */
+
+        /* 2열 스텝 카드 (Colab 조작용) */
+        .step-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+        .step-card {
+            background: #151a21;
+            padding: 22px 26px;
+            border-radius: 12px;
+            border-left: 4px solid #00f2ff;
+        }
+        .step-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #00f2ff;
+            margin: 0 0 8px 0;
+        }
+        .step-card p { font-size: 16px; margin: 0; color: #cfcfcf; }
+        .step-card code {
+            background: #000;
+            color: #adff2f;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        /* 슬라이드 번호 + 푸터 (program4 추가) */
+        .slide-no { position:absolute; bottom:24px; right:32px; font-size:14px; color:#3a4250; letter-spacing:1px; z-index:2; }
+        .kicker { color:#00f2ff; letter-spacing:3px; font-size:15px; font-weight:700; margin-bottom:12px; }
+        .src-tag { display:inline-block; background:#151a21; color:#adff2f; padding:3px 10px; border-radius:6px; font-size:14px; margin-right:6px; }
+        .finding { background:#101820; border-left:4px solid #adff2f; padding:18px 24px; border-radius:8px; }
+        .finding b { color:#adff2f; }
+    </style>
+</head>
+<body>
+
+<!-- 1 Title -->
+<div class="slide-container" id="s1">
+  <div class="content-area title-layout">
+    <h1 style="text-shadow:0 0 20px rgba(0,242,255,0.4);">가자, 같은 자(尺)로</h1>
+    <p class="subtitle">새 전장에 9차원 파이프라인을 빠르게 다시 들이댄다</p>
+    <p style="margin-top:40px;font-weight:700;letter-spacing:2px;color:#adff2f;">SESSION 05 · 파이프라인 재적용 (주제2: 가자)</p>
+  </div>
+  <div class="slide-no">01</div>
+</div>
+
+<!-- 2 훅 -->
+<div class="slide-container" id="s2">
+  <h2 class="slide-title">한 문장: 도구가 있으면 분석은 빨라진다</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:24px;">
+      주제1(우크라이나)에선 6차원 파이프라인을 <b>4세션</b>에 걸쳐 만들었다.<br>
+      이제 그게 <b>diplo_analysis.py 한 파일</b>에 다 들었다. 가자에는 그걸 그대로 들고 가 <b>한 세션</b>에 끝낸다.
+    </div>
+    <div class="tiled-content" style="margin-top:24px;">
+      <div class="tile"><div class="icon"><i class="fa-solid fa-hammer"></i></div><h3>우크라이나</h3><p>4세션 — 도구를 <strong>만들었다</strong></p></div>
+      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-bolt"></i></div><h3>가자</h3><p>2세션 — 도구를 <strong>쓴다</strong></p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-user"></i></div><h3>AI 거버넌스</h3><p>과제 — <strong>혼자</strong> 푼다</p></div>
+    </div>
+    <p style="font-size:24px;margin-top:18px;text-align:center;color:#fff;">지난 4주는 만드는 시간, 오늘부터는 <strong>쓰는 시간</strong>. 점점 빨라지는 게 핵심.</p>
+  </div>
+  <div class="slide-no">02</div>
+</div>
+
+<!-- 3 가자 코퍼스 + 침묵 지도 -->
+<div class="slide-container" id="s3">
+  <h2 class="slide-title">가자 코퍼스 + 침묵 지도 🤫</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">코퍼스 (147건)</p>
+      <p style="font-size:21px;">전체 코퍼스에서 <code style="color:#adff2f;">topic=="gaza"</code> 만 필터 — S1의 우크라이나 절차와 <strong>완전히 동일</strong>. 절차는 그대로, 주제만 교체.</p>
+      <div class="finding" style="margin-top:14px;">
+        <p style="margin:0;font-size:22px;"><b>FR 51 · CN 45 · UN 35 · KR 16</b></p>
+        <p style="margin:8px 0 0;font-size:18px;">프랑스가 또 제일 많다(정례 코뮈니케). <b>한국은 16건뿐</b> — 왜?</p>
+      </div>
+    </div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">한국의 선택적 침묵</p>
+      <p style="font-size:21px;color:#fff;"><code style="color:#adff2f;">silence_map()</code> 그대로 재사용 — 직접 짤 게 없다. 이게 모듈화의 보상.</p>
+      <ul class="bullet-list" style="font-size:19px;margin-top:10px;">
+        <li><i class="fa-solid fa-volume-xmark"></i> gaza04 인도위기 · gaza05 <strong>ICJ 명령</strong> · gaza09 휴전붕괴 (네 소스 중 한국만 침묵)</li>
+        <li><i class="fa-solid fa-link"></i> 우크라이나에서 ICC·댐에 침묵한 것과 <strong>똑같은 결</strong> — 법적·군사적 변곡점</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-no">03</div>
+</div>
+
+<!-- 4 9차원 일괄 적용 -->
+<div class="slide-container" id="s4">
+  <h2 class="slide-title">9차원 일괄 적용 — 한 줄 함수</h2>
+  <div class="content-area">
+    <div class="code-block"><span class="cm"># 6차원 툴킷 한 줄 import — 바퀴를 다시 만들지 않는다</span>
+<span class="kw">from</span> diplo_analysis <span class="kw">import</span> analyze_document, silence_map, mutuality_index
+
+<span class="cm"># 라이브 분석 — 147개 문서 전부 (한 줄 함수가 6차원을 다 계산)</span>
+rows = [<span class="fn">analyze_document</span>(d, nlp) <span class="kw">for</span> d <span class="kw">in</span> g]
+ana  = pd.<span class="fn">DataFrame</span>(rows)
+
+<span class="cm"># S4 교훈: 길이 정규화 — 강도동사를 단어수로 나눠 밀도로</span>
+ana[<span class="str">"verb_density"</span>] = ana[<span class="str">"n_strength_verbs"</span>] / ana[<span class="str">"n_words"</span>] * <span class="num">1000</span></div>
+    <p style="font-size:19px;margin-top:18px;color:#adff2f;">S2~3에서 손으로 짠 함수들이 이제 <strong>한 줄</strong>. spaCy 구문분석이라 라이브로 30초~1분 — 툴킷이 진짜 도는 걸 보여준다.</p>
+  </div>
+  <div class="slide-no">04</div>
+</div>
+
+<!-- 5 가자 소스 비교 결과 -->
+<div class="slide-container" id="s5">
+  <h2 class="slide-title">가자 — 소스별 상호성(mutuality_index)</h2>
+  <div class="content-area table-layout">
+    <table>
+      <tr><th>소스</th><th>상호성</th><th>해석</th></tr>
+      <tr><td style="color:#adff2f;font-weight:700;">한국 (KR)</td><td style="color:#adff2f;font-weight:700;">12.13</td><td>1위 — 근소차로 중국 앞</td></tr>
+      <tr><td style="color:#adff2f;font-weight:700;">중국 (CN)</td><td style="color:#adff2f;font-weight:700;">11.89</td><td>한국과 동반 최상위 (둘 다 ~12)</td></tr>
+      <tr><td>UN</td><td>3.15</td><td>한참 낮다</td></tr>
+      <tr><td>프랑스 (FR)</td><td>2.20</td><td>최하 — 정례 코뮈니케 톤</td></tr>
+    </table>
+    <div class="finding" style="margin-top:18px;">
+      <p style="margin:0;font-size:21px;"><b>한국 12.13 ≈ 중국 11.89 ≫ UN 3.15 > 프랑스 2.20.</b> 가자에선 한국·중국이 어깨를 나란히 한다 — "all parties · dialogue · 자제 · 정치적 해결" 프레임을 둘 다 짙게 쓴다.</p>
+    </div>
+  </div>
+  <div class="slide-no">05</div>
+</div>
+
+<!-- 6 우크라이나 vs 가자 비교 (Q2 setup) -->
+<div class="slide-container" id="s6">
+  <h2 class="slide-title">우크라이나 vs 가자 — 같은 외교부, 다른 전쟁 🔬</h2>
+  <div class="content-area">
+    <p style="font-size:22px;color:#fff;">핵심 질문: 같은 외교부가 <strong>다른 전쟁</strong>을 말할 때 언어를 바꾸는가? 그게 <strong>당사자성(Q2)</strong> 과 연결되는가?</p>
+    <div class="finding" style="margin-top:12px;">
+      <p style="margin:0 0 8px;color:#fff;font-size:20px;">소스별 상호성 변화 (가자 − 우크라이나)</p>
+      <p style="margin:0;font-size:21px;">
+        <span class="src-tag">UN ▼0.27</span>
+        <span class="src-tag">중국 ▼0.03 (거의 평평)</span>
+        <span class="src-tag">프랑스 ▲1.22</span>
+        <span class="src-tag" style="background:#101820;color:#fff;border:1px solid #adff2f;">한국 <b>▲6.27 (폭증)</b></span>
+      </p>
+    </div>
+    <ul class="bullet-list" style="font-size:20px;margin-top:14px;">
+      <li><i class="fa-solid fa-equals"></i> <strong>중국</strong>: 두 주제 모두 높게 유지 — 주제 무관, 일관된 중립</li>
+      <li><i class="fa-solid fa-arrow-trend-up"></i> <strong>한국</strong>: 가자에서 톤을 크게 끌어올린다 — 유연(flexible)</li>
+    </ul>
+    <p style="font-size:19px;margin-top:6px;color:#adff2f;">'누가 일관되고 누가 유연한가' — 이번 주 산출물이 지난주 산출물(ukraine_annotated.csv)을 만나는 지점. <strong>S6 시계열</strong>의 복선.</p>
+  </div>
+  <div class="slide-no">06</div>
+</div>
+
+<!-- 7 중국 앵커 유지 -->
+<div class="slide-container" id="s7">
+  <h2 class="slide-title">중국 앵커 — 두 전장 모두 최상위</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">우크라이나</p>
+      <div class="finding">
+        <p style="margin:0;font-size:21px;">상호성 <b>중국 11.92 ≫ 한국 5.86</b> — 중국이 한국을 <strong>압도</strong>. '상호성=중국' 앵커가 더 선명히 드러난다.</p>
+      </div>
+    </div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">가자</p>
+      <div class="finding">
+        <p style="margin:0;font-size:21px;">상호성 <b>한국 12.13 ≈ 중국 11.89</b> — 한국이 톤을 끌어올려 중국과 <strong>나란히</strong> 선다.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-no">07</div>
+</div>
+
+<!-- 8 중국 앵커 — 읽기 -->
+<div class="slide-container" id="s8">
+  <h2 class="slide-title">읽기 — 일관 vs 유연, 그리고 Q2</h2>
+  <div class="content-area">
+    <p style="font-size:23px;color:#fff;">중국은 우크라이나에선 단독 1위, 가자에선 한국과 동반 최상위. <strong>주제가 바뀌어도 늘 높다</strong> = 앵커.</p>
+    <div class="finding" style="margin-top:14px;">
+      <p style="margin:0;font-size:22px;">왜 중국은 두 주제 다 상호성이 높을까? <b>중립이라서? 당사자가 아니라서?</b> 한국은 왜 가자에서만 폭증할까? — 이 물음이 곧 <b>당사자성(Q2)</b> 이다.</p>
+    </div>
+    <p style="font-size:20px;margin-top:16px;">평균값은 '누가 그렇게 말하는가'까지만 보여준다. <strong>언제부터, 어떻게 변했는가</strong> 는 시간을 봐야 한다 → 다음 세션.</p>
+  </div>
+  <div class="slide-no">08</div>
+</div>
+
+<!-- 9 회고/다음 -->
+<div class="slide-container" id="s9">
+  <h2 class="slide-title">회고 + 다음 예고</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">회고 질문</p>
+      <ul class="bullet-list" style="font-size:19px;">
+        <li><i class="fa-solid fa-circle-question"></i> 중국이 두 주제 다 상호성 최상위 — 중립이라서? 당사자가 아니라서? (Q2!)</li>
+        <li><i class="fa-solid fa-circle-question"></i> 한국의 법적 사건 침묵이 두 주제에서 반복 — 같은 동기일까?</li>
+        <li><i class="fa-solid fa-circle-question"></i> 4세션 작업을 1세션에 — 무엇이 가능하게 했나? (툴킷)</li>
+      </ul>
+    </div>
+    <div class="finding">
+      <p class="kicker" style="color:#adff2f;">다음 — Session 6</p>
+      <p style="margin:0;font-size:21px;color:#fff;">오늘은 <strong>평균</strong>. 다음엔 <strong>시간</strong> —<br>10·7 이후 톤의 궤적, 그리고<br><b>누가 가장 일관되고 누가 가장 유연한가(Q3)</b>.<br>마지막엔 기사용 <strong>Visual Essay 한 장</strong>.</p>
+    </div>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+</body>
+</html>

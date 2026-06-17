@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외교 언어 분석 — 강의 슬라이드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Lato:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. THE SETUP */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1c22;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+            font-family: 'Lato', 'Nanum Gothic', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0a0e14;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Abstract Background Decoration */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 100px;
+            height: 4px;
+            background-color: #00f2ff;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; margin: 0; }
+        .slide-title {
+            font-size: 44px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            border-left: 6px solid #00f2ff;
+            padding-left: 20px;
+            z-index: 1;
+            max-width: 1100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0;
+        }
+
+        p, li, td, th { font-size: 20px; color: #b0b0b0; line-height: 1.6; }
+        strong { color: #00f2ff; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        /* Layouts */
+        .title-layout { text-align: center; align-items: center; justify-content: center; height: 100%; }
+        .title-layout h1 { font-size: 80px; margin-bottom: 20px; color: #00f2ff; }
+        .title-layout .subtitle { font-size: 28px; color: #ffffff; margin-top: 20px; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; }
+        .section-title-layout h2 { font-size: 64px; color: #ffffff; }
+        .section-title-layout hr { width: 120px; border: 2px solid #00f2ff; margin: 30px auto; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; }
+        .tiled-content { display: flex; gap: 30px; width: 100%; }
+        .tile { 
+            flex: 1; background: #151a21; padding: 40px; border-radius: 15px; 
+            border-bottom: 4px solid #00f2ff; text-align: center;
+        }
+        .tile .icon { font-size: 50px; color: #adff2f; margin-bottom: 20px; }
+        .tile h3 { font-size: 24px; color: #ffffff; margin-bottom: 15px; }
+
+        .image-wrapper { 
+            width: 100%; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid #333; 
+            background: #151a21;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 40px; margin-bottom: 20px; }
+        .bullet-list i { position: absolute; left: 0; top: 5px; color: #00f2ff; font-size: 22px; }
+
+        .table-layout table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-layout th { background: #151a21; color: #00f2ff; text-align: left; padding: 20px; border-bottom: 2px solid #333; }
+        .table-layout td { padding: 20px; border-bottom: 1px solid #222; color: #ffffff; }
+
+        /* Formula Container */
+        #formula-container { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid #adff2f; display: inline-block; }
+
+        /* Bleed Image Right Custom */
+        .bleed-image-layout { padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+        .bleed-image-layout .content-container { padding: 60px; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        .bleed-image-layout .image-container { width: 100%; height: 720px; background: #151a21; }
+        .bleed-image-layout img { width: 100%; height: 720px; object-fit: cover; }
+
+        /* Code Block (초심자 슬라이드용) */
+        .code-block {
+            background: #000;
+            padding: 30px 35px;
+            border-radius: 10px;
+            border-left: 4px solid #adff2f;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            white-space: pre-wrap;
+        }
+        .code-block .kw { color: #ff79c6; }       /* 키워드 */
+        .code-block .fn { color: #50fa7b; }       /* 함수 */
+        .code-block .str { color: #f1fa8c; }      /* 문자열 */
+        .code-block .num { color: #bd93f9; }      /* 숫자 */
+        .code-block .cm  { color: #6272a4; font-style: italic; } /* 주석 */
+        .code-block .var { color: #8be9fd; }      /* 변수 */
+
+        /* 2열 스텝 카드 (Colab 조작용) */
+        .step-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+        .step-card {
+            background: #151a21;
+            padding: 22px 26px;
+            border-radius: 12px;
+            border-left: 4px solid #00f2ff;
+        }
+        .step-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #00f2ff;
+            margin: 0 0 8px 0;
+        }
+        .step-card p { font-size: 16px; margin: 0; color: #cfcfcf; }
+        .step-card code {
+            background: #000;
+            color: #adff2f;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        /* 슬라이드 번호 + 푸터 (program4 추가) */
+        .slide-no { position:absolute; bottom:24px; right:32px; font-size:14px; color:#3a4250; letter-spacing:1px; z-index:2; }
+        .kicker { color:#00f2ff; letter-spacing:3px; font-size:15px; font-weight:700; margin-bottom:12px; }
+        .src-tag { display:inline-block; background:#151a21; color:#adff2f; padding:3px 10px; border-radius:6px; font-size:14px; margin-right:6px; }
+        .finding { background:#101820; border-left:4px solid #adff2f; padding:18px 24px; border-radius:8px; }
+        .finding b { color:#adff2f; }
+    </style>
+</head>
+<body>
+
+<!-- 1 Title -->
+<div class="slide-container" id="s1">
+  <div class="content-area title-layout">
+    <h1 style="text-shadow:0 0 20px rgba(0,242,255,0.4);">의미 분석 — 코드와 Claude</h1>
+    <p class="subtitle">구조는 어떻게 말했나, 의미는 무엇을 의도했나</p>
+    <p style="margin-top:40px;font-weight:700;letter-spacing:2px;color:#adff2f;">SESSION 03 · 의미 분석: 상호성 · 완곡어 · Claude framing (주제1: 우크라이나)</p>
+  </div>
+  <div class="slide-no">01</div>
+</div>
+
+<!-- 2 훅 -->
+<div class="slide-container" id="s2">
+  <h2 class="slide-title">한 문장: 구조에서 의미로</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:23px;">
+      지난주엔 <b>문법</b>을 셌다 — 능동이냐 수동이냐. 오늘은 <b>의미</b>를 읽는다.<br>
+      중국이 <b>'all parties(모든 당사자)'</b>라 쓸 때, 그건 단어가 아니라 <b>가해자를 지우는 장치</b>다.<br>
+      규칙 기반 코드는 그 단어를 <b>셀 순 있지만</b>, <i>왜</i> 썼는지는 못 읽는다.
+    </div>
+    <p style="font-size:30px;margin-top:26px;text-align:center;color:#fff;">그래서 오늘은 <strong>두 개의 눈</strong> — 코드와 Claude — 을 동시에 뜬다.</p>
+    <p style="font-size:24px;text-align:center;color:#adff2f;letter-spacing:1px;"><strong style="color:#adff2f;">"계산은 코드, 해석은 LLM, 판단은 인간."</strong></p>
+  </div>
+  <div class="slide-no">02</div>
+</div>
+
+<!-- 3 Mutuality Index — 헤드라인 -->
+<div class="slide-container" id="s3">
+  <h2 class="slide-title">Step 3 — Mutuality Index (상호성 지수) 🎯</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">개념</p>
+      <p style="font-size:20px;"><strong>양면적 표현</strong>(both sides · all parties · mutual · dialogue)은 가해자와 피해자를 <strong>같은 평면</strong>에 놓는 장치.</p>
+      <p style="font-size:20px;">횟수만 세면 <strong>긴 문서가 불리</strong> → <strong>1000단어당 밀도</strong>로 환산해야 길이가 달라도 공정.</p>
+      <div id="formula-container" style="margin-top:10px;">
+        <p style="margin:0;color:#adff2f;font-size:19px;">밀도 = (등장 총횟수 / 전체 단어수) × 1000</p>
+      </div>
+    </div>
+    <div class="finding">
+      <p style="margin:0 0 10px;color:#fff;font-size:18px;">소스별 평균 상호성 (1000단어당)</p>
+      <p style="margin:0;font-size:34px;"><b>CN 12.0 ≫ KR 5.9 &gt; UN 3.6 &gt; FR 1.0</b></p>
+      <p style="margin:14px 0 0;font-size:18px;">중국이 프랑스의 <strong>10배 이상</strong>. "중국 외교언어 = 양면성"이 통념이 아니라 <strong>실데이터로 재현</strong>된 <strong>앵커 발견</strong>.</p>
+      <p style="margin:10px 0 0;font-size:16px;">⚠️ 이건 <i>상관</i>이지 <i>의도</i>가 아니다 — 왜 그런지는 Step 5에서 Claude에게 묻는다.</p>
+    </div>
+  </div>
+  <div class="slide-no">03</div>
+</div>
+
+<!-- 4 Hedging Density -->
+<div class="slide-container" id="s4">
+  <h2 class="slide-title">Step 4 — Hedging Density (완곡어 밀도)</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">"러시아가 공격했다"가 아니라 "공격이 있었던 것으로 <strong>보인다</strong>(appears to)". 완곡어는 단정을 피해 책임 추궁을 약하게 만드는 <strong>또 다른 거리두기</strong>.</p>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:28px;"><b>CN 5.0 &gt; UN 3.2 &gt; KR 2.7 &gt; FR 1.8</b></p>
+    </div>
+    <div class="two-column" style="margin-top:14px;">
+      <div class="step-card"><h4>프랑스 = 가장 단정적</h4><p>짧고 사무적, 완곡어 최저.</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>중국 = 완곡어도 1위</h4><p>'hope(희망)' 류 유보 표현 최다.</p></div>
+    </div>
+    <p style="font-size:21px;margin-top:14px;color:#adff2f;text-align:center;">상호성도 중국 1위, 완곡어도 중국 1위 → <strong>중국의 일관된 거리두기</strong>가 두 차원에서 함께 드러난다.</p>
+  </div>
+  <div class="slide-no">04</div>
+</div>
+
+<!-- 5 부정·범위 처리 -->
+<div class="slide-container" id="s5">
+  <h2 class="slide-title">Step 4.5 — 부정·범위 처리 (negation scope) ⚠️</h2>
+  <div class="content-area">
+    <p style="font-size:20px;">사전엔 구멍이 있다. <i>"There is <strong>no</strong> mutual interest and <strong>no</strong> cooperation."</i> — 상호성을 <strong>부정</strong>하는 문장인데 단순 카운트는 <strong>+2</strong>로 센다 = 거짓 양성.</p>
+    <div class="code-block"><span class="cm"># 같은 문장, 부정처리 ON vs OFF</span>
+neg = <span class="str">"There is no mutual interest and no cooperation here."</span>
+<span class="fn">mutuality_index</span>(neg)                          <span class="cm"># → 0  (handle_negation=True, 기본)</span>
+<span class="fn">mutuality_index</span>(neg, handle_negation=<span class="kw">False</span>)   <span class="cm"># → 2  (옛날 단순 카운트 = 오탐)</span></div>
+    <div class="finding" style="margin-top:6px;">
+      <p style="margin:0;font-size:19px;">고치는 법: 매칭된 표현 <b>앞 32자</b>에 not/no/never/without 이 있으면 그 카운트를 버린다. <b>긍정문은 그대로</b> — 좋은 처리는 멀쩡한 데이터를 망치지 않는다. = <b>측정 타당성</b>.</p>
+    </div>
+  </div>
+  <div class="slide-no">05</div>
+</div>
+
+<!-- 6 Claude 의미 분석 -->
+<div class="slide-container" id="s6">
+  <h2 class="slide-title">Step 5 — Claude 의미 분석: 왜 그 단어를 썼나</h2>
+  <div class="content-area">
+    <p style="font-size:20px;">사전은 "all parties가 3번 나왔다"까지만 안다. <i>그게 가해자를 지우는 framing인지</i>는 의미를 읽어야 안다 → <strong>Claude의 눈</strong>.</p>
+    <table style="width:100%;"><tr>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:12px 16px;font-size:17px;">SEMANTIC_SCHEMA 키</th>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:12px 16px;font-size:17px;">뜻</th>
+    </tr>
+      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">framing</td><td style="padding:9px 16px;color:#fff;font-size:17px;">사건을 어떻게 규정하나 (가해자/피해자/중립)</td></tr>
+      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">blame_target</td><td style="padding:9px 16px;color:#fff;font-size:17px;">가해 주체 명시? named / implied / none</td></tr>
+      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">stance_strength</td><td style="padding:9px 16px;color:#fff;font-size:17px;">입장 강도 1(완곡)~5(강경)</td></tr>
+      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">mutuality_tone</td><td style="padding:9px 16px;color:#fff;font-size:17px;">양측 균형 강조 1(일방적)~5(매우 양면적)</td></tr>
+    </table>
+    <div class="finding" style="margin-top:6px;">
+      <p style="margin:0;font-size:18px;"><b>DEMO_MODE</b> — 키가 없어도 노트북은 끝까지 돈다(채점·오프라인). 키 있으면 진짜 Claude(<code style="color:#adff2f;">claude-sonnet-4-6</code>), 없으면 손으로 쓴 예시. <b>둘 다 같은 스키마</b>로 나온다.</p>
+    </div>
+  </div>
+  <div class="slide-no">06</div>
+</div>
+
+<!-- 7 Hybrid 교차검증 -->
+<div class="slide-container" id="s7">
+  <h2 class="slide-title">Step 6 — Hybrid 교차검증 🔬</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">규칙 <strong>mutuality_index</strong>(밀도)와 Claude <strong>mutuality_tone</strong>(1~5 판단)을 나란히 둔다. 단위는 다르지만 <strong>같은 현상</strong>을 본다.</p>
+    <div class="two-column">
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>✅ 일치</h4><p>서로 다른 방법, 같은 결론 → 발견의 <strong style="color:#adff2f;">신뢰도 상승</strong>. (CN/UN/FR)</p></div>
+      <div class="step-card"><h4>🚩 불일치</h4><p>예: KR — 규칙 높음 vs 톤 낮음. 버그가 아니라 <strong>가치</strong> → <strong>사람이 직접 읽으라</strong>는 신호.</p></div>
+    </div>
+    <div class="finding" style="margin-top:10px;">
+      <p style="margin:0;font-size:20px;">한국은 양면적 <i>단어</i>(상호성)는 쓰지만 <i>톤</i>은 일방적(러시아 규탄)일 수 있다 — 둘 다 맞을 수 있다. 이게 <b>"계산은 코드, 해석은 LLM, 판단은 인간"</b>의 실제 모습.</p>
+    </div>
+  </div>
+  <div class="slide-no">07</div>
+</div>
+
+<!-- 8 Targeted Sentiment -->
+<div class="slide-container" id="s8">
+  <h2 class="slide-title">Step 7 — Targeted Sentiment (대상별 태도) 🎯</h2>
+  <div class="content-area">
+    <p style="font-size:20px;">상호성은 <i>양면적 단어</i>를 센다(표면). 대상별 태도는 한 발 더: <strong>한 성명 안에서 러시아 vs 우크라이나(이/팔)에 감정이 다른가?</strong> 행위자별 most_criticized를 뽑는다 (우크라+가자 304건).</p>
+    <table style="width:100%;"><tr>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">소스</th>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">most_criticized 분포</th>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">가해자 vs 상대</th>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">균형도</th>
+    </tr>
+      <tr><td style="padding:8px 16px;color:#fff;font-size:16px;">UN</td><td style="padding:8px 16px;color:#fff;font-size:16px;">Russia 33 · Israel 26 · Ukr 9 · Pal 8</td><td style="padding:8px 16px;color:#fff;font-size:16px;">59 vs 17</td><td style="padding:8px 16px;color:#fff;font-size:16px;">0.29</td></tr>
+      <tr><td style="padding:8px 16px;color:#fff;font-size:16px;">France</td><td style="padding:8px 16px;color:#fff;font-size:16px;">Russia 28 · Pal 22 · Israel 16 · Ukr 9</td><td style="padding:8px 16px;color:#fff;font-size:16px;">44 vs 31</td><td style="padding:8px 16px;color:#fff;font-size:16px;">0.70</td></tr>
+      <tr><td style="padding:8px 16px;color:#adff2f;font-size:16px;">China</td><td style="padding:8px 16px;color:#adff2f;font-size:16px;">Russia 27 · Pal 20 · Israel 18 · Ukr 13</td><td style="padding:8px 16px;color:#adff2f;font-size:16px;">45 vs 33</td><td style="padding:8px 16px;color:#adff2f;font-size:16px;">0.73</td></tr>
+    </table>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:18px;">UN은 비판이 <b>가해자 한쪽으로 쏠림</b>, <b>중국만 양측을 고르게 비판</b>. Step 3의 mutuality(중국 최고)를 <b>완전히 다른 방법으로 독립 재확인</b> → 상호성은 우연이 아닌 일관된 균형 프레이밍.</p>
+    </div>
+  </div>
+  <div class="slide-no">08</div>
+</div>
+
+<!-- 9 회고 + 다음 -->
+<div class="slide-container" id="s9">
+  <h2 class="slide-title">회고 + 다음 예고</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">회고 질문</p>
+      <ul class="bullet-list" style="font-size:19px;">
+        <li><i class="fa-solid fa-circle-question"></i> 중국 1위·프랑스 꼴찌 — 두 나라의 외교적 위치가 차이를 설명하나?</li>
+        <li><i class="fa-solid fa-circle-question"></i> 왜 밀도(1000단어당)? 횟수로 셌다면 누가 부당하게 유불리?</li>
+        <li><i class="fa-solid fa-circle-question"></i> 규칙과 Claude가 어긋난 칸이 있다면 다음에 뭘 하겠나?</li>
+        <li><i class="fa-solid fa-circle-question"></i> "판단은 인간"에서 인간이 빠지면 무슨 일이?</li>
+      </ul>
+    </div>
+    <div class="finding">
+      <p class="kicker" style="color:#adff2f;">다음 — Session 4</p>
+      <p style="margin:0;font-size:20px;color:#fff;">오늘로 우크라이나 <strong>6개 차원</strong>(직설성·동사강도·주어 / 상호성·완곡어·침묵)이 다 모였다.<br><br>다음엔 이걸 <strong>검증</strong>(원문 URL·표본 수작업)하고 <strong>시각화</strong> — 레이더 차트에 4개 소스의 '외교 언어 지문'을 겹쳐 그린다. <b>우크라이나 1주제 완성.</b></p>
+    </div>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+</body>
+</html>

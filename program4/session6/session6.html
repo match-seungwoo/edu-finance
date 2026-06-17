@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외교 언어 분석 — 강의 슬라이드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Lato:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. THE SETUP */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #1a1c22;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+            font-family: 'Lato', 'Nanum Gothic', sans-serif;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #0a0e14;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Abstract Background Decoration */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: 50px;
+            left: 60px;
+            width: 100px;
+            height: 4px;
+            background-color: #00f2ff;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; margin: 0; }
+        .slide-title {
+            font-size: 44px;
+            color: #ffffff;
+            margin-bottom: 30px;
+            border-left: 6px solid #00f2ff;
+            padding-left: 20px;
+            z-index: 1;
+            max-width: 1100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0;
+        }
+
+        p, li, td, th { font-size: 20px; color: #b0b0b0; line-height: 1.6; }
+        strong { color: #00f2ff; }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        /* Layouts */
+        .title-layout { text-align: center; align-items: center; justify-content: center; height: 100%; }
+        .title-layout h1 { font-size: 80px; margin-bottom: 20px; color: #00f2ff; }
+        .title-layout .subtitle { font-size: 28px; color: #ffffff; margin-top: 20px; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; }
+        .section-title-layout h2 { font-size: 64px; color: #ffffff; }
+        .section-title-layout hr { width: 120px; border: 2px solid #00f2ff; margin: 30px auto; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; }
+        .tiled-content { display: flex; gap: 30px; width: 100%; }
+        .tile { 
+            flex: 1; background: #151a21; padding: 40px; border-radius: 15px; 
+            border-bottom: 4px solid #00f2ff; text-align: center;
+        }
+        .tile .icon { font-size: 50px; color: #adff2f; margin-bottom: 20px; }
+        .tile h3 { font-size: 24px; color: #ffffff; margin-bottom: 15px; }
+
+        .image-wrapper { 
+            width: 100%; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid #333; 
+            background: #151a21;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 40px; margin-bottom: 20px; }
+        .bullet-list i { position: absolute; left: 0; top: 5px; color: #00f2ff; font-size: 22px; }
+
+        .table-layout table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-layout th { background: #151a21; color: #00f2ff; text-align: left; padding: 20px; border-bottom: 2px solid #333; }
+        .table-layout td { padding: 20px; border-bottom: 1px solid #222; color: #ffffff; }
+
+        /* Formula Container */
+        #formula-container { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid #adff2f; display: inline-block; }
+
+        /* Bleed Image Right Custom */
+        .bleed-image-layout { padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+        .bleed-image-layout .content-container { padding: 60px; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        .bleed-image-layout .image-container { width: 100%; height: 720px; background: #151a21; }
+        .bleed-image-layout img { width: 100%; height: 720px; object-fit: cover; }
+
+        /* Code Block (초심자 슬라이드용) */
+        .code-block {
+            background: #000;
+            padding: 30px 35px;
+            border-radius: 10px;
+            border-left: 4px solid #adff2f;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e0e0e0;
+            white-space: pre-wrap;
+        }
+        .code-block .kw { color: #ff79c6; }       /* 키워드 */
+        .code-block .fn { color: #50fa7b; }       /* 함수 */
+        .code-block .str { color: #f1fa8c; }      /* 문자열 */
+        .code-block .num { color: #bd93f9; }      /* 숫자 */
+        .code-block .cm  { color: #6272a4; font-style: italic; } /* 주석 */
+        .code-block .var { color: #8be9fd; }      /* 변수 */
+
+        /* 2열 스텝 카드 (Colab 조작용) */
+        .step-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+        .step-card {
+            background: #151a21;
+            padding: 22px 26px;
+            border-radius: 12px;
+            border-left: 4px solid #00f2ff;
+        }
+        .step-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #00f2ff;
+            margin: 0 0 8px 0;
+        }
+        .step-card p { font-size: 16px; margin: 0; color: #cfcfcf; }
+        .step-card code {
+            background: #000;
+            color: #adff2f;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        /* 슬라이드 번호 + 푸터 (program4 추가) */
+        .slide-no { position:absolute; bottom:24px; right:32px; font-size:14px; color:#3a4250; letter-spacing:1px; z-index:2; }
+        .kicker { color:#00f2ff; letter-spacing:3px; font-size:15px; font-weight:700; margin-bottom:12px; }
+        .src-tag { display:inline-block; background:#151a21; color:#adff2f; padding:3px 10px; border-radius:6px; font-size:14px; margin-right:6px; }
+        .finding { background:#101820; border-left:4px solid #adff2f; padding:18px 24px; border-radius:8px; }
+        .finding b { color:#adff2f; }
+    </style>
+</head>
+<body>
+
+<!-- 1 Title -->
+<div class="slide-container" id="s1">
+  <div class="content-area title-layout">
+    <h1 style="text-shadow:0 0 20px rgba(0,242,255,0.4);">시간을 더하다</h1>
+    <p class="subtitle">가자 시계열 + 9차원 종합 — 누가 일관되고, 누가 유연한가?</p>
+    <p style="margin-top:40px;font-weight:700;letter-spacing:2px;color:#adff2f;">SESSION 06 · 가자 시계열·종합 — 캡스톤 (주제2)</p>
+  </div>
+  <div class="slide-no">01</div>
+</div>
+
+<!-- 2 훅 -->
+<div class="slide-container" id="s2">
+  <h2 class="slide-title">한 문장: 평균은 시간을 지운다</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:23px;">
+      지금까지는 <b>평균</b>만 봤다. 한국의 평균 상호성 12.13은 <b>어떤 날은 0, 어떤 날은 20</b>의 평균일 수 있다.<br>
+      2023.10.7 ~ 2025.8, 각국의 톤은 사건 흐름 속에 어떻게 출렁였나?
+    </div>
+    <p style="font-size:26px;margin-top:30px;text-align:center;color:#fff;">시간 축을 더한다. 묻는다 — <strong>누가 가장 일관되고, 누가 가장 유연한가? (Q3)</strong></p>
+  </div>
+  <div class="slide-no">02</div>
+</div>
+
+<!-- 3 시계열 분석 방법 -->
+<div class="slide-container" id="s3">
+  <h2 class="slide-title">시계열 분석 방법 — 일관성 = 표준편차 📈</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">개념 한 줄</p>
+      <p style="font-size:22px;">사건(날짜)×소스로 평균을 내고 <strong>선 그래프</strong>를 그린다. x=날짜, 소스별 한 선.</p>
+      <p style="font-size:22px;color:#fff;margin-top:16px;">그 선의 <strong>표준편차(std)</strong>가 곧 <strong>일관성</strong>이다.</p>
+      <div id="formula-container" style="margin-top:18px;">
+        <p style="margin:0;color:#adff2f;font-size:20px;">선이 평평 → std 작다 → <b style="color:#adff2f;">일관</b><br>선이 출렁 → std 크다 → <b style="color:#adff2f;">유연</b></p>
+      </div>
+    </div>
+    <div class="finding">
+      <p style="margin:0 0 10px;color:#fff;font-size:21px;"><b>중국 선</b>: 높게 평평 → 어떤 사건에도 같은 톤.</p>
+      <p style="margin:0;color:#fff;font-size:21px;"><b>한국 선</b>: 위아래로 출렁 → 사건마다 톤 변경.</p>
+      <p style="margin:14px 0 0;font-size:18px;color:#b0b0b0;">눈에 보이는 차이를 std라는 한 숫자로 잡는다. <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">.std()</code> 한 줄.</p>
+    </div>
+  </div>
+  <div class="slide-no">03</div>
+</div>
+
+<!-- 4 Q3 결과 -->
+<div class="slide-container" id="s4">
+  <h2 class="slide-title">Q3 결과 — 일관 ↔ 유연 순위</h2>
+  <div class="content-area">
+    <div class="two-column">
+      <div class="table-layout">
+        <p class="kicker">상호성 std (작을수록 일관)</p>
+        <table>
+          <tr><th>소스</th><th>std</th><th></th></tr>
+          <tr><td>프랑스</td><td>2.47</td><td style="color:#adff2f;">가장 일관</td></tr>
+          <tr><td>중국</td><td>2.59</td><td></td></tr>
+          <tr><td>UN</td><td>5.15</td><td></td></tr>
+          <tr><td>한국</td><td>8.29</td><td style="color:#00f2ff;">가장 유연</td></tr>
+        </table>
+      </div>
+      <div class="table-layout">
+        <p class="kicker">동사강도 밀도 std (작을수록 일관)</p>
+        <table>
+          <tr><th>소스</th><th>std</th><th></th></tr>
+          <tr><td>중국</td><td>1.48</td><td style="color:#adff2f;">가장 일관</td></tr>
+          <tr><td>프랑스</td><td>—</td><td></td></tr>
+          <tr><td>UN</td><td>—</td><td></td></tr>
+          <tr><td>한국</td><td>8.08</td><td style="color:#00f2ff;">가장 유연</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="finding" style="margin-top:14px;">
+      <p style="margin:0;font-size:21px;"><b>차원을 바꾸면 순위가 바뀐다</b> — 일관 1위는 차원마다 다르다(상호성=프랑스, 동사강도=중국). 그러나 <b>한국은 어느 차원에서나 가장 출렁인다.</b> 이게 발견이다.</p>
+    </div>
+  </div>
+  <div class="slide-no">04</div>
+</div>
+
+<!-- 5 침묵 지도 심화 -->
+<div class="slide-container" id="s5">
+  <h2 class="slide-title">침묵 지도 심화 — 무엇에 침묵하나 🤫⚖️</h2>
+  <div class="content-area">
+    <p style="font-size:23px;color:#fff;">침묵은 무작위가 아니다. <strong>무엇에 대해</strong> 침묵하느냐가 신호다.</p>
+    <div class="finding" style="margin-top:14px;">
+      <p style="margin:0;font-size:21px;"><b>한국은 법적 사건(ICJ·ICC)에서 침묵률이 높다.</b> 우크라이나에서 ICC 영장·댐 파괴에 침묵한 것과 <b>같은 결</b>. 두 주제에서 반복 관측.</p>
+    </div>
+    <p style="font-size:20px;margin-top:16px;">가설: <strong>법적 판단을 요구하는 사건에서 한국 외교부는 입장 표명을 미룬다.</strong> 왜? (당사자성? 사법 절차 존중? 신중함?)</p>
+    <p style="font-size:18px;margin-top:8px;color:#adff2f;">⚠️ 단, 한국은 10개 사건 중 7개에만 등장 — 표본 적음. 단정하지 말고 <strong>가설로 기록</strong>한다. 좋은 분석가는 자기 숫자의 약점을 먼저 말한다.</p>
+  </div>
+  <div class="slide-no">05</div>
+</div>
+
+<!-- 6 9차원 종합 -->
+<div class="slide-container" id="s6">
+  <h2 class="slide-title">9차원 종합 — '양면성'은 견고한가 🔭</h2>
+  <div class="content-area">
+    <p style="font-size:21px;color:#fff;">자 하나로 잰 결론은 흔들린다. <strong>자를 세 개 더 들이대도 같은 방향이면</strong>, 우연이 아니라 견고한 발견이다.</p>
+    <div class="table-layout">
+      <table>
+        <tr><th>v2 차원</th><th>중국 (양면성)</th><th>UN (대조군)</th><th>한국</th></tr>
+        <tr><td>완곡 명명</td><td style="color:#adff2f;">0.75 최저·완곡 ("operation")</td><td>1.27 최고·규정적 ("war/genocide")</td><td>—</td></tr>
+        <tr><td>귀속 (named)</td><td style="color:#adff2f;">18 (가림 위주, obscured 27)</td><td>32 (가해자 최다 지목)</td><td style="color:#00f2ff;">0 (전무)</td></tr>
+        <tr><td>대상비판 skew</td><td style="color:#adff2f;">0.05 (18:20, 거의 균등)</td><td>0.53 (26:8, 이스라엘 집중)</td><td>—</td></tr>
+      </table>
+    </div>
+    <div class="finding" style="margin-top:12px;">
+      <p style="margin:0;font-size:20px;"><b>중국 = 완곡 명명 + 가해자 가림 + 양측 균등 비판 — 세 독립 측정이 한목소리.</b> 여러 독립 측정의 <b>수렴(convergence)</b>으로 결론을 받친다. 한 지표의 노이즈에 안 흔들리는 게 정량 분석의 신뢰 확보법.</p>
+    </div>
+  </div>
+  <div class="slide-no">06</div>
+</div>
+
+<!-- 7 Visual Essay -->
+<div class="slide-container" id="s7">
+  <h2 class="slide-title">Visual Essay 산출물 — 숫자를 이야기로 🎨</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">오늘의 클라이맥스</p>
+      <p style="font-size:22px;color:#fff;">"중국은 어떤 사건에도 같은 톤으로 말하고, <strong>한국은 사건마다 톤을 바꾼다.</strong>"</p>
+      <ul class="bullet-list" style="font-size:18px;margin-top:14px;">
+        <li><i class="fa-solid fa-pen-nib"></i> 중국·한국 두 선만 <strong>굵게</strong>, 나머지는 흐린 점선 — 주인공을 정한다</li>
+        <li><i class="fa-solid fa-arrow-pointer"></i> 화살표 주석 둘: "중국=균형 톤 유지", "한국=출렁"</li>
+        <li><i class="fa-solid fa-quote-right"></i> 내러티브 캡션 <strong>4문장</strong> — 독자는 표를 안 본다. 그림 한 장 + 4문장</li>
+      </ul>
+    </div>
+    <div class="finding">
+      <p class="kicker" style="color:#adff2f;">너의 차별점 = 번역</p>
+      <p style="margin:0;font-size:21px;color:#fff;">독자는 std를 모른다. "선이 평평하면 일관, 출렁이면 유연"으로 <strong>번역</strong>한다.</p>
+      <p style="margin:12px 0 0;font-size:19px;">분석가는 많지만, 그걸 일반인에게 전하는 사람은 드물다. 이 마지막 단계가 너의 강점이다. 발표용은 <strong>디자인이 절반</strong>.</p>
+    </div>
+  </div>
+  <div class="slide-no">07</div>
+</div>
+
+<!-- 8 Q1 Q2 Q3 종합 -->
+<div class="slide-container" id="s8">
+  <h2 class="slide-title">Q1 · Q2 · Q3 한눈에 종합 💾</h2>
+  <div class="content-area">
+    <div class="step-grid" style="grid-template-columns:1fr;gap:16px;">
+      <div class="step-card"><h4>Q1 — 네 소스는 다른가?</h4><p style="font-size:18px;">뚜렷이 다르다. 한국·중국 상호성 ≈12로 프랑스의 <strong style="color:#00f2ff;">5배 이상</strong>. 우크라이나와 <strong style="color:#00f2ff;">같은 지문 구조</strong>가 가자에서도 재현.</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">Q2 — 주제별 태도 차이?</h4><p style="font-size:18px;">중국=주제 무관 중립(당사자성 약함), 한국=법적 사건에 침묵하는 <strong style="color:#00f2ff;">유연한 행위자</strong>.</p></div>
+      <div class="step-card"><h4>Q3 — 누가 일관, 누가 유연?</h4><p style="font-size:18px;">상호성은 <strong style="color:#00f2ff;">프랑스</strong>가 가장 일관, 동사강도는 <strong style="color:#00f2ff;">중국</strong>이 가장 일관. 한국은 <strong style="color:#00f2ff;">어디서나 가장 유연</strong>.</p></div>
+    </div>
+    <p style="font-size:18px;margin-top:8px;color:#adff2f;">소스별 최종표 + 시간 std 열 + v2 명명강도 한 칸 → <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">gaza_annotated.csv</code> 저장 (<strong>utf-8-sig</strong>).</p>
+  </div>
+  <div class="slide-no">08</div>
+</div>
+
+<!-- 9 회고 + 과제 예고 -->
+<div class="slide-container" id="s9">
+  <h2 class="slide-title">회고 + 과제 예고 🚀</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">회고 질문</p>
+      <ul class="bullet-list" style="font-size:18px;">
+        <li><i class="fa-solid fa-circle-question"></i> "일관성"은 미덕인가 한계인가? 중국의 한결같음은 원칙? 회피?</li>
+        <li><i class="fa-solid fa-circle-question"></i> 한국의 '유연함'은 적응? 입장 부재? 숫자만으로 단정 가능?</li>
+        <li><i class="fa-solid fa-circle-question"></i> 시계열에서 가장 놀라운 한 점, 그날 원문을 열어 보라</li>
+      </ul>
+    </div>
+    <div class="finding">
+      <p class="kicker" style="color:#adff2f;">다음 — 주제3 (혼자)</p>
+      <p style="margin:0;font-size:20px;color:#fff;"><strong>세 번째 주제 AI 거버넌스는 혼자</strong>, 처음부터 끝까지.</p>
+      <p style="margin:12px 0 0;font-size:19px;">4개 소스 중 하나는 이 주제에서 <b style="color:#adff2f;">구조적으로 침묵</b>한다. 누구일지 침묵 지도로 직접 확인하라 — 너의 첫 단독 발견.</p>
+      <p style="margin:12px 0 0;font-size:18px;">수렴 논리를 그대로: <strong>9차원으로</strong>, 여러 자가 같은 방향인지로 결론을 받쳐라.</p>
+    </div>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+</body>
+</html>
