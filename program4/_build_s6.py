@@ -239,8 +239,9 @@ final_cols = ["directness_index","verb_strength_max","verb_density",
               "mutuality_index","hedging_density","subject_first_person"]
 final = ana.groupby("source")[final_cols].mean().round(3).reindex(order)
 final["상호성_std(시간)"] = consistency
+final["명명강도(v2)"] = ana.groupby("source")["naming_escalation"].mean().round(2).reindex(order)  # v2 한 차원 합류
 final.index = [SRC_KO[s] for s in order]
-print("== 가자 — 소스별 6차원 + 시간 일관성 ==")
+print("== 가자 — 소스별 6차원 + 시간 일관성 + v2 명명강도 ==")
 final'''),
 code(r'''# TODO: 가자 주석 데이터셋을 CSV로 저장하라. 힌트: ana[keep].to_csv(경로, ...)
 keep = ["id","source","event_id","date","directness_index","verb_strength_max",
@@ -263,6 +264,77 @@ ana[keep].to_csv(out, index=False, encoding="utf-8-sig")
 ```
 `utf-8-sig` 는 BOM을 붙여 엑셀에서 한글이 깨지지 않게 한다.
 </details>"""),
+md("""## Step 5.5 — 9차원으로 본 종합: '양면성'은 견고한가? 🆕🔭
+### → 세 독립 측정이 같은 방향을 가리키면, 발견은 단단해진다
+
+> **논리.** 지금까지 핵심 결론은 **"중국=양면성(상호성 1위)"** 이었다. 하지만 상호성은
+> *하나의 자(尺)*다. 자 하나로 잰 결론은 흔들릴 수 있다. S5에서 본 v2 세 차원
+> (**명명 / 귀속 / 대상비판**)은 상호성과 **독립적으로** 측정된다.
+> 그래서 묻는다: **세 개의 다른 자가 모두 같은 방향을 가리키는가?**
+> 그렇다면 "중국의 양면성"은 우연한 한 지표가 아니라 **견고한 발견**이다."""),
+code(r'''# 9차원 종합표 — 가자 코퍼스, 소스별 (analyze_document 결과 재집계)
+syn = pd.DataFrame({
+    "명명강도(naming)":  ana.groupby("source")["naming_escalation"].mean().round(2),
+    "귀속비율(blame_dir)": ana.groupby("source")["blame_directness"].mean().round(2),
+    "가해지목합(named)":   ana.groupby("source")["blame_named"].sum(),
+    "행위자가림합(obscured)": ana.groupby("source")["blame_obscured"].sum(),
+}).reindex(order)
+
+# 최다비판 분포 + 한쪽 쏠림(skew) = |이스라엘-팔레스타인| / 합 (0=완전균등)
+def crit_skew(s):
+    vc = ana[ana["source"]==s]["most_criticized"].value_counts()
+    isr, pal = vc.get("Israel",0), vc.get("Palestinians",0)
+    return round(abs(isr-pal)/(isr+pal), 2) if (isr+pal) else None
+syn["비판분포(이스:팔)"] = [
+    (lambda vc: f'{vc.get("Israel",0)}:{vc.get("Palestinians",0)}')(
+        ana[ana["source"]==s]["most_criticized"].value_counts()) for s in order]
+syn["비판쏠림(skew)"] = [crit_skew(s) for s in order]
+syn.index = [SRC_KO[s] for s in order]
+print("== 가자 — 9차원 종합 (명명·귀속·대상비판) ==")
+syn'''),
+code(r'''# CHECK Step5.5 — 세 자(尺)가 같은 방향을 가리키는가
+try:
+    nm  = ana.groupby("source")["naming_escalation"].mean().reindex(order)
+    nmd = ana.groupby("source")["blame_named"].sum().reindex(order)
+    assert nm["CN"] == nm.min(), "명명: 중국이 가장 완곡(escalation 최저)이어야"
+    assert nmd["UN"] == nmd.max(), "귀속: UN이 가해자를 가장 많이 명시해야"
+    assert crit_skew("CN") <= crit_skew("UN"), "대상비판: 중국이 UN보다 균등해야"
+    print("✅ PASS — 세 독립 측정이 모두 같은 방향")
+    print(f"   · 명명:   중국 {nm['CN']:.2f} (가장 완곡) ↔ UN {nm['UN']:.2f} (가장 규정적)")
+    print(f"   · 귀속:   중국 named {int(nmd['CN'])} (가림 위주) ↔ UN named {int(nmd['UN'])} (가장 많이 지목)")
+    print(f"   · 대상:   중국 skew {crit_skew('CN')} (양측 균등) ↔ UN skew {crit_skew('UN')} (이스라엘 집중)")
+except Exception as e:
+    print("❌ FAIL —", e)'''),
+md("""<details><summary>💡 힌트 / 생각해볼 점</summary>
+
+- `naming_escalation`·`blame_directness` 가 `None` 인 문서는 `.mean()` 이 자동 제외한다.
+  (한국은 `blame_named` 가 0 → `blame_directness` 가 전부 `None` → 평균이 `NaN`. *침묵*의 또 다른 얼굴이다.)
+- `crit_skew` = 0 이면 이스라엘/팔레스타인을 **완전히 균등**하게 비판, 1 이면 **한쪽에만** 집중.
+- 세 열은 서로 다른 알고리즘(사전·SVO·문장감정)으로 계산된 **독립 측정**이다.
+</details>"""),
+md(r"""### 📐 세 자(尺)가 같은 방향 — '양면성'은 견고한 발견
+
+> **중국은 (완곡 명명) + (가해자 가림) + (양측 균등 비판) — 세 독립 측정이 모두 같은 방향**을
+> 가리킨다. 그래서 "중국의 양면성"은 상호성 한 지표의 우연이 아니라 **견고한 발견**이다.
+
+| 소스 | 명명강도 | 가해지목(named) | 비판분포(이스:팔) / 쏠림 | 한 줄 해석 |
+|---|---|---|---|---|
+| **중국** | **0.79 (최저·완곡)** | 6 (가림 위주) | **8:9 / 0.06 (균등)** | 세 자 모두 *양면·중립* 방향 — **앵커 발견 재확인** |
+| **UN** | 1.32 (최고·규정적) | **15 (최다 지목)** | 10:4 / 0.43 (이스라엘 집중) | 가해자를 가장 많이 호명, 비판도 **한쪽(이스라엘)** 에 쏠림 |
+| **프랑스** | 1.04 | 1 | 12:13 / 0.04 | 명명은 규정적이나 *직접 귀속은 적다* (짧은 사무체) |
+| **한국** | 1.02 | **0 (전무)** | 3:3 / 0.00 | 가해자를 **한 번도 지목하지 않음** — 데이터도 희소(8건) |
+
+- **중국:** 상호성(11.2, 1위)만이 아니다. **사건을 부르는 이름도 가장 낮추고**(naming 0.79),
+  **가해자를 직접 지목하기보다 수동태로 가리며**(named 6 / obscured 12), **양측을 거의 균등하게 비판**한다(skew 0.06).
+  → *서로 독립인 세 측정이 한목소리* → **"양면성"은 견고하다.**
+- **UN·프랑스:** 비판이 **한쪽으로 집중**되는 경향. 특히 UN은 가해자를 가장 많이 호명하고(named 15)
+  비판도 이스라엘 쪽으로 기운다(skew 0.43). *명시하고 편을 더 분명히 드러내는* 화법.
+- **한국:** 가해자를 **단 한 번도 명시하지 않는다**(named 0 → `blame_directness` 전부 `None`).
+  표본도 8건으로 희소 — *명시적 귀속을 피하는* 또 다른 형태의 침묵. (단정 아님, 표본 적음.)
+
+> **방법론 메모:** 단일 지표가 아니라 **여러 독립 측정의 수렴(convergence)** 으로 결론을 받친다 —
+> 이것이 한 지표의 노이즈에 휘둘리지 않는, 정량 분석의 신뢰 확보 방식이다."""),
+
 md("""### 📌 Q1·Q2·Q3 — 가자 결론
 
 > **Q1 (소스별 차이):** 가자에서도 네 소스는 뚜렷이 다르게 말한다. **중국**의 상호성(≈11.2)은
@@ -287,7 +359,14 @@ md("""## 🎯 회고 (5분)
 > "이제 도구도 있고(`diplo_analysis`), 방법도 안다(수집→분석→검증→시계열→Visual Essay).
 > **세 번째 주제는 혼자, 처음부터 끝까지** 해본다 — 정답지는 제공한다.
 > 단, 미리 일러둔다: **4개 소스 중 하나는 이 주제에서 *구조적으로 침묵*한다.**
-> 누구일지, 가서 침묵 지도로 직접 확인하라. 그게 첫 발견이 될 것이다.**"""),
+> 누구일지, 가서 침묵 지도로 직접 확인하라. 그게 첫 발견이 될 것이다.**
+>
+> 💡 **9차원을 그대로 가져가라.** 오늘 가자에서 본 *수렴 논리*(여러 독립 측정이 같은 방향이면
+> 발견이 견고하다)는 AI 거버넌스에도 똑같이 쓴다. `analyze_document` 가 돌려주는
+> **명명강도(naming_escalation)** 는 거기서 *위협 프레임(threat/risk) vs 기회 프레임(opportunity)* 으로,
+> **귀속·대상비판**은 *누구를 규제 대상/책임 주체로 지목하나* 로 읽으면 된다.
+> 6차원에 더해 **이 세 차원으로 한 번 더** 보면, 과제의 결론도 한 지표가 아니라
+> *여러 자(尺)의 수렴*으로 받칠 수 있다."""),
 ]
 
 save(cells, "session6/session6.ipynb")

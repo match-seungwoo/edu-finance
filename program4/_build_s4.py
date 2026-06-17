@@ -237,6 +237,110 @@ fig_radar.update_layout(
 fig_radar.show()
 print("→ 네 나라의 '말하기 지문(指紋)'이 서로 다른 모양으로 보인다.")'''),
 
+md("""## Step 3.5 — 새 차원 3개: 9차원으로 확장 🆕
+> **툴킷이 자랐다.** S2~S3에서 만든 6차원 위에, v2 툴킷은 **3개 차원**을 더 얹었다.
+> `analyze_document` 한 줄이 이제 **9차원**을 한 번에 돌려준다(위에서 이미 다 계산돼 있었다!).
+
+| # | 새 차원 | 무엇을 재나 | 컬럼 |
+|---|---|---|---|
+| 7 | **완곡명명 (event naming)** | 사건을 *뭐라 부르나* — 강한 규정 ↔ 완곡 | `naming_escalation` |
+| 8 | **귀속 직접성 (blame)** | 가해자를 *직접 지목*했나, 행위자를 가렸나 | `blame_directness` |
+| 9 | **대상별 태도 (sentiment)** | 행위자별 감정 비대칭 (누구를 가장 비판?) | `sentiment_gap`, `most_criticized` |
+
+### (7) 완곡명명 — 같은 전쟁을 'invasion'이라 부르나 'situation'이라 부르나
+> 같은 사건도 **부르는 단어**가 입장을 드러낸다. 사전에 0~3 가중치를 매겼다:
+> `invasion / war of aggression = 3 (강한 규정)` … `war = 2` … `conflict / crisis = 1 (완곡)`
+> … `situation / military operation = 0 (가장 완곡)`.
+> `naming_escalation` 은 문서에 등장한 명명 단어들의 **가중 평균**이다 (높을수록 단호한 규정)."""),
+code(r'''# event_naming 을 직접 한 문장에 적용해 본다 — 같은 사건, 다른 단어
+from diplo_analysis import event_naming
+
+for phrase in ["Russia's invasion of Ukraine is a war of aggression.",
+               "We are concerned about the conflict and the situation in Ukraine."]:
+    nm = event_naming(phrase, "ukraine", lang="en")
+    print(f'"{phrase[:48]}..."')
+    print(f"   → 명명 단어 {nm['naming_terms']}  escalation={nm['naming_escalation']}  "
+          f"(0 완곡 ~ 3 강한 규정)\n")
+print("→ 첫 문장은 'invasion/war'(강), 둘째는 'conflict/situation'(완곡). 단어가 입장이다.")'''),
+md("### 소스별 명명 등록(register) — 누가 가장 완곡하게 부르나"),
+code(r'''# analyze_document 가 이미 채워 둔 naming_escalation 컬럼을 소스별로 집계한다.
+#   (None=명명 단어가 없던 문서는 평균에서 자동 제외)
+naming_by_src = ana.groupby("source")["naming_escalation"].mean().round(2).reindex(order)
+print("우크라이나 — 소스별 평균 명명 등록(naming_escalation):")
+print(naming_by_src)
+print("\n→ 우크라이나만 보면 네 소스 모두 'war/invasion'을 비교적 단호히 쓴다.")
+print("   하지만 가자까지 합치면 그림이 달라진다 ↓")'''),
+code(r'''# 가자까지 합쳐(전쟁 2주제) 보면 '중국이 가장 완곡'이 드러난다.
+gaza_docs = json.load(open(os.path.join(PROJECT,"data","gaza_working.json"), encoding="utf-8"))
+both = pd.DataFrame([analyze_document(d, nlp) for d in (docs + gaza_docs)])
+naming_both = both.groupby("source")["naming_escalation"].mean().round(2)
+naming_both = naming_both.sort_values(ascending=False)
+print("우크라이나+가자 — 소스별 명명 등록(높을수록 단호):")
+print(naming_both)
+print("\n→ UN(~1.55)이 가장 단호히 규정. 중국(~1.10)이 가장 완곡 — 'conflict/crisis' 선호.")'''),
+code(r'''# CHECK Step3.5 — 명명 등록 순위가 알려진 결과와 맞는가
+try:
+    nb_ = both.groupby("source")["naming_escalation"].mean().round(2)
+    assert nb_["UN"] >= nb_["CN"], "UN이 중국보다 단호해야 한다"
+    assert nb_["CN"] == nb_.min(), "중국이 가장 완곡해야 한다('conflict/crisis')"
+    print("✅ PASS — 명명 등록 분석 완성")
+    print(f"   가장 단호: UN {nb_['UN']}  /  가장 완곡: 중국 {nb_['CN']}")
+except Exception as e:
+    print("❌ FAIL —", e)'''),
+md("""<details><summary>💡 왜 우크라이나만 보면 안 되고 두 주제를 합치나?</summary>
+
+우크라이나 단일 주제에서는 러시아 '침공'이 워낙 명백해 네 소스 다 'war/invasion'을 쓴다(차이가 작다).
+**가자**처럼 입장이 더 갈리는 주제를 합치면, 중국이 'conflict/crisis/situation' 같은
+**완곡한 단어**를 선호하는 경향이 평균에서 드러난다. 한 사건만 보지 말고 **여러 사건에 걸친
+패턴**을 봐야 명명 전략이 보인다 — 이것도 검증의 한 형태다.
+</details>"""),
+md("""### (8·9) 9차원 통합 시각화 — 새 차원까지 한 그림에
+> 6차원 막대·레이더에 **명명(7)·귀속(8)** 을 얹는다. 단위가 다르니
+> (escalation 0~3, blame_directness 0~1) **그룹 막대**로 나란히 본다."""),
+code(r'''# 새 두 차원을 소스별로 — naming_escalation(완곡명명) + blame_directness(귀속 직접성)
+ext = ana.groupby("source")[["naming_escalation","blame_directness"]].mean().round(2).reindex(order)
+
+fig_ext = go.Figure()
+fig_ext.add_trace(go.Bar(name="완곡명명 (0 완곡~3 단호)", x=labels,
+    y=[ext.loc[s,"naming_escalation"] for s in order], marker_color="#72B7B2"))
+fig_ext.add_trace(go.Bar(name="귀속 직접성 (0~1, 가해자 직접지목)", x=labels,
+    y=[ext.loc[s,"blame_directness"] for s in order], marker_color="#B279A2"))
+fig_ext.update_layout(
+    title="새 차원 — 소스별 명명 등록 & 귀속 직접성",
+    barmode="group", template="plotly_white", height=440,
+    xaxis_title="소스", yaxis_title="값 (차원별 스케일 다름·모양 비교)")
+fig_ext.show()
+print("→ '얼마나 단호히 규정하나(명명)'와 '가해자를 직접 지목하나(귀속)'를 한눈에 비교.")'''),
+md("### 9차원 레이더 — 6차원 + 새 3차원 (각 축 0~1 정규화)"),
+code(r'''# 6차원 레이더를 9축으로 확장한다. 단위가 제각각이라 다시 0~1 min-max 정규화.
+#   sentiment 차원은 sentiment_gap(행위자 간 감정 격차)을 쓴다.
+nine_cols = ["directness_index","verb_strength_max","mutuality_index",
+             "hedging_density","subject_first_person",
+             "naming_escalation","blame_directness","sentiment_gap"]
+nine_ko = ["직설성","동사강도","상호성","완곡어","1인칭",
+           "완곡명명","귀속직접성","감정격차"]
+
+nine = ana.groupby("source")[nine_cols].mean().reindex(order)
+nine_norm = nine.copy()
+for c in nine_cols:
+    col = nine_norm[c]
+    lo, hi = col.min(), col.max()
+    nine_norm[c] = (col - lo) / (hi - lo) if hi > lo else 0.5
+nine_norm = nine_norm.fillna(0)   # 명명/귀속/감정이 None인 소스는 0으로
+
+fig_radar9 = go.Figure()
+for s in order:
+    vals = [nine_norm.loc[s,c] for c in nine_cols]
+    fig_radar9.add_trace(go.Scatterpolar(
+        r=vals + [vals[0]], theta=nine_ko + [nine_ko[0]],
+        name=SRC_KO[s], line_color=SRC_COLOR[s], fill="toself", opacity=0.4))
+fig_radar9.update_layout(
+    title="소스별 9차원 프로필 (각 축 0~1 정규화)",
+    polar=dict(radialaxis=dict(visible=True, range=[0,1])),
+    template="plotly_white", height=560)
+fig_radar9.show()
+print("→ 6차원 지문에 명명·귀속·감정 3축이 더해져 '말하기 지문'이 더 촘촘해졌다.")'''),
+
 md("""## Step 4 — 검증 1: 교차언어 점검 (사람이 직접 본다) 🔍🌐
 
 > **핵심 메시지:** "기계가 0.86이라 했다고 그게 진실은 아니다.
@@ -283,6 +387,70 @@ detail = mutuality_index(cn_doc["text"])
 print("중국 문서가 실제로 쓴 양면적 표현(횟수):")
 for term, n in sorted(detail["mutuality_hits"].items(), key=lambda x:-x[1]):
     print(f"   {term:28s} {n}회")'''),
+
+md("""### Step 4.5 — 검증을 한 단계 더: **원어(原語) 분석** 🌐🔬
+> **지금까지의 한계를 솔직히 말한다.** 우리 코퍼스는 **영문본(영어 번역/영어 성명)** 이다
+> (`lang="en"`). 즉 한국·중국·프랑스의 *진짜 단어*가 아니라 **번역된 단어**를 재고 있었다.
+> 번역은 뉘앙스를 깎는다 — "局势(국면)"가 "situation"으로, "谴责(규탄)"이 "condemn"으로.
+>
+> **툴킷은 이미 다국어다.** 핵심 함수들이 `lang=` 인자를 받는다:
+> - `mutuality_index(text, lang="zh")` — 중국어 상호성 사전
+> - `event_naming(text, topic, lang="ko")` — 한국어 명명 사전
+> - `hedging_density(text, lang="fr")` — 프랑스어 완곡어 사전
+> - `get_nlp_multi(lang)` — 언어별 spaCy 모델 (구문 분석이 필요할 때)
+>
+> 아래는 **실제 외교 표현**으로 다국어 사전이 원문에서 제대로 작동함을 보이는 시연이다.
+> (사전 기반 함수라 **모델 설치 없이** 바로 돈다.)"""),
+code(r'''# 다국어 사전 함수는 spaCy 모델 없이 동작한다 — 실제 외교 표현으로 검증
+from diplo_analysis import mutuality_index, event_naming, hedging_density
+
+# 진짜 외교 문구 (원어 그대로)
+zh = "中方呼吁有关各方通过对话与谈判和平解决，反对战争"          # 중국 외교부 식 표현
+fr = "La France condamne l'invasion et l'agression de la Russie en Ukraine."  # 프랑스
+ko = "정부는 모든 당사자에게 대화를 통한 평화적 해결을 촉구한다."   # 한국 외교부 식 표현
+
+# (1) 중국어 — 상호성 사전이 各方/对话/和平/谈判 에 반응하나?
+mz = mutuality_index(zh, lang="zh")
+print("[zh] 상호성 발화:", list(mz["mutuality_hits"]))
+print("     → 各方(각 당사자)·对话(대화)·和平(평화)·谈判(협상) 포착 = 원문에서 직접 측정 성공\n")
+
+# (2) 프랑스어 — 명명 사전이 invasion 을 '강한 규정(3)'으로 잡나?
+nf = event_naming(fr, "ukraine", lang="fr")
+print("[fr] 명명 단어:", nf["naming_terms"], "→ dominant =", nf["naming_dominant"],
+      f"(escalation {nf['naming_escalation']})")
+print("     → invasion/agression = 가중치 3 = 가장 단호한 규정\n")
+
+# (3) 한국어 — 상호성 사전이 모든 당사자/대화/평화적 에 반응하나?
+mk = mutuality_index(ko, lang="ko")
+print("[ko] 상호성 발화:", list(mk["mutuality_hits"]),
+      "→ 번역을 거치지 않은 원문에서 직접 측정")'''),
+code(r'''# CHECK Step4.5 — 다국어 사전이 원어를 제대로 측정하는가 (모델 불필요)
+try:
+    assert "各方" in mutuality_index(zh, lang="zh")["mutuality_hits"]
+    assert event_naming(fr, "ukraine", lang="fr")["naming_dominant"] == "invasion"
+    assert "모든 당사자" in mutuality_index(ko, lang="ko")["mutuality_hits"]
+    print("✅ PASS — zh/ko/fr 원어 사전이 실제 외교 표현에서 정확히 작동")
+    print("   (en 외 spaCy 모델 다운로드 없이 — 사전 기반이라 가능)")
+except Exception as e:
+    print("❌ FAIL —", e)'''),
+md("""<details><summary>💡 CHECK: 그럼 지금 당장 한·중·프 *원문*을 분석할 수 있나?</summary>
+
+**아니다 — 두 가지가 더 필요하다.** 솔직해야 분석이 믿음직하다.
+
+1. **원어 코퍼스 수집.** 현재 `ukraine_working.json` 의 `text` 는 전부 영문본이다.
+   원어를 재려면 스크래퍼를 **각국 자국어판**(중국 외교부 中文, 프랑스 français, 한국 국문)으로
+   확장해 원문을 모아야 한다.
+2. **언어별 spaCy 모델 설치** (구문 분석=직설성·귀속에 필요):
+   `python -m spacy download fr_core_news_sm zh_core_web_sm ko_core_news_sm`
+   → 그 뒤 `get_nlp_multi("zh")` 로 중국어 모델을 로드한다.
+   (오늘 검증에서는 **모델을 부르지 않는다** — 미설치 상태에서도 돌게 사전 함수만 시연.)
+
+**왜 이게 이 프로젝트의 최우선 신뢰도 업그레이드인가?**
+번역본은 *원문의 명명·완곡 전략을 평탄화*한다. 너는 **한·중·프·영을 읽는 trilingual 자산**을
+가졌다 — 원어를 직접 재면 "중국이 局势(국면)라 부르는 걸 영문에선 conflict로 옮겼다" 같은
+**번역이 숨긴 차이**까지 잡아낼 수 있다. 이게 남이 못 하는 너만의 분석이다.
+다국어 사전은 위처럼 **실제 외교 표현으로 이미 검증**돼 있으니, 남은 건 *원어 데이터*뿐이다.
+</details>"""),
 
 md("""## Step 5 — 검증 2: 측정 타당성 (오늘의 가장 중요한 30분) ⚠️
 

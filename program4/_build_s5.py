@@ -157,6 +157,70 @@ md("""**가자에서도 패턴이 반복된다.**
 - **UN**은 `verb_strength_max` 가 높지만(5.07) 이는 *문서가 길어서*다 — 밀도로 보면 중간.
 - **프랑스**는 짧고 사무적이라 상호성·강도가 모두 낮다(문체 차이일 수 있음)."""),
 
+md("""## Step 3.5 — v2 세 차원으로 한 번 더 본다 🆕
+### 같은 사건을 **뭐라 부르나 / 누구를 가해자로 지목하나 / 누구를 더 비판하나**
+
+툴킷이 9차원으로 커지면서 `analyze_document` 가 새 열 3개를 더 돌려준다.
+상호성(6차원)은 "*양면적 단어를 얼마나 쓰나*"였다. 여기 셋은 **프레이밍의 다른 축**이다:
+
+| 새 열 | 뜻 | 낮을수록 / 높을수록 |
+|---|---|---|
+| `naming_escalation` | 사건을 뭐라 부르나 | 0=완곡(situation/operation) … 3=강한 규정(genocide) |
+| `blame_directness` | 가해자를 명시 vs 행위자 가림 | 1=가해자 직접 지목, 낮으면 수동태로 가림 |
+| `most_criticized` | 가장 부정적으로 다룬 행위자 | Israel / Palestinians 중 누구 |
+
+이 셋은 상호성과 **독립적으로** 측정된다. 그래서 *여러 자(尺)가 같은 방향을 가리키면*
+그 발견은 더 견고하다 — 이게 S6 종합의 핵심 논리다."""),
+code(r'''# 새 3차원을 소스별로 집계 (None 은 제외하고 평균/최빈값)
+def mode_or_dash(s):
+    s = s.dropna()
+    return s.mode().iloc[0] if len(s) else "—"
+
+v2 = pd.DataFrame({
+    "명명강도(naming)": ana.groupby("source")["naming_escalation"].mean().round(2),
+    "귀속직접성(blame)": ana.groupby("source")["blame_directness"].mean().round(2),
+    "가해지목합(named)": ana.groupby("source")["blame_named"].sum(),
+    "행위자가림합(obscured)": ana.groupby("source")["blame_obscured"].sum(),
+    "최다비판(most_criticized)": ana.groupby("source")["most_criticized"].apply(mode_or_dash),
+}).reindex(order)
+v2.index = [s for s in order]
+v2'''),
+code(r'''# most_criticized 분포 — 한쪽으로 쏠렸나, 양쪽을 고루 비판했나
+print("== 소스별 most_criticized 분포 (양측 균등 vs 한쪽 집중) ==")
+for s in order:
+    dist = ana[ana["source"]==s]["most_criticized"].value_counts(dropna=False).to_dict()
+    print(f"  {s:3s}  {dist}")'''),
+code(r'''# CHECK Step3.5 — 가자 v2 차원의 알려진 방향과 맞는가
+try:
+    nm = ana.groupby("source")["naming_escalation"].mean().reindex(order)
+    assert nm["CN"] == nm.min(), "명명강도는 중국이 가장 낮아야(가장 완곡) 한다"
+    assert ana.groupby("source")["blame_named"].sum()["UN"] == \
+           ana.groupby("source")["blame_named"].sum().max(), "가해자 지목은 UN이 가장 많아야 한다"
+    cn = ana[ana["source"]=="CN"]["most_criticized"].value_counts()
+    assert abs(cn.get("Israel",0) - cn.get("Palestinians",0)) <= 2, "중국은 양측을 고루 비판해야"
+    print("✅ PASS — 가자 v2 세 차원의 방향이 모두 확인됨")
+    print("   · 명명: 중국이 가장 완곡(naming_escalation 최저)")
+    print("   · 귀속: UN이 가해자를 가장 많이 명시(named 최다)")
+    print("   · 대상: 중국은 이스라엘/팔레스타인을 거의 균등하게 비판")
+except Exception as e:
+    print("❌ FAIL —", e)'''),
+md("""<details><summary>💡 힌트 / 정답</summary>
+
+- `naming_escalation` 이 `None` 인 문서(명명 단어가 본문에 없는 경우)는 `.mean()` 이 자동 제외한다.
+- `most_criticized` 도 `None` 이 섞일 수 있어 최빈값(`mode`)으로 대표한다.
+- 세 열 모두 `analyze_document` 가 이미 계산해 둔 것 — 우리는 *집계*만 한다.
+</details>"""),
+md("""**가자에서 v2 세 차원이 말하는 것 (실측):**
+- **명명(naming_escalation):** **중국이 가장 완곡**(≈0.79) — 지배적 명명어가 *"operation(작전)"* 이다.
+  UN이 가장 규정적(≈1.32, "war/genocide"도 등장). 프랑스·한국은 중간(≈1.0).
+  → 중국은 *상호성*뿐 아니라 *사건을 부르는 이름*에서도 톤을 낮춘다.
+- **귀속(blame):** **UN이 가해자(이스라엘/하마스)를 압도적으로 가장 많이 명시**(named ≈15건). 단,
+  UN은 동시에 *행위자를 가린 수동태*(obscured ≈61)도 많아 *비율*(blame_directness≈0.21)은 낮다 —
+  "**많이 말하지만 절차적 수동태도 많다**"는 UN 특유의 화법. **한국은 가해자를 단 한 번도 명시하지 않는다**(named 0).
+- **대상(most_criticized):** **중국은 이스라엘/팔레스타인을 거의 균등하게 비판**(≈8:9, sentiment_gap≈0.19) —
+  *양면성*이 여기서도 재현된다. UN은 이스라엘 쪽으로 기운다(≈10:4).
+- **한 줄:** 가자에서도 *"중국=완곡+균형"* 이 **상호성·명명·대상비판 세 자(尺)에서 동시에** 나온다."""),
+
 md("""## Step 4 — 우크라이나 vs 가자: 같은 소스, 다른 전쟁 🔬
 ### → 프로젝트 Q2(당사자성)의 문을 연다
 

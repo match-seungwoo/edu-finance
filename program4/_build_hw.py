@@ -76,7 +76,9 @@ def build_cells(mode):
 2. **침묵 지도**로 *구조적으로 부재한 소스* 를 발견하고 그 이유를 추론한다.
 3. **당사자성(stake) 가설**을 검증한다: 고당사자성(우크라이나/가자) vs
    저당사자성(AI 거버넌스)에서 언어 패턴(상호성·동사강도·완곡어)이 다른가?
-4. 결과를 **차트 한 장**으로 보여주고, 분석의 **한계**를 스스로 적는다.
+4. **v2 차원을 재해석·적용**한다: `event_naming` 을 *위협 vs 기회 프레임* 으로 다시 쓰고(Step 4a),
+   *귀속·대상별태도*(blame/targeted)가 AI엔 **0건**임을 확인해 그 의미를 읽는다(Step 4b).
+5. 결과를 **차트 한 장**으로 보여주고, 분석의 **한계**를 스스로 적는다.
 
 #### ❓ 연구 질문 (recap)
 - **Q1.** 같은 사건을 두고 소스(UN/한국/중국/프랑스)별로 말하기가 다른가?
@@ -335,12 +337,184 @@ except Exception as e:
 > |---|---|---|---|---|---|---|
 > | 우크라이나 | 高 | 4.87 | 4.77 | 4.05 | 2.20 | 0.79 |
 > | 가자 | 高 | 4.66 | 4.00 | 3.44 | 2.22 | 0.80 |
-> | **AI 거버넌스** | **低** | **8.54** | **2.41** | 3.62 | 2.17 | 0.83 |
+> | **AI 거버넌스** | **低** | **8.52** | **2.41** | 3.62 | 2.17 | 0.83 |
 >
-> **핵심 반전:** 저당사자성 주제(AI)에서 **상호성이 거의 2배(8.54 vs ~4.7)**, **동사강도 밀도는
+> **핵심 반전:** 저당사자성 주제(AI)에서 **상호성이 거의 2배(8.52 vs ~4.7)**, **동사강도 밀도는
 > 절반(2.41 vs ~4.4)**. 즉 당사자성이 낮을수록 각국은 *더 협력적·덜 강경하게* 말한다.
 > 완곡어(hedging)·직설성은 거의 안 변함 — 이건 주제보다 문체/장르 특성일 수 있다(서술형 (b)에서 논의).
 > **흔한 실수:** "AI라 상호성이 높다"를 인과로 단정. n=21 + FR 부재라 *경향*까지만 말해야 한다."""))
+
+    # ── Step 4a AI 명명 프레임 (위협 vs 기회) — v2 event_naming ──────
+    A(md("""## Step 4a — AI 명명 프레임: 위협(threat)인가 기회(opportunity)인가? 🧭
+
+> **v2 차원 적용 (event_naming, 재해석판).** 우크라이나·가자에서 `event_naming` 은
+> *침공/학살 vs 사태/작전* 같은 **완곡명명 사다리**였다. AI 거버넌스엔 가해 사건이 없으니
+> 같은 함수를 **프레임 사다리**로 다시 쓴다 — `existential risk/threat/danger`(위협계, 가중치 2~3),
+> `risk/challenge/safety`(중간, 1), `opportunity/benefit/potential`(기회계, 0).
+>
+> 질문: **어느 소스가 AI를 "위협"으로, 어느 소스가 "기회"로 프레임하나?**
+> escalation 평균(UN 0.72 / KR 0.70 / CN 0.80)은 서로 가깝다 — 평균만 보면 안 보인다.
+> 그래서 **위협계 vs 기회계 단어 카운트 분포**(더 선명한 신호)를 직접 센다."""))
+
+    b, f = todo(
+        r'''# TODO: 각 문서에 event_naming(text, "ai_governance") 을 돌려 명명 단어를 모으고,
+#       소스별로 '위협계(weight>=2)'와 '기회계(weight==0)' 단어 수를 합산하라.
+#   힌트: from diplo_analysis import event_naming, EVENT_NAMING
+#         가중치표 = EVENT_NAMING["ai_governance"]["en"]  (단어→가중치)
+from diplo_analysis import event_naming, EVENT_NAMING
+from collections import Counter
+W = EVENT_NAMING["ai_governance"]["en"]          # {단어: 가중치}
+
+frame_rows = []
+for d in ai_docs:
+    nm = event_naming(d["text"], "______________")   # ← 빈칸: 어떤 topic?
+    terms = nm["naming_terms"]                        # {단어: 횟수}
+    threat = sum(c for t, c in terms.items() if W[t] >= 2)   # 위협계
+    middle = sum(c for t, c in terms.items() if W[t] == 1)   # 중간(risk/challenge/safety)
+    chance = sum(c for t, c in terms.items() if W[t] == 0)   # 기회계
+    frame_rows.append({"source": d["source"], "위협계": threat,
+                       "중간": middle, "기회계": chance,
+                       "escalation": nm["naming_escalation"]})
+frame = pd.DataFrame(frame_rows)
+# 소스별 위협계/기회계 단어 총합 + escalation 평균
+frame_by_src = frame.groupby("______").agg(            # ← 빈칸: 무엇으로 묶나?
+    위협계=("위협계","sum"), 중간=("중간","sum"), 기회계=("기회계","sum"),
+    escalation평균=("escalation","mean")).round(2)
+frame_by_src = frame_by_src.reindex([s for s in ["UN","KR","CN","FR"] if s in frame_by_src.index])
+frame_by_src''',
+        r'''# 정답: 소스별 위협계 vs 기회계 명명 분포
+from diplo_analysis import event_naming, EVENT_NAMING
+from collections import Counter
+W = EVENT_NAMING["ai_governance"]["en"]
+
+frame_rows = []
+for d in ai_docs:
+    nm = event_naming(d["text"], "ai_governance")
+    terms = nm["naming_terms"]
+    threat = sum(c for t, c in terms.items() if W[t] >= 2)
+    middle = sum(c for t, c in terms.items() if W[t] == 1)
+    chance = sum(c for t, c in terms.items() if W[t] == 0)
+    frame_rows.append({"source": d["source"], "위협계": threat,
+                       "중간": middle, "기회계": chance,
+                       "escalation": nm["naming_escalation"]})
+frame = pd.DataFrame(frame_rows)
+frame_by_src = frame.groupby("source").agg(
+    위협계=("위협계","sum"), 중간=("중간","sum"), 기회계=("기회계","sum"),
+    escalation평균=("escalation","mean")).round(2)
+frame_by_src = frame_by_src.reindex([s for s in ["UN","KR","CN","FR"] if s in frame_by_src.index])
+frame_by_src''')
+    A(code(f if KEY else b))
+
+    A(code(r'''# CHECK Step4a — 명명 프레임 분포가 실제 결과와 맞는가
+try:
+    assert set(frame_by_src.index) <= {"UN","KR","CN"}, "FR은 데이터가 없다"
+    # 중국은 기회계 > 위협계 (AI를 기회로 프레임)
+    assert frame_by_src.loc["CN","기회계"] > frame_by_src.loc["CN","위협계"], "중국=기회 편향이 안 보인다"
+    # UN은 위협계가 0이 아니다 (위협·관리 프레임을 분명히 쓴다)
+    assert frame_by_src.loc["UN","위협계"] > 0, "UN 위협계가 0이면 안 된다"
+    print("✅ PASS — 중국은 AI를 '기회'로(기회계 > 위협계), UN은 위협·관리 어휘를 고루 쓴다.")
+    print("   중국 기회계 %d vs 위협계 %d | UN 위협계 %d 기회계 %d"
+          % (frame_by_src.loc["CN","기회계"], frame_by_src.loc["CN","위협계"],
+             frame_by_src.loc["UN","위협계"], frame_by_src.loc["UN","기회계"]))
+except Exception as e:
+    print("❌ FAIL —", e, '\n힌트: 빈칸은 "ai_governance" 와 "source"')'''))
+    if not KEY:
+        A(md("""<details><summary>💡 힌트</summary>
+
+- 첫 칸은 `"ai_governance"`, 둘째 칸은 `"source"`.
+- `nm["naming_terms"]` 는 `{"benefit": 19, "threat": 9, ...}` 같은 *단어→횟수* 딕셔너리다.
+- 가중치표 `W`(=`EVENT_NAMING["ai_governance"]["en"]`)에서 단어의 가중치를 찾아
+  `>=2`면 위협계, `==0`이면 기회계로 분류한다.
+- **escalation 평균은 세 소스가 거의 같다(0.7~0.8)** — 평균에 속지 말고 *분포*를 보라.
+</details>"""))
+    if KEY:
+        A(md("""> 🧑‍🏫 **강사 메모 (정답·실제 값, n=21):**
+>
+> | 소스 | 위협계(≥2) | 중간(1) | 기회계(0) | escalation평균 |
+> |---|---|---|---|---|
+> | UN | 13 | 46 | 20 | 0.72 |
+> | 한국 | 0 | 3 | 3 | 0.70 |
+> | 중국 | 12 | 28 | 28 | 0.80 |
+>
+> **읽는 법(핵심):** escalation 평균(0.70~0.80)만 보면 세 소스가 똑같아 보인다 — *함정*이다.
+> **분포**를 보면 신호가 선명하다: **중국은 기회계(benefit 19·opportunity 6)가 위협계와 같거나 더 많아
+> AI를 '기회'로 프레임**(문서 단위 dominant 명명도 기회 5 / 위협 1). **UN은 risk/challenge/threat/benefit에
+> 고루 분포**(위협·관리와 기회를 동시에) — 전형적 *위협 관리* 프레임. 한국은 표본이 작아(4건) 위협계 0,
+> 약하게 기회·중간 혼합.
+> **흔한 실수:** ① escalation 평균이 비슷하니 "차이 없다"고 결론(분포를 봐야 함). ② 프랑스 행을 기대(FR=0).
+> ③ n=21·KR 4건을 잊고 "한국은 AI를 위협으로 안 본다"고 단정(표본 부족, *경향*까지만)."""))
+
+    # ── Step 4b 차원 적용 가능성의 비대칭 (blame/targeted = 0) ───────
+    A(md("""## Step 4b — 차원 적용 가능성의 *비대칭*: 왜 어떤 자(尺)는 AI에 안 들어맞나? 🧩
+
+> **이것도 발견이다 — 버그가 아니라.** v2 툴킷엔 전쟁 분석용 차원이 둘 더 있다:
+> `blame_attribution`(누구를 가해자로 지목했나)·`targeted_sentiment`(행위자별 태도 비대칭).
+> 우크라이나·가자(S1·S4)에선 이 둘이 핵심이었다. **AI 거버넌스에 그대로 돌리면 어떻게 될까?**
+> 직접 돌려서 결과를 *눈으로* 확인하라. (결과 자체가 Q2 당사자성 가설의 강한 증거가 된다.)"""))
+
+    b, f = todo(
+        r'''# TODO: blame_attribution / targeted_sentiment 를 AI 전 문서에 돌려
+#       'AI를 가해자로 지목한 문서 수'와 '대상별 태도가 측정된 문서 수'를 세어라.
+#   힌트: from diplo_analysis import blame_attribution, targeted_sentiment
+#         blame 은 blame_named(>0이면 지목), targeted 는 targeted_sentiment(빈 dict가 아니면 측정됨).
+from diplo_analysis import blame_attribution, targeted_sentiment
+
+n_blame = 0      # 가해자를 명시한 문서 수
+n_target = 0     # 대상별 태도가 하나라도 잡힌 문서 수
+for d in ai_docs:
+    bl = blame_attribution(d["text"], nlp, "______________", d.get("lang","en"))  # ← 빈칸: topic
+    ts = targeted_sentiment(d["text"], "ai_governance", d.get("lang","en"))
+    if bl["blame_named"] > 0:
+        n_blame += 1
+    if ts["targeted_sentiment"]:        # 빈 dict 가 아니면
+        n_target += 1
+print(f"AI 코퍼스 {len(ai_docs)}건 중 → 가해자 지목 {n_blame}건 · 대상별 태도 측정 {n_target}건")''',
+        r'''# 정답: 전쟁용 차원을 AI에 적용 → 0건임을 직접 확인
+from diplo_analysis import blame_attribution, targeted_sentiment
+
+n_blame = 0
+n_target = 0
+for d in ai_docs:
+    bl = blame_attribution(d["text"], nlp, "ai_governance", d.get("lang","en"))
+    ts = targeted_sentiment(d["text"], "ai_governance", d.get("lang","en"))
+    if bl["blame_named"] > 0:
+        n_blame += 1
+    if ts["targeted_sentiment"]:
+        n_target += 1
+print(f"AI 코퍼스 {len(ai_docs)}건 중 → 가해자 지목 {n_blame}건 · 대상별 태도 측정 {n_target}건")''')
+    A(code(f if KEY else b))
+
+    A(code(r'''# CHECK Step4b — 전쟁용 차원이 AI에선 '0건'으로 비는가 (이게 정답이다)
+try:
+    assert n_blame == 0, f"가해자 지목이 0이어야 하는데 {n_blame}건"
+    assert n_target == 0, f"대상별 태도가 0이어야 하는데 {n_target}건"
+    print("✅ PASS — blame/targeted 모두 0건. AI엔 가해자도 대립 당사자도 없다(버그 아님, 발견임).")
+    print("   왜 전쟁에선 되고 AI에선 안 되는지는 서술형 (d)에서 설명한다.")
+except Exception as e:
+    print("❌ FAIL —", e, '\n힌트: 빈칸은 "ai_governance". AGGRESSIVE_VERBS/ACTORS 에 ai_governance 가 없다.')'''))
+    if not KEY:
+        A(md("""<details><summary>💡 힌트</summary>
+
+- 빈칸은 `"ai_governance"`.
+- 결과는 **둘 다 0건**이 정상이다. 에러가 아니다 — 함수가 *빈 결과*를 정상적으로 돌려준다.
+- 왜? `diplo_analysis` 의 `AGGRESSIVE_VERBS`·`ACTORS` 사전에 **ai_governance 키가 없다**.
+  가해자(perpetrator)도, 서로 대립하는 당사자(opposing parties)도 정의돼 있지 않기 때문이다.
+- 이 *0* 이 무엇을 뜻하는지는 곧 서술형 (d)에서 직접 쓴다.
+</details>"""))
+    if KEY:
+        A(md("""> 🧑‍🏫 **강사 메모 (정답):** **blame=0 · targeted=0 (21건 전부).** 이건 코드 고장이 아니라
+> **구조적 발견**이다. `AGGRESSIVE_VERBS`/`PERPETRATORS`/`ACTORS` 딕셔너리에 `ai_governance` 키가
+> 아예 없어서, 두 함수는 매칭할 대상이 없어 **빈 결과**(`blame_named=0`, `targeted_sentiment={}`)를 돌려준다.
+> *왜 사전에 없나?* — 우크라이나엔 러시아(가해자), 가자엔 이스라엘/하마스(대립 당사자)가 있지만,
+> **AI 거버넌스엔 지목할 가해국도, 서로 맞서는 당사자도 없다.** 즉 "이 차원이 AI엔 안 들어맞는다"는 사실
+> 자체가 **당사자성(stake) 가설의 강한 증거** — 저당사자성 거버넌스 주제는 *귀속·대립* 축이 존재하지 않는다.
+> 학생이 0을 "에러"로 오해하지 않고 *발견*으로 읽으면 만점(서술형 (d)에서 평가)."""))
+
+    # ── 부정처리 한 줄 노트 (v2 기본) ───────────────────────────────
+    A(md("""> 🧪 **(참고) 부정처리는 이제 기본이다.** Step 3·4 에서 쓴 `mutuality_index`·`hedging_density` 는
+> v2부터 **부정 범위(negation scope)를 자동으로 거른다**(`handle_negation=True` 기본값). 예컨대
+> *"there is **no** mutual interest"* 의 'mutual'은 상호성으로 **세지 않는다**. 네가 따로 코딩할 건 없고,
+> "협력 어휘 카운트에 *부정문 오탐*이 이미 빠져 있다"는 점만 알고 결과를 읽으면 된다."""))
 
     # ── Step 5 시각화 ───────────────────────────────────────────────
     A(md("""## Step 5 — 시각화 (Plotly) 한 장 📊
@@ -469,6 +643,29 @@ Step 3 소스 비교표와 Step 4 당사자성 비교표를 근거로 답하라.
 > 1.
 > 2."""))
 
+    # (d) — 차원 적용 가능성의 비대칭 (Q2 심화, Step 4b 기반)
+    A(md("""### (d) 왜 *귀속(blame)·대상별 태도(targeted)* 는 전쟁에선 작동하고 AI에선 0건인가? 🧩
+
+Step 4b에서 `blame_attribution`·`targeted_sentiment` 가 AI 코퍼스에서 **둘 다 0건**임을 봤다.
+우크라이나·가자(S1·S4)에서는 같은 함수가 핵심이었다. **무엇이 다른가?**
+(힌트: 이 0은 코드 고장인가, 아니면 주제의 *구조*가 다른 것인가? 당사자성과 연결하라.)"""))
+    if KEY:
+        A(md("""**📝 모범답 (d):**
+
+> 이 0은 **코드 고장이 아니라 주제 구조의 차이**다. `blame_attribution`·`targeted_sentiment` 는
+> 작동하려면 *지목할 가해자(perpetrator)* 와 *서로 대립하는 당사자(opposing actors)* 가 사전에 정의돼
+> 있어야 한다 — 우크라이나엔 러시아(가해자), 가자엔 이스라엘·하마스(대립 당사자)가 있어 함수가 SVO에서
+> "누가-무엇을-했다"와 행위자별 부정/긍정 어휘를 잡아낸다. 그런데 **AI 거버넌스엔 지목할 가해국도,
+> 맞서는 두 진영도 없다** — 모두가 "AI라는 공동 과제"를 향해 말하는 *저당사자성* 주제이기 때문이다.
+> 그래서 툴킷의 `AGGRESSIVE_VERBS`/`ACTORS` 사전에 ai_governance 키가 아예 없고, 함수는 빈 결과를 돌려준다.
+> **즉 "이 자(尺)가 AI엔 안 들어맞는다"는 사실 자체가 Q2 당사자성 가설의 강한 증거다:** 당사자성이 낮은
+> 거버넌스 주제는 *귀속·대립*이라는 축 자체가 존재하지 않고, 대신 *위협/기회 프레임*(Step 4a)과 *상호성*
+> (Step 3·4)이라는 다른 축으로 차이가 드러난다. 분석가는 "측정값 0"과 "측정 차원 부적용 0"을 구분해야 한다."""))
+    else:
+        A(md("""> _여기에 답을 적으세요 (3~6문장). 0이 '에러'인지 '발견'인지부터 판단하라._
+>
+>"""))
+
     # ── (선택) Claude 확장 — DEMO_MODE 가드 ─────────────────────────
     A(md("""## (선택·가산점) Claude 의미 분석 확장 🤖
 
@@ -497,8 +694,8 @@ else:
     A(md("""## ✅ 제출 전 체크 + 회고
 
 **제출 전 확인**
-- [ ] 모든 `# CHECK` 셀에 `✅ PASS` 가 떴다.
-- [ ] Step 6 서술형 (a)(b)(c) 를 *내 문장* 으로 채웠다.
+- [ ] 모든 `# CHECK` 셀에 `✅ PASS` 가 떴다 (Step 1·2·3·4·**4a·4b**·5 — 총 7개).
+- [ ] Step 6 서술형 (a)(b)(c)**(d)** 를 *내 문장* 으로 채웠다.
 - [ ] 차트가 한 장 이상 그려진다.
 - [ ] 위에서 아래로 한 번에 다시 실행해도 에러가 없다(Runtime → Restart and run all).
 
@@ -519,7 +716,12 @@ else:
 - **침묵 지도:** FR=0 (8개 사건 전부). ai01은 전 소스 0. → 학생은 `absent == ["FR"]` 발견.
 - **소스 비교(n=21):** UN/KR/CN 만. 상호성 한국 10.63 · 중국 10.43 ≫ UN 5.37.
   동사강도 max 중국 4.89 · UN 3.50 · 한국 1.00. (밀도로 보면 모두 낮음, 한국 0.42.)
-- **당사자성 대비:** 상호성 AI 8.54 ≫ 우크라 4.87 / 가자 4.66. 동사밀도 AI 2.41 ≪ 4.77 / 4.00.
+- **당사자성 대비:** 상호성 AI 8.52 ≫ 우크라 4.87 / 가자 4.66. 동사밀도 AI 2.41 ≪ 4.77 / 4.00.
+- **명명 프레임(Step 4a):** 위협계/기회계 단어 — UN 13/20, 한국 0/3, 중국 12/28. escalation 평균은
+  0.70~0.80 으로 *거의 같다(평균은 함정)*. 분포로 보면 **중국=기회 편향, UN=위협·관리 혼합**.
+- **차원 비대칭(Step 4b):** `blame_attribution`·`targeted_sentiment` 모두 **0건(21건 전부)**.
+  사전에 ai_governance 키가 없음 → 버그 아님, *당사자성 가설의 증거*. 학생은 0을 '발견'으로 읽어야 함.
+- **부정처리:** 상호성/완곡어는 v2부터 부정 오탐 자동 제거(`handle_negation=True` 기본). 학생 코딩 불필요.
 
 **자주 나오는 학생 실수**
 1. `verb_strength_max` 원시값만 보고 "중국 강경" 결론 → S4의 길이 편향 교훈을 잊음. 밀도로 봐야 함.

@@ -225,6 +225,75 @@ hed[d["source"]].append(hedging_density(d["text"])["hedging_density"])
 UN은 신중한 다자 언어를 쓴다. 상호성(중국 1위)과 완곡어(UN/중국 상위)는 *다른* 거리두기 전략임에 주목.
 </details>"""),
 
+# ════════════════ ADD #1: 부정·범위 처리 (negation scope) ════════════════
+md("""## Step 4.5 — 부정·범위 처리(negation scope): 사전의 *오탐* 잡기 ⚠️
+
+### 문제: 사전은 부정을 못 본다
+앞의 `mutuality_index` 는 본문에 `mutual`, `cooperation` 이 **나왔는지**만 센다.
+그런데 외교문에는 이런 문장이 흔하다:
+
+> *"There is **no** mutual interest and **no** cooperation here."*
+> ("여기엔 상호 이익도, 협력도 **없다**.")
+
+이 문장은 상호성을 **부정**하는데, 단순 카운트는 `mutual`+`cooperation` = **+2** 로 잡는다.
+**거짓 양성(false positive)** — 측정값이 실제 의미와 반대로 부풀려진다."""),
+code(r'''# 오탐을 눈으로 확인: 같은 문장, 부정처리 ON vs OFF
+from diplo_analysis import mutuality_index   # toolkit 의 '검증된' 버전(부정처리 내장)
+
+neg_text = "There is no mutual interest and no cooperation here."
+
+on  = mutuality_index(neg_text)                          # handle_negation=True (기본)
+off = mutuality_index(neg_text, handle_negation=False)   # 옛날 방식(부정 무시)
+
+print("부정처리 ON  →", on["n_mutuality"], "건", on["mutuality_hits"])
+print("부정처리 OFF →", off["n_mutuality"], "건", off["mutuality_hits"])
+print()
+print("→ OFF는 2건으로 오탐, ON은 0건으로 올바르게 무시한다.")'''),
+md("""### 어떻게 고치나 — '부정어 창(window)' 검사
+매칭된 표현 **바로 앞 좁은 구간**(약 32자)에 부정어(`not`/`no`/`never`/`without`...)가
+있으면 그 카운트를 **버린다**. 핵심 아이디어만 떼어 보면:
+
+```python
+NEGATORS = [" not ", " no ", "n't", " never ", " without ", ...]
+pre = low[max(0, i-32):i]              # 매칭 위치 i 앞 32자
+if not any(g in pre for g in NEGATORS):
+    n += 1                              # 부정어가 없을 때만 1 센다
+```
+
+> **왜 중요한가 — 이 프로젝트의 '검증(validity)' 테마.**
+> 측정값이 *말하는 것을 정말 재는가* = **측정 타당성**. 부정처리는 사전 기반 지표가
+> 반대 의미 문장에 속지 않게 해, "중국 상호성 1위" 같은 발견의 **신뢰도**를 떠받친다.
+> (규칙 기반은 결정론적이라 좋지만, *이런 함정*은 사람이 직접 메워야 한다.)"""),
+md("""### TODO — 긍정문은 그대로, 부정문은 0
+아래 빈칸을 채워 **부정처리가 긍정문은 건드리지 않는다**는 것까지 확인하라."""),
+code(r'''# TODO: 빈칸 1개 — 부정문에 handle_negation 옵션을 꺼서 '옛날 방식' 결과를 만들어라
+pos_text = "We seek mutual cooperation and dialogue."
+neg_text = "There is no mutual interest and no cooperation here."
+
+pos_n     = mutuality_index(pos_text)["n_mutuality"]                 # 긍정문(처리 ON)
+neg_on    = mutuality_index(neg_text)["n_mutuality"]                # 부정문(처리 ON)
+neg_off   = mutuality_index(neg_text, handle_negation=____)["n_mutuality"]  # ← 빈칸: 부정처리를 끄려면?
+
+print(f"긍정문(ON)  n={pos_n}   ← 정상적으로 잡혀야 함")
+print(f"부정문(ON)  n={neg_on}   ← 0이어야 함(오탐 제거)")
+print(f"부정문(OFF) n={neg_off}   ← 2, 처리 안 하면 오탐")'''),
+code(r'''# CHECK Step4.5
+try:
+    assert pos_n >= 2, "긍정문이 과하게 깎였다(처리가 너무 공격적)"
+    assert neg_on == 0, "부정문 오탐이 안 걸러졌다"
+    assert neg_off == 2, "부정처리 OFF가 옛날 방식(2)을 재현 못 함"
+    print("✅ PASS — 긍정문은 보존, 부정문 오탐은 제거. 측정 타당성 ↑")
+except Exception as e:
+    print("❌ FAIL —", e, "\n힌트: 부정처리를 끄려면 handle_negation=False")'''),
+md("""<details><summary>💡 힌트 / 정답</summary>
+
+```python
+neg_off = mutuality_index(neg_text, handle_negation=False)["n_mutuality"]  # 빈칸 = False
+```
+`handle_negation=True`(기본)는 매칭 앞 32자에 부정어가 있으면 그 카운트를 버린다 → 부정문 0.
+`False` 로 끄면 옛날 단순 카운트(2)로 돌아간다. **긍정문은 둘 다 그대로** — 처리가 멀쩡한 데이터를 망치지 않음을 확인하는 게 이 CHECK의 핵심.
+</details>"""),
+
 md("""## Step 5 — Claude 의미 분석: *왜* 그 단어를 썼나
 
 여기서부터 **Claude의 눈**이다. 사전은 "all parties 가 3번 나왔다"까지만 안다.
@@ -405,6 +474,99 @@ tone = sem_results[s]["mutuality_tone"]
 중국이 양쪽 모두에서 최고로 나오면, "중국 외교언어=양면성" 발견은 한 방법의 우연이 아니다.
 어긋나는 칸이 있으면 그게 바로 **사람이 읽어야 할 문서** — hybrid의 가치는 거기서 나온다.
 </details>"""),
+
+# ═══════════ ADD #2: Targeted Sentiment (대상별 태도) — 새 의미 차원 ═══════════
+md("""## Step 7 — Targeted Sentiment (대상별 태도): *누구를* 비판하나 🎯 새 차원
+
+### 동기 — 상호성과 무엇이 다른가
+- **Mutuality(상호성)** 는 *양면적 단어*를 센다 — "both sides", "mutual" 이 몇 번 나오나.
+  → 텍스트의 **표면**(어휘)을 본다.
+- **Targeted Sentiment(대상별 태도)** 는 한 발 더 들어가 묻는다:
+  > **"한 성명 안에서 러시아 vs 우크라이나(또는 이스라엘 vs 팔레스타인)에 대한 감정이 다른가?"**
+  행위자별로 문장을 모아 **부정어/긍정어**를 세고, 가장 부정적으로 다룬 **most_criticized 행위자**를 뽑는다.
+
+→ 같은 '균형/편향'을 **독립된 두 번째 차원**에서 재는 것. Step 3의 발견을 *다른 방법*으로 재확인할 기회다."""),
+code(r'''from diplo_analysis import targeted_sentiment
+
+# 한 문장으로 감 잡기: 러시아엔 부정, 우크라이나엔 긍정
+demo = ("Russia attacked civilians and we condemn this brutal aggression. "
+        "We firmly support Ukraine's sovereignty and territorial integrity.")
+print(targeted_sentiment(demo, "ukraine"))
+# → Russia ≈ -1.0, Ukraine ≈ +1.0, most_criticized = "Russia"'''),
+md("""### 두 주제(우크라이나+가자)로 넓혀 비교한다
+대상별 태도의 진가는 **두 분쟁을 한 소스가 어떻게 다르게 비판하나**에서 나온다.
+그래서 여기선 우크라이나뿐 아니라 **가자(gaza)** 성명도 백업 코퍼스에서 같이 불러온다."""),
+code(r'''import json, os
+from collections import defaultdict
+
+corpus = json.load(open(os.path.join(PROJECT, "data", "backup", "corpus_clean.json"),
+                       encoding="utf-8"))
+two = [d for d in corpus if d["topic"] in ("ukraine", "gaza")]
+print("우크라이나+가자 문서:", len(two), "건")
+
+# 소스별로 'most_criticized 행위자' 분포를 센다
+crit = defaultdict(lambda: defaultdict(int))
+for d in two:
+    r = targeted_sentiment(d["text"], d["topic"], d.get("lang", "en"))
+    mc = r["most_criticized"]
+    if mc:
+        crit[d["source"]][mc] += 1
+
+for s in ["UN", "FR", "CN", "KR"]:
+    print(f"  {s}: {dict(crit[s])}")'''),
+md("""### TODO — '양측 균등 비판' 점수 만들기
+각 소스가 **가해자 쪽(Russia·Israel)** 과 **피해자/상대 쪽(Ukraine·Palestinians)** 중
+어느 쪽을 더 비판했는지 본다. 균형 잡힌 소스일수록 양쪽 수가 비슷하다.
+빈칸을 채워라."""),
+code(r'''# TODO: 빈칸 1개 — '상대 쪽'(피침략/피공격 측) 비판 건수를 더하라
+AGGRESSOR = {"Russia", "Israel"}        # 통상적 가해자 측
+OTHER     = {"Ukraine", "Palestinians"} # 상대 측
+
+print(f"{'source':8}{'가해자측 비판':>12}{'상대측 비판':>12}{'균형도':>10}")
+for s in ["UN", "FR", "CN", "KR"]:
+    agg = sum(crit[s][a] for a in AGGRESSOR)
+    oth = sum(crit[s][a] for a in ____)        # ← 빈칸: 어느 집합을 합산?
+    bal = round(min(agg, oth) / max(agg, oth, 1), 2)   # 1에 가까울수록 양측 균등
+    print(f"{s:8}{agg:>12}{oth:>12}{bal:>10}")'''),
+code(r'''# CHECK Step7
+try:
+    cn_agg = sum(crit["CN"][a] for a in {"Russia","Israel"})
+    cn_oth = sum(crit["CN"][a] for a in {"Ukraine","Palestinians"})
+    un_oth = sum(crit["UN"][a] for a in {"Ukraine","Palestinians"})
+    un_agg = sum(crit["UN"][a] for a in {"Russia","Israel"})
+    cn_bal = min(cn_agg, cn_oth) / max(cn_agg, cn_oth, 1)
+    un_bal = min(un_agg, un_oth) / max(un_agg, un_oth, 1)
+    # 중국이 UN보다 양측을 더 균등하게 비판한다
+    assert cn_bal > un_bal, "중국이 UN보다 균형적이지 않게 나왔다(점검)"
+    print(f"✅ PASS — 중국 균형도 {cn_bal:.2f} > UN 균형도 {un_bal:.2f}")
+    print("   → '중국만 양측을 거의 균등 비판'이 대상별 태도 차원에서도 재현됨")
+except Exception as e:
+    print("❌ FAIL —", e, "\n힌트: 빈칸은 OTHER")'''),
+md("""<details><summary>💡 힌트 / 정답</summary>
+
+```python
+oth = sum(crit[s][a] for a in OTHER)   # 빈칸 = OTHER
+```
+
+**읽어라 (핵심 해석).** most_criticized 분포는 대략:
+- **UN** {Russia 18, Israel 10} — 비판이 **가해자 측(러시아·이스라엘)에 집중**.
+- **France** {Russia 18, Israel 12, Palestinians 13} — 역시 가해자 측에 무게(+팔레스타인 일부).
+- **China** {Russia 11, Ukraine 6, Israel 8, Palestinians 9} — **양측을 거의 균등하게 비판**.
+- **Korea** 작고 균형적(표본 적음).
+
+→ UN·프랑스는 비판이 한쪽으로 쏠리는데 **중국만 양측을 고르게 비판**한다.
+이건 Step 3에서 본 **mutuality(중국 최고)** 를, *완전히 다른 방법*(대상별 감정)으로 **독립 재확인**한 것이다.
+한 차원의 우연이 아니라 **여러 차원에서 일관된 '균형 프레이밍'** = 발견의 신뢰도가 또 올라간다.
+</details>"""),
+md("""> 💡 **하이브리드 한 발 더 (선택).** 대상별 태도는 사전 기반이라 빠르고 결정론적이지만
+> 비꼼·조건문은 못 읽는다. Claude에게 **aspect-based sentiment**("행위자별로 톤을 1~5로")를
+> 시켜 교차검증할 수 있다 — 단, 이 노트북은 `DEMO_MODE` 면 호출하지 않고 넘어간다(키·비용 보호).
+>
+> ```python
+> if not DEMO_MODE:
+>     # client.messages.create(... "행위자별 감정을 JSON으로" ...)  # 실제 호출은 키 있을 때만
+>     pass
+> ```"""),
 
 md("""## 🎯 회고 (5분)
 

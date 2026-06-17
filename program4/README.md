@@ -29,19 +29,34 @@
 
 ---
 
-## 2. 6개 분석 차원
+## 2. 9개 분석 차원
 
+**핵심 6차원**
 | # | 차원 | 무엇을 재나 | 방법 |
 |---|---|---|---|
 | 1 | **Directness Index** | 능동/수동 비율 + 우회표현 ("Russia attacked" vs "civilians were attacked") | spaCy |
 | 2 | **Verb Strength Ladder** | note<acknowledge<regret<concern<deplore<condemn<demand | spaCy lemma |
 | 3 | **Subject Pattern** | 주어 분포 (we / 국가 / 국제사회 / 모든 당사자) | spaCy |
-| 4 | **Mutuality Index** | 양면적 표현 밀도 (mutual, both sides, all parties...) | 사전 |
-| 5 | **Hedging Density** | 완곡/유보어 밀도 (may, appears to, possibly...) | 사전 |
+| 4 | **Mutuality Index** | 양면적 표현 밀도 (mutual, both sides, all parties...) — *부정범위 처리* | 사전+negation |
+| 5 | **Hedging Density** | 완곡/유보어 밀도 (may, appears to, possibly...) — *부정범위 처리* | 사전+negation |
 | 6 | **Silence Map** | 어느 소스가 어느 사건에 *침묵*했나 | 커버리지 |
 
+**확장 3차원 (v2)**
+| # | 차원 | 무엇을 재나 | 방법 |
+|---|---|---|---|
+| 7 | **Event Naming / 완곡명명** | 사건을 뭐라 부르나: invasion/war(강) ↔ conflict/situation(완곡), 0~3 | 다국어 사전 |
+| 8 | **Blame Attribution / 귀속** | 가해 행위의 주체를 명시했나: "Russia attacked"(named) vs "were killed"(obscured) | 의존구문 SVO + 경량 coref |
+| 9 | **Targeted Sentiment / 대상별 태도** | 한 성명 안에서 행위자별 감정 비대칭 (러 vs 우, 이 vs 팔) | 다국어 사전 |
+
+**기법 강화 (v2)** — 부정·범위 처리(negation scope) / 의존구문 SVO+coreference / 원어 분석(cross-lingual, en·ko·zh·fr 사전·모델). 구현·검증 내역은 §8 참고.
+
 **Hybrid 방법론** — "계산은 코드(결정론), 의미 해석은 LLM(Claude), 판단은 인간."
-규칙 기반 측정과 Claude 의미 분석을 교차 검증한다.
+규칙 기반 측정과 Claude 의미 분석을 교차 검증한다. 전 차원은 `diplo_analysis.py`에 구현.
+
+### v2 차원으로 본 추가 발견 (우크라이나+가자, 실데이터)
+- **완곡명명**: 중국이 가장 완곡(escalation 1.1 — "conflict/crisis" 선호), UN 가장 직설(1.55).
+- **귀속**: UN 0.34 > 중국 0.26 — *중국은 공격을 언급해도 행위자를 가리는(passive)* 비율이 높다. 한국은 공격을 *서술하지 않고* 추상적으로만 규탄(귀속 0건).
+- **대상별 태도**: UN·프랑스는 비판이 러시아·이스라엘에 집중되는 반면, **중국만 양측을 거의 균등하게 비판** — Mutuality 발견을 독립적 차원에서 재확인.
 
 ---
 
@@ -201,3 +216,15 @@ program4/
 
 - 6차원을 **딥러닝 블랙박스로 대체하지 말 것** — 해석가능성이 이 프로젝트의 정체성. 추가 기법은 항상 *기존 해석가능 지표를 보강*하는 방향으로.
 - 토픽모델링·임베딩은 **탐색/검증 보조**로만, 메인 결론 근거로 단독 사용 금지(표본 작음).
+
+### 8.6 구현 상태 (v2)
+
+**✅ 구현 완료** (`diplo_analysis.py`, 실데이터 검증 완료):
+- 분석 차원: **Event Naming** `event_naming()` · **Blame Attribution** `blame_attribution()` · **Targeted Sentiment** `targeted_sentiment()` → `analyze_document()` 에 통합(9차원).
+- 기법: **부정범위 처리** (`mutuality_index`/`hedging_density` 의 `handle_negation`) · **SVO 추출 + 경량 coref** (`extract_svo`) · **원어 분석** (다국어 사전 en·ko·zh·fr + `get_nlp_multi()`).
+
+**📌 원어 분석 사용 노트**: 현재 코퍼스는 4개 소스 모두 *영문판* 수집분(`lang="en"`)이라 다국어 함수는 영어로 동작 중. ko·zh·fr **원문**을 측정하려면 (1) 스크래퍼를 원어판 수집으로 확장하고, (2) `python -m spacy download fr_core_news_sm zh_core_web_sm ko_core_news_sm` 후 `lang` 인자로 호출하면 된다. 다국어 사전은 실제 외교 표현(各方/대화/invasion 등)으로 동작 검증 완료.
+
+**한계**: Blame Attribution은 성명이 공격 행위를 *서술할 때만* 발화한다(전 코퍼스 48/162). 추상적 규탄("we condemn …")만 있는 문서는 `None` — 이 자체가 한국의 화법 특징을 드러내는 신호다. 복문에서 SVO가 일부 누락될 수 있다(소형 모델 한계).
+
+**⬜ 미구현(향후)**: Deontic Modality, Specificity, Moral Framing, 임베딩 사전확장/소스간 거리, 토픽모델링, Keyness.

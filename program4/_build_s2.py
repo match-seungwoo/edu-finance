@@ -38,11 +38,12 @@ md("""# Session 2 — 외교 성명문, *어떻게* 말했나
 1. 4개 소스(UN·한국·중국·프랑스) 우크라이나 성명문 **85건**을 정제해 `data/ukraine_working.json` 에 저장했다.
 2. **침묵 지도** — 누가 어떤 사건에 말하지 않았는지 — 를 그렸다. "침묵도 데이터다."
 
-오늘의 목표 — **문장의 *구조*를 자동으로 읽는다.** 손으로 만들 세 가지 지표:
+오늘의 목표 — **문장의 *구조*를 자동으로 읽는다.** 손으로 만들 세 가지 지표 + 확장 한 차원:
 
 1. **Directness Index (직설성)** — 능동절 vs 수동절 + 우회표현 페널티. 0~1.
 2. **Verb Strength Ladder (동사 강도)** — note(1) < ... < condemn(6) < demand(7).
 3. **Subject Pattern (주어 패턴)** — 누가 문장의 주어로 등장하나 (우리/국가/국제사회/...).
+4. **(확장) Blame Attribution (귀속)** — 의존구문 SVO로 "가해자를 명시했나, 가렸나"를 잰다 (9개 차원 중 8번).
 
 > 💡 **운영 방식:** 셀을 위에서 아래로 하나씩 실행한다.
 > `# TODO` 가 보이면 직접 채우고, 바로 아래 `# CHECK` 셀을 실행해 `✅` 가 떠야 다음으로."""),
@@ -384,6 +385,107 @@ for s, v in fp.items():
     print(f"  {s}  {v:.3f}  {bar}")
 print("\n→ 한국은 거의 0: '우리'가 아니라 '대한민국/외교부'라는 기관 주어로 말한다.")'''),
 
+md("""## Step 8 — 의존구문 SVO 추출 → Blame Attribution (귀속) 🎯 새 차원
+
+### 지금까지 vs 오늘 한 걸음 더
+Step 2~3에서 우리는 `nsubj`(능동 주어) / `nsubjpass`(수동 주어) / `auxpass`(수동 조동사)를 **세기**만 했다.
+이제 한 걸음 더 들어가, 한 동사를 중심으로 **"누가-무엇을"(주어-동사-목적어, SVO)** 삼항을 통째로 뽑는다.
+여기에 의존관계 라벨이 하나 더 등장한다:
+
+| `dep_` 라벨 | 뜻 | 예 |
+|---|---|---|
+| `nsubj` | 능동 주어 (행위자) | **Russia** attacked civilians |
+| `nsubjpass` | 수동 주어 (당한 쪽) | **Civilians** were killed |
+| `agent` | 수동문의 "by ..." 행위자 | civilians were killed **by Russia** |
+
+> **핵심 질문(Blame Attribution = 귀속):**
+> 가해 행위(attack/strike/kill…)를 서술할 때, 외교 성명은 **가해자를 *명시*** 하는가, 아니면 **행위자를 *가리는*** 가?
+> - `Russia attacked civilians` → 주어가 `Russia`(가해자) = **명시(named)**.
+> - `Civilians were killed` → 수동, `by ...` 없음 = **행위자 가림(obscured)**.
+>
+> 이건 Step 1의 직설성(수동태 세기)을 **"가해 동사에 한정해, 가해자가 누구로 채워졌나"** 까지 끌어올린 차원이다."""),
+
+md("""### 툴킷에서 두 함수 가져오기
+지금까지는 함수를 노트북에서 직접 짰다. 이번 차원은 SVO 추출 + 경량 coreference(대명사→개체 치환)가
+얽혀 있어 길다. 그래서 **이미 검증된 툴킷**(`diplo_analysis.py`)에서 두 함수를 가져와 쓴다.
+- `extract_svo(text, nlp)` — 문장에서 `{verb, subject, passive, object}` 삼항 리스트를 뽑는다.
+- `blame_attribution(text, nlp, topic=...)` — 가해 동사만 골라 named/obscured 를 세고 `blame_directness` 를 낸다."""),
+code(r'''from diplo_analysis import extract_svo, blame_attribution
+
+# 같은 사건, 두 가지 말하기 — 가해자 명시 vs 가림
+for sent in ["Russia attacked Ukrainian civilians.",
+             "Civilians were killed in the strike."]:
+    print(sent)
+    for tr in extract_svo(sent, nlp):
+        print(f"   verb={tr['verb']:8} subject={tr['subject']!s:18} "
+              f"passive={tr['passive']!s:6} object={tr['object']}")
+    print()'''),
+md("""> **눈으로 확인.**
+> - `Russia attacked …` → `subject="Russia"`, `passive=False` → 가해자가 **주어로 살아있다.**
+> - `Civilians were killed` → `subject=None`, `passive=True` → 가해자가 **사라졌다**(목적어 자리에 피해자만).
+>
+> `blame_attribution` 은 이 둘을 각각 **named / obscured** 로 센다.
+> `blame_directness = named / (named + obscured)` → **1에 가까울수록 가해자를 직접 지목**한다."""),
+code(r'''# 한 문장으로 blame_attribution 감 잡기
+named_ex   = "Russia bombed the power plant and shelled the city."
+obscured_ex = "The power plant was bombed and the city was shelled."
+print("가해자 명시:", blame_attribution(named_ex, nlp, topic="ukraine"))
+print("행위자 가림:", blame_attribution(obscured_ex, nlp, topic="ukraine"))'''),
+
+md("""### 우크라이나+가자 전체에 적용 → 소스별 blame_directness 비교
+귀속은 **가해 행위를 서술하는 문장에서만** 발동한다(attack/strike/kill…).
+우크라이나만으로는 발동 문서가 적어, 같은 가해-구조를 공유하는 **가자(gaza)** 성명까지 백업 코퍼스에서 함께 불러와
+표본을 키운다. 발동한 문서들만 모아 **소스별 평균 `blame_directness`** 를 낸다."""),
+code(r'''import json as _json
+corpus = _json.load(open(os.path.join(PROJECT, "data", "backup", "corpus_clean.json"),
+                        encoding="utf-8"))
+two = [d for d in corpus if d["topic"] in ("ukraine", "gaza")]
+print("우크라이나+가자 문서:", len(two), "건")
+
+from collections import defaultdict
+blame_dir = defaultdict(list)   # 소스 -> 발동한 문서들의 blame_directness 리스트
+fired = 0
+for d in two:
+    bl = blame_attribution(d["text"], nlp, d["topic"], d.get("lang", "en"))
+    if bl["blame_directness"] is not None:     # 가해 서술이 있는 문서만
+        blame_dir[d["source"]].append(bl["blame_directness"])
+        fired += 1
+print(f"귀속이 발동한 문서: {fired}/{len(two)} (가해를 서술한 성명만 발동)")'''),
+md("""소스별 평균을 낸다. **발동 문서가 0건인 소스는 평균이 정의되지 않는다(귀속 0건)** — 이것 자체가 신호다.
+아래 TODO에서 평균을 내는 한 줄을 채운다."""),
+code(r'''# TODO: 각 소스의 blame_directness 리스트 v 의 평균을 내라 (힌트: sum(v)/len(v))
+print(f"{'source':8}{'평균 blame_directness':>22}{'발동 문서수':>12}")
+for s in ["UN", "CN", "FR", "KR"]:
+    v = blame_dir[s]
+    avg = round(_______ / len(v), 2) if v else None   # ← 빈칸: 합을 무엇으로?
+    print(f"{s:8}{str(avg):>22}{len(v):>12}")'''),
+code(r'''# CHECK Step8 — 실제 데이터 패턴(UN > CN > FR, KR=없음) 재현
+try:
+    mean = {s: (round(sum(v)/len(v), 2) if v else None) for s, v in blame_dir.items()}
+    assert mean.get("UN") and mean.get("CN") and mean.get("FR"), "UN/CN/FR 발동 문서가 있어야"
+    assert mean["UN"] > mean["CN"] > mean["FR"], "UN > CN > FR 순서가 안 맞는다"
+    assert not blame_dir["KR"], "한국은 귀속 0건이어야 (공격을 서술하지 않음)"
+    print("✅ PASS — blame_directness: UN", mean["UN"], "> CN", mean["CN"],
+          "> FR", mean["FR"], "| KR=없음(귀속 0건)")
+except Exception as e:
+    print("❌ FAIL —", e, "\n힌트: avg = sum(v)/len(v)")'''),
+md("""<details><summary>💡 힌트 / 정답</summary>
+
+```python
+avg = round(sum(v) / len(v), 2) if v else None   # 빈칸 = sum(v)
+```
+
+**읽어라 (핵심 해석).** 실제 결과는 대략:
+- **UN 0.34 > 중국 0.26 > 프랑스 0.20**, **한국은 귀속 0건**(평균 정의 안 됨).
+- 한국은 공격을 *구체적으로 서술하지 않고* "깊이 우려·규탄한다" 식으로 **추상적으로만** 말한다 → 가해 동사가 안 나와 발동 자체가 0건.
+- 중국은 공격을 언급하더라도 **행위자를 가리는 수동태 비율이 UN보다 높다** → 명시(named)가 적어 directness가 낮다.
+
+⚠️ **함정 경고 (정직하게):**
+> 1. 귀속은 **가해를 서술한 문장에서만** 발동한다 → 희소하다(전체 162건 중 ~48건만 발동).
+> 2. 소형 spaCy 모델은 **복문(여러 절이 접속된 긴 문장)** 에서 일부 SVO를 놓친다 → 카운트가 과소될 수 있다.
+> 3. 그래서 우크라이나만으론 표본이 작아 **가자까지 합쳐** 봤다. 절대 수치보다 **소스 간 *상대* 순서**를 신뢰한다.
+</details>"""),
+
 md("""## 🎯 회고 (5분)
 
 1. **수동태**가 외교에서 책임을 흐리는 장치라면, `directness_index` 가 낮은 문서를 한 건 열어
@@ -394,9 +496,9 @@ md("""## 🎯 회고 (5분)
    이건 숫자가 답하지 못한다 — **해석은 인간의 몫**(S3에서 의미 분석으로 보강).
 
 ## ▶️ 다음 (Session 3)
-> "오늘은 **구조(능동/수동·동사·주어)** 를 규칙으로 셌다. 그런데 규칙으로 못 잡는 게 있다 —
-> *framing*(누구를 가해자로 규정하나), 미묘한 *완곡어법*, 양면적 *상호성*.
-> 다음 주는 **Claude(LLM)로 의미를 교차검증**한다.
+> "오늘은 **구조(능동/수동·동사·주어)** 를 규칙으로 셌고, SVO로 **귀속(누가 가해자로 *지목*됐나)** 까지 갔다.
+> 그런데 규칙으로 못 잡는 게 남았다 — *framing*(가해/피해/중립을 어떻게 *규정*하나), 미묘한 *완곡어법*, 양면적 *상호성*.
+> 다음 주는 **상호성·완곡어(부정처리 포함)** 를 만들고 **Claude(LLM)로 의미를 교차검증**한다.
 > 설계 원칙: **계산은 코드(결정론), 의미 해석은 LLM, 판단은 인간.**"""),
 ]
 
