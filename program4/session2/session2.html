@@ -216,8 +216,26 @@
   <div class="slide-no">02</div>
 </div>
 
-<!-- 3 spaCy 소개 -->
+<!-- 3 오늘 위치 -->
 <div class="slide-container" id="s3">
+  <h2 class="slide-title">오늘 어디에 서 있나 — 프로젝트 지도</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">지난주는 <strong>누가</strong> 말했나(침묵 지도)였다. 오늘은 <strong>어떻게</strong> 말했나 — 문장 구조를 규칙으로 센다.</p>
+    <div class="step-grid">
+      <div class="step-card"><h4>S1 · 우크라이나</h4><p>수집·정제 → <code>ukraine_working.json</code> (157건: CN 51 · FR 46 · UN 42 · KR 18)</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>S2 · 오늘</h4><p>구조 분석(spaCy) — 직설성 · 동사강도 · 주어 + 귀속(Blame, 9차원 중 8번)</p></div>
+      <div class="step-card"><h4>S3 · 의미</h4><p>Claude(LLM) — 상호성 · 완곡어 + 대상별 태도(9번)</p></div>
+      <div class="step-card"><h4>S4 · 검증</h4><p>9차원 종합 · 완곡명명 · <strong style="color:#adff2f;">길이 편향 통제</strong></p></div>
+    </div>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:19px;color:#fff;"><b>한국 18건이 제일 적다.</b> 표본이 작으면 평균이 흔들린다 — 오늘 "숫자에 취하지 않기"의 첫 단서.</p>
+    </div>
+  </div>
+  <div class="slide-no">03</div>
+</div>
+
+<!-- 4 spaCy 소개 -->
+<div class="slide-container" id="s4">
   <h2 class="slide-title">Step 2 — spaCy: 문장이 쪼개진다 ⭐</h2>
   <div class="content-area">
     <p style="font-size:21px;">spaCy는 문장을 토큰으로 쪼개고, 각 단어에 <strong>역할 라벨</strong>을 붙인다. 오늘 필요한 건 딱 4개.</p>
@@ -229,41 +247,80 @@
       <p style="margin:0;font-size:21px;color:#fff;">"Civilians <b>were attacked</b>" 를 파싱하면 — <b>누가 공격했는지가 문장에 없다.</b> 이게 외교가 쓰는 기술이고, 오늘 셀 대상이다.</p>
     </div>
   </div>
-  <div class="slide-no">03</div>
-</div>
-
-<!-- 4 Directness Index -->
-<div class="slide-container" id="s4">
-  <h2 class="slide-title">Step 3 — Directness Index (직설성)</h2>
-  <div class="content-area two-column">
-    <div>
-      <p class="kicker">아이디어 한 줄</p>
-      <p style="font-size:21px;">능동절 ÷ (능동절 + 수동절) − 우회표현 페널티. 결과는 <strong>0~1</strong>.</p>
-      <ul class="bullet-list" style="font-size:18px;margin-top:10px;">
-        <li><i class="fa-solid fa-arrow-down-up-across-line"></i> 수동절 감지 = <code style="color:#adff2f;">nsubjpass</code> / <code style="color:#adff2f;">auxpass</code></li>
-        <li><i class="fa-solid fa-comments"></i> 우회표현 <code style="color:#adff2f;">"it is regrettable"</code> → 페널티 (상한 0.3)</li>
-        <li><i class="fa-solid fa-scale-balanced"></i> 능동 1.0 vs 수동 0.0 이면 통과</li>
-      </ul>
-      <p style="font-size:17px;color:#adff2f;margin-top:6px;">페널티 상한 0.3 — 휴리스틱은 겸손해야 한다.</p>
-    </div>
-    <div class="code-block"><span class="kw">def</span> <span class="fn">directness_index</span>(doc):
-    active = passive = <span class="num">0</span>
-    <span class="kw">for</span> tok <span class="kw">in</span> doc:
-        <span class="kw">if</span> tok.dep_ == <span class="str">"nsubj"</span>:
-            active += <span class="num">1</span>
-        <span class="cm"># TODO: 학생이 채움</span>
-        <span class="kw">if</span> tok.dep_ <span class="kw">in</span> (<span class="str">"nsubjpass"</span>,<span class="str">"auxpass"</span>):
-            passive += <span class="num">1</span>
-    <span class="kw">return</span> active / (active + passive)</div>
-  </div>
   <div class="slide-no">04</div>
 </div>
 
-<!-- 5 Verb Strength Ladder -->
+<!-- 5 의존구문 walkthrough -->
 <div class="slide-container" id="s5">
+  <h2 class="slide-title">의존구문 한 번 읽기 — 같은 사건, 두 구조</h2>
+  <div class="content-area table-layout">
+    <p style="font-size:20px;">두 문장을 파싱해 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">dep_</code> 라벨만 본다. 라벨이 책임의 위치를 말해준다.</p>
+    <table>
+      <tr><th>토큰</th><th>lemma</th><th>dep_</th><th>읽는 법</th></tr>
+      <tr><td style="color:#00f2ff;">Russia</td><td>russia</td><td><b style="color:#adff2f;">nsubj</b></td><td>능동 주어 — 행위자가 살아있다</td></tr>
+      <tr><td>attacked</td><td>attack</td><td>ROOT</td><td>본동사 (시제는 lemma로 벗긴다)</td></tr>
+      <tr><td colspan="4" style="color:#888;border-bottom:2px solid #333;">— "Civilians were attacked" —</td></tr>
+      <tr><td style="color:#00f2ff;">Civilians</td><td>civilian</td><td><b style="color:#adff2f;">nsubjpass</b></td><td>수동 주어 — 당한 쪽</td></tr>
+      <tr><td>were</td><td>be</td><td><b style="color:#adff2f;">auxpass</b></td><td>수동 조동사 — 수동임을 확정</td></tr>
+    </table>
+    <div class="finding" style="margin-top:10px;">
+      <p style="margin:0;font-size:19px;color:#fff;">두 번째 문장에 <b>nsubj(러시아)가 없다.</b> 행위자가 문법적으로 증발 — directness가 이 신호를 센다. <code style="color:#adff2f;">agent</code>(by ...)까지 있어야 가해자가 복원된다 → Step 8 복선.</p>
+    </div>
+  </div>
+  <div class="slide-no">05</div>
+</div>
+
+<!-- 6 Directness 개념 -->
+<div class="slide-container" id="s6">
+  <h2 class="slide-title">Step 3 — Directness Index (직설성) 개념</h2>
+  <div class="content-area">
+    <p style="font-size:22px;">능동절 ÷ (능동절 + 수동절) − 우회표현 페널티. 결과는 <strong>0(우회적) ~ 1(직설적)</strong>.</p>
+    <div class="tiled-content">
+      <div class="tile"><div class="icon"><i class="fa-solid fa-bolt"></i></div><h3>능동절</h3><p><code>nsubj</code> + head가 동사 → active += 1</p></div>
+      <div class="tile"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-arrow-down-up-across-line"></i></div><h3>수동절</h3><p><code>nsubjpass</code> · <code>auxpass</code> → passive += 1</p></div>
+      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon"><i class="fa-solid fa-comments"></i></div><h3>우회표현</h3><p>"it is regrettable" → 페널티 (상한 0.3)</p></div>
+    </div>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:19px;color:#fff;"><b>페널티 상한 0.3인 이유:</b> 우회표현 하나로 점수가 폭락하지 않게. <strong>휴리스틱은 겸손해야 한다.</strong></p>
+    </div>
+  </div>
+  <div class="slide-no">06</div>
+</div>
+
+<!-- 7 Directness 코드/판정 -->
+<div class="slide-container" id="s7">
+  <h2 class="slide-title">Step 3 — 능동/수동 판정 (코드 + CHECK)</h2>
+  <div class="content-area two-column">
+    <div class="code-block" style="font-size:17px;"><span class="kw">def</span> <span class="fn">directness_index</span>(text, nlp):
+    doc = nlp(text)
+    active = passive = <span class="num">0</span>
+    <span class="kw">for</span> tok <span class="kw">in</span> doc:
+        <span class="cm"># TODO: 수동 신호 두 가지</span>
+        <span class="kw">if</span> tok.dep_ <span class="kw">in</span> (<span class="str">"nsubjpass"</span>,<span class="str">"auxpass"</span>):
+            passive += <span class="num">1</span>
+        <span class="kw">elif</span> tok.dep_==<span class="str">"nsubj"</span> \
+          <span class="kw">and</span> tok.head.pos_ <span class="kw">in</span> (<span class="str">"VERB"</span>,<span class="str">"AUX"</span>):
+            active += <span class="num">1</span>
+    base = active/(active+passive)
+    <span class="kw">return</span> base - penalty  <span class="cm"># 상한 0.3</span></div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">CHECK — 두 문장으로 검증</p>
+      <div class="finding" style="font-size:18px;">
+        <p style="margin:0;color:#fff;">"Russia attacked civilians" → active 1, passive 0 → <b>1.0</b></p>
+        <p style="margin:12px 0 0;color:#fff;">"Civilians were attacked" → passive ≥ 1 → <b>0.0</b></p>
+      </div>
+      <p style="font-size:18px;margin-top:14px;color:#adff2f;">능동이 수동보다 직설적으로 측정되면 ✅ PASS.</p>
+      <p style="font-size:16px;color:#888;margin-top:6px;">TODO는 Step 2에서 본 두 라벨을 연결만 하면 된다 — <code style="color:#adff2f;">nsubjpass</code> · <code style="color:#adff2f;">auxpass</code>.</p>
+    </div>
+  </div>
+  <div class="slide-no">07</div>
+</div>
+
+<!-- 8 Verb Strength 개념 -->
+<div class="slide-container" id="s8">
   <h2 class="slide-title">Step 4 — Verb Strength Ladder (동사 강도)</h2>
   <div class="content-area table-layout">
-    <p style="font-size:21px;">외교 동사의 강도계. <strong>lemma 매칭</strong>이라 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">condemned</code> 같은 과거형도 잡힌다.</p>
+    <p style="font-size:21px;">외교 동사의 강도계. note(봤다)부터 demand(요구한다)까지 7단계.</p>
     <table>
       <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
       <tr>
@@ -276,34 +333,118 @@
         <td style="color:#adff2f;">demand<br><span style="color:#888;font-size:15px;">요구</span></td>
       </tr>
     </table>
-    <p style="font-size:18px;margin-top:14px;">+ <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">urge</code> / <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">reject</code> / <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">oppose</code> 도 사다리에 포함. <strong>max</strong>(한 번이라도 강했나) vs <strong>mean</strong>(전반적 톤)을 함께 본다.</p>
+    <p style="font-size:18px;margin-top:14px;">각 단계에 동의어가 묶여있다 — 5에 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">deplore·reject·oppose</code>, 6에 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">condemn·urge</code>, 7에 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">demand·insist</code>.</p>
     <div class="finding" style="margin-top:6px;">
-      <p style="margin:0;font-size:19px;color:#fff;"><b>복선:</b> max는 길이에 약하다. 긴 문서일수록 강한 동사 한 번 나올 확률↑ → Step 7·S4에서 길이 통제로 다시 경고.</p>
+      <p style="margin:0;font-size:19px;color:#fff;"><b>max</b> = 한 번이라도 강했나 · <b>mean</b> = 전반적 톤. 둘을 함께 본다.</p>
     </div>
   </div>
-  <div class="slide-no">05</div>
+  <div class="slide-no">08</div>
 </div>
 
-<!-- 6 Subject Pattern -->
-<div class="slide-container" id="s6">
-  <h2 class="slide-title">Step 5 — Subject Pattern (주어 패턴)</h2>
+<!-- 9 Verb Strength 코드/매핑 -->
+<div class="slide-container" id="s9">
+  <h2 class="slide-title">Step 4 — 동사 사다리 매핑 (lemma 매칭)</h2>
+  <div class="content-area two-column">
+    <div class="code-block" style="font-size:17px;"><span class="kw">def</span> <span class="fn">verb_strength</span>(text, nlp):
+    doc = nlp(text); hits = []
+    <span class="kw">for</span> tok <span class="kw">in</span> doc:
+        lemma = tok.lemma_.lower()
+        <span class="kw">if</span> lemma <span class="kw">in</span> VERB_LADDER \
+          <span class="kw">and</span> tok.pos_ <span class="kw">in</span> (<span class="str">"VERB"</span>,<span class="str">"NOUN"</span>,<span class="str">"ADJ"</span>):
+            hits.append(VERB_LADDER[lemma])
+    <span class="kw">return</span> {<span class="str">"max"</span>: max(hits),
+            <span class="str">"mean"</span>: sum(hits)/len(hits)}</div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">lemma 매칭이 핵심</p>
+      <div class="finding" style="font-size:19px;">
+        <p style="margin:0;color:#fff;"><code style="color:#adff2f;">condemned</code> → lemma <b>condemn</b> → 6점</p>
+        <p style="margin:10px 0 0;color:#fff;"><code style="color:#adff2f;">condemnation</code>(명사) → 같은 lemma → 잡힘</p>
+      </div>
+      <p style="font-size:18px;margin-top:14px;">시제·품사가 달라도 기본형으로 맞춘다. 그래서 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">pos_ in (VERB,NOUN,ADJ)</code> 까지 채집.</p>
+      <div class="finding" style="margin-top:10px;border-left-color:#00f2ff;">
+        <p style="margin:0;font-size:18px;color:#fff;"><b>복선:</b> <code style="color:#adff2f;">verb_strength_max</code>는 길이에 약하다 — 긴 문서일수록 강한 동사 한 번 나올 확률↑ → Step 7·S4 재경고.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+<!-- 10 Subject 개념 -->
+<div class="slide-container" id="s10">
+  <h2 class="slide-title">Step 5 — Subject Pattern (주어 패턴) 개념</h2>
   <div class="content-area">
-    <p style="font-size:21px;">주어를 <strong>6범주</strong>로 분류. 명사구는 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">left_edge ~ right_edge</code> 로 통째로 잡는다.</p>
+    <p style="font-size:21px;">"누가 주어 자리에 서나"를 <strong>6범주</strong>로 분류한다.</p>
     <div class="tiled-content">
-      <div class="tile"><div class="icon"><i class="fa-solid fa-user"></i></div><h3>first_person</h3><p>we / our</p></div>
-      <div class="tile"><div class="icon"><i class="fa-solid fa-flag"></i></div><h3>national_actor</h3><p>대한민국 / 외교부</p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-user"></i></div><h3>first_person</h3><p>we / our / us</p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-flag"></i></div><h3>national_actor</h3><p>대한민국 / 외교부 / Russia</p></div>
       <div class="tile"><div class="icon"><i class="fa-solid fa-globe"></i></div><h3>intl_community</h3><p>the international community</p></div>
-      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-users"></i></div><h3>all_parties</h3><p>all parties / 모든 당사자</p></div>
+      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-users"></i></div><h3>all_parties</h3><p>all parties / both sides</p></div>
     </div>
     <div class="finding" style="margin-top:10px;">
-      <p style="margin:0;font-size:19px;color:#fff;">+ impersonal · other. <b>TODO:</b> 주어 조건 <code style="color:#adff2f;">dep_ in ("nsubj","nsubjpass")</code> — 능동·수동 둘 다 잡아야 '당했다' 문장의 주어를 안 놓친다.</p>
+      <p style="margin:0;font-size:19px;color:#fff;">+ <b>impersonal</b>(it/there) · <b>other</b>. "We condemn"(주체적)와 "대한민국은"(기관 목소리)은 같은 규탄이라도 거리감이 다르다.</p>
     </div>
   </div>
-  <div class="slide-no">06</div>
+  <div class="slide-no">10</div>
 </div>
 
-<!-- 7 소스 비교 결과 -->
-<div class="slide-container" id="s7">
+<!-- 11 Subject 코드/분류 -->
+<div class="slide-container" id="s11">
+  <h2 class="slide-title">Step 5 — 주어 분류 (명사구 통째로 + TODO)</h2>
+  <div class="content-area two-column">
+    <div class="code-block" style="font-size:17px;"><span class="kw">for</span> tok <span class="kw">in</span> doc:
+    <span class="cm"># TODO: 능동·수동 주어 둘 다</span>
+    <span class="kw">if</span> tok.dep_ <span class="kw">in</span> (<span class="str">"nsubj"</span>,<span class="str">"nsubjpass"</span>):
+        span = doc[tok.left_edge.i :
+                   tok.right_edge.i+<span class="num">1</span>].text
+        c[_classify(span)] += <span class="num">1</span>
+
+<span class="cm"># left_edge~right_edge =</span>
+<span class="cm"># "the international community" 통째로</span></div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">CHECK — 세 문장</p>
+      <div class="finding" style="font-size:17px;">
+        <p style="margin:0;color:#fff;">"<b>We</b> condemn" → first_person</p>
+        <p style="margin:8px 0 0;color:#fff;">"<b>All parties</b> must" → all_parties</p>
+        <p style="margin:8px 0 0;color:#fff;">"<b>The intl. community</b> is concerned" → intl_community</p>
+      </div>
+      <div class="finding" style="margin-top:12px;border-left-color:#00f2ff;">
+        <p style="margin:0;font-size:18px;color:#fff;"><b>TODO 핵심:</b> <code style="color:#adff2f;">nsubj</code>만 잡으면 '당했다' 문장의 주어를 놓친다 → 능동·수동 둘 다.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-no">11</div>
+</div>
+
+<!-- 12 157건 적용 -->
+<div class="slide-container" id="s12">
+  <h2 class="slide-title">Step 6 — 157건 적용 + 소스별 집계</h2>
+  <div class="content-area two-column">
+    <div>
+      <p style="font-size:20px;">세 함수를 157개 문서에 돌린다. 한 행 = 한 문서. spaCy 파싱에 몇 초 걸린다(20/40/.../140 진행 표시).</p>
+      <div class="code-block" style="font-size:16px;margin-top:10px;"><span class="cm"># TODO: source로 묶어 평균</span>
+summary = (feat
+  .groupby(<span class="str">"source"</span>)[cols]
+  .mean().round(<span class="num">3</span>)
+  .sort_values(<span class="str">"verb_strength_max"</span>,
+               ascending=<span class="kw">False</span>))</div>
+    </div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">집계가 만드는 표</p>
+      <ul class="bullet-list" style="font-size:18px;">
+        <li><i class="fa-solid fa-table-cells"></i> 문서당 directness · verb max/mean · 주어 분포</li>
+        <li><i class="fa-solid fa-layer-group"></i> <code style="color:#adff2f;">groupby("source").mean()</code> = S1의 value_counts를 묶음 평균으로</li>
+        <li><i class="fa-solid fa-arrow-down-wide-short"></i> verb_strength_max 기준 정렬</li>
+      </ul>
+      <div class="finding" style="margin-top:8px;">
+        <p style="margin:0;font-size:18px;color:#fff;">검증 질문: "동사강도 max 순위 — <b>CN &gt; UN &gt; KR &gt; FR</b> 맞지?"</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-no">12</div>
+</div>
+
+<!-- 13 소스 비교 결과 -->
+<div class="slide-container" id="s13">
   <h2 class="slide-title">Step 7 — 소스 비교: 숫자에 취하지 말 것 ⭐⭐</h2>
   <div class="content-area table-layout">
     <table>
@@ -318,44 +459,119 @@
     </div>
     <p style="font-size:19px;margin-top:8px;text-align:center;color:#adff2f;">패턴을 <strong style="color:#adff2f;">발견</strong>했다. 그러나 발견은 주장이 아니다 — 검증(S4)과 해석(S3)이 남았다.</p>
   </div>
-  <div class="slide-no">07</div>
+  <div class="slide-no">13</div>
 </div>
 
-<!-- 8 SVO + Blame Attribution -->
-<div class="slide-container" id="s8">
-  <h2 class="slide-title">Step 8 — SVO 추출 → Blame Attribution (귀속) ⭐</h2>
+<!-- 14 비교표 중간 해석 -->
+<div class="slide-container" id="s14">
+  <h2 class="slide-title">Step 7 — 표 한 줄씩 읽기 (중간 해석)</h2>
+  <div class="content-area">
+    <div class="step-grid">
+      <div class="step-card"><h4>동사강도 max: CN 6.20 &gt; UN 5.60 &gt; KR 2.78 &gt; FR 2.54</h4><p>"중국이 가장 강경"이라고 <strong style="color:#adff2f;">아직 말하지 않는다.</strong> 길이 편향을 의심하라.</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>직설성: CN 0.85 · UN 0.81 · KR 0.79 · FR 0.73</h4><p>네 소스가 다 비슷. <strong style="color:#adff2f;">"차이가 작다"</strong>가 정직한 결론 — 억지로 부풀리지 않는다.</p></div>
+      <div class="step-card"><h4>주어 1인칭: CN 0.12(최고) · KR ≈ 0</h4><p>한국은 "우리"가 아니라 "대한민국/외교부" — 기관 목소리. 신중함? 거리두기?</p></div>
+      <div class="step-card"><h4>읽는 원칙</h4><p>큰 차이는 <strong style="color:#adff2f;">의심</strong>하고, 작은 차이는 <strong style="color:#adff2f;">정직</strong>하게, 애매한 것은 <strong style="color:#adff2f;">사람</strong>에게 넘긴다.</p></div>
+    </div>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:20px;color:#fff;">표를 보는 순간 결론을 내리고 싶어진다 — 그 충동을 멈추는 게 오늘의 윤리 훈련.</p>
+    </div>
+  </div>
+  <div class="slide-no">14</div>
+</div>
+
+<!-- 15 SVO + coref 메커니즘 -->
+<div class="slide-container" id="s15">
+  <h2 class="slide-title">Step 8 — SVO 추출 + 경량 coreference ⭐</h2>
   <div class="content-area two-column">
     <div>
-      <p class="kicker">9개 차원 중 8번 — 첫 등장</p>
-      <p style="font-size:19px;">가해 동사(attack/strike/kill)에서 <strong>가해자가 누구로 채워졌나</strong>를 본다.</p>
-      <div class="code-block" style="font-size:16px;padding:22px 26px;"><span class="cm"># 검증된 툴킷 재사용</span>
-<span class="kw">from</span> diplo_analysis <span class="kw">import</span> (
+      <p class="kicker">세는 것에서 → 뽑는 것으로</p>
+      <p style="font-size:19px;">지금까지 라벨을 <i>세기</i>만 했다. 이제 한 동사 중심으로 <strong>주어-동사-목적어(SVO) 삼항</strong>을 통째로 뽑는다.</p>
+      <div class="code-block" style="font-size:16px;padding:22px 26px;"><span class="kw">from</span> diplo_analysis <span class="kw">import</span> (
   extract_svo, blame_attribution)
-
-<span class="cm"># Russia attacked civilians</span>
-<span class="cm">#  → subject=Russia (named)</span>
-<span class="cm"># Civilians were killed</span>
-<span class="cm">#  → subject=None  (obscured)</span></div>
-      <p style="font-size:16px;color:#888;margin-top:6px;">새 라벨 <code style="color:#adff2f;background:#000;padding:2px 6px;border-radius:4px;">agent</code> = 수동문 "by ..." 행위자. 희소해서 우크라이나+가자 합침.</p>
+<span class="cm"># "Russia attacked civilians"</span>
+<span class="cm">#  → subj=Russia  passive=False (named)</span>
+<span class="cm"># "Civilians were killed"</span>
+<span class="cm">#  → subj=None    passive=True  (obscured)</span></div>
     </div>
+    <div>
+      <ul class="bullet-list" style="font-size:18px;">
+        <li><i class="fa-solid fa-tag"></i> 새 라벨 <code style="color:#adff2f;">agent</code> = 수동문 "by ..." 행위자 (killed <b>by Russia</b>) → nsubj/nsubjpass와 한 표로 본다</li>
+        <li><i class="fa-solid fa-link"></i> <strong>경량 coref:</strong> "It bombed the city" 의 <code style="color:#adff2f;">it</code> 같은 대명사를 앞 문장의 국가로 되돌린다 — SVO+coref는 길어서 <strong>검증된 툴킷 재사용</strong></li>
+        <li><i class="fa-solid fa-database"></i> 귀속은 <i>가해를 서술한 문장에서만</i> 발동 → 희소 → <strong>우크라이나+가자 합쳐 표본 키움</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-no">15</div>
+</div>
+
+<!-- 16 Blame 결과 -->
+<div class="slide-container" id="s16">
+  <h2 class="slide-title">Step 8 — Blame Attribution 결과 (귀속)</h2>
+  <div class="content-area two-column">
     <div>
       <p class="kicker" style="color:#adff2f;">per-doc 평균 blame_directness</p>
       <div class="finding" style="font-size:24px;text-align:center;">
         <p style="margin:0;color:#fff;"><b>FR 0.43</b> &gt; <b>UN 0.38</b> &gt; <b>CN 0.30</b></p>
         <p style="margin:14px 0 0;color:#fff;font-size:22px;">한국 = <b>귀속 0건</b></p>
       </div>
-      <ul class="bullet-list" style="font-size:17px;margin-top:14px;">
-        <li><i class="fa-solid fa-circle-xmark"></i> <strong>한국:</strong> 공격을 서술 안 함 — "깊이 우려·규탄"식 추상적 규탄만 → 가해 동사 0</li>
-        <li><i class="fa-solid fa-eye-slash"></i> <strong>중국:</strong> 행위자 가리는 수동태 비율 최고 → 가장 많이 가림(0.30)</li>
-        <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>프랑스 주의:</strong> 발동 7건뿐 — 절대수치보다 구조 신호</li>
+      <p style="font-size:16px;color:#888;margin-top:10px;">발동 문서 ~101 / 304건. 가해를 서술한 성명에서만 점수가 난다.</p>
+    </div>
+    <div>
+      <ul class="bullet-list" style="font-size:17px;">
+        <li><i class="fa-solid fa-circle-xmark"></i> <strong>한국:</strong> 공격을 서술 안 함 — "깊이 우려·규탄"식 추상적 규탄만 → 가해 동사 0건</li>
+        <li><i class="fa-solid fa-eye-slash"></i> <strong>중국:</strong> 공격을 말해도 행위자 가리는 수동태 비율 최고 → 가장 많이 가림(0.30)</li>
+        <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>프랑스 주의:</strong> 발동 7건뿐 — 절대수치 아닌 <b>구조 신호</b>로 읽는다</li>
       </ul>
+      <div class="finding" style="margin-top:10px;">
+        <p style="margin:0;font-size:18px;color:#fff;">CHECK: <b>FR &gt; UN &gt; CN & KR=0</b> 재현되면 ✅ PASS.</p>
+      </div>
     </div>
   </div>
-  <div class="slide-no">08</div>
+  <div class="slide-no">16</div>
 </div>
 
-<!-- 9 함정 경고 -->
-<div class="slide-container" id="s9">
+<!-- 17 함정: 길이 편향 -->
+<div class="slide-container" id="s17">
+  <h2 class="slide-title">흔한 함정 ① — verb_strength_max 길이 편향</h2>
+  <div class="content-area two-column">
+    <div>
+      <p style="font-size:21px;">긴 문서일수록 강한 동사가 <i>한 번이라도</i> 나올 확률이 올라간다. <strong>max는 길이에 약하다.</strong></p>
+      <ul class="bullet-list" style="font-size:18px;margin-top:10px;">
+        <li><i class="fa-solid fa-ruler-horizontal"></i> 중국 브리핑은 길다 → max 6.20이 강경함인지 길이인지 모른다</li>
+        <li><i class="fa-solid fa-circle-check"></i> S4에서 <strong style="color:#adff2f;">1000단어당 정규화</strong>로 재검증</li>
+        <li><i class="fa-solid fa-magnifying-glass"></i> 오늘은 발표하지 않고 <strong>의심만</strong> 한다</li>
+      </ul>
+    </div>
+    <div class="finding" style="border-left-color:#00f2ff;">
+      <p class="kicker">복선 회수</p>
+      <p style="margin:0;font-size:20px;color:#fff;">Step 4에서 깐 복선이 여기서 회수된다 — "max는 길이에 약하다"가 표의 1위(중국)를 흔든다.</p>
+      <p style="margin:14px 0 0;font-size:18px;color:#adff2f;">mean을 함께 보면 길이에 덜 휘둘린다 — 두 지표를 항상 같이 읽는 이유.</p>
+    </div>
+  </div>
+  <div class="slide-no">17</div>
+</div>
+
+<!-- 18 함정: 희소성 + 복문 누락 -->
+<div class="slide-container" id="s18">
+  <h2 class="slide-title">흔한 함정 ② — 귀속이 sparse한 이유 · 복문 누락</h2>
+  <div class="content-area two-column">
+    <div class="finding">
+      <p class="kicker">왜 ~101건뿐인가</p>
+      <p style="margin:0;font-size:19px;color:#fff;">귀속은 <b>가해를 구체적으로 서술한 문장에서만</b> 발동한다. 추상적 규탄("깊이 우려")에는 가해 동사가 없어 0건.</p>
+      <p style="margin:14px 0 0;font-size:18px;color:#adff2f;">→ 절대 수치 말고 <b>소스 간 상대 순서</b>를 신뢰한다. 한국 0건은 버그가 아니라 발견이다.</p>
+    </div>
+    <div class="finding" style="border-left-color:#00f2ff;">
+      <p class="kicker" style="color:#00f2ff;">복문 누락</p>
+      <p style="margin:0;font-size:19px;color:#fff;">소형 spaCy 모델(<code style="color:#adff2f;">en_core_web_sm</code>)은 <b>복문</b>에서 일부 SVO를 놓친다.</p>
+      <p style="margin:14px 0 0;font-size:18px;color:#fff;">"러시아가 …하고 도시가 폭격됐다" 같은 절은 한쪽 삼항이 빠질 수 있다 → <b>카운트 과소</b> 가능.</p>
+      <p style="margin:12px 0 0;font-size:17px;color:#adff2f;">규칙이 못 잡는 framing은 다음 주 LLM이 교차검증.</p>
+    </div>
+  </div>
+  <div class="slide-no">18</div>
+</div>
+
+<!-- 19 윤리 테마 -->
+<div class="slide-container" id="s19">
   <h2 class="slide-title">정직하게 — 오늘의 윤리 테마</h2>
   <div class="content-area">
     <p style="font-size:23px;color:#fff;">"계산은 코드, <strong>해석은 LLM</strong>, 판단은 인간." 숫자가 답 못 하는 곳을 표시한다.</p>
@@ -369,11 +585,11 @@
       <p style="margin:0;font-size:21px;color:#fff;">한 문장 정리 — <b>"중국이 가장 가린다 / 한국은 서술 자체가 없다"</b> 는 구조적 신호에 무게를 둔다.</p>
     </div>
   </div>
-  <div class="slide-no">09</div>
+  <div class="slide-no">19</div>
 </div>
 
-<!-- 10 회고/다음 -->
-<div class="slide-container" id="s10">
+<!-- 20 회고/다음 -->
+<div class="slide-container" id="s20">
   <h2 class="slide-title">회고 + 다음 예고</h2>
   <div class="content-area two-column">
     <div>
@@ -390,7 +606,7 @@
       <p style="margin:14px 0 0;font-size:19px;color:#adff2f;">계산은 코드 · 해석은 LLM · 판단은 인간.</p>
     </div>
   </div>
-  <div class="slide-no">10</div>
+  <div class="slide-no">20</div>
 </div>
 
 </body>

@@ -210,103 +210,289 @@
   <div class="slide-no">02</div>
 </div>
 
-<!-- 3 Mutuality Index — 헤드라인 -->
+<!-- 3 왜 코드와 LLM 둘 다 -->
 <div class="slide-container" id="s3">
-  <h2 class="slide-title">Step 3 — Mutuality Index (상호성 지수) 🎯</h2>
-  <div class="content-area two-column">
-    <div>
-      <p class="kicker">개념</p>
-      <p style="font-size:20px;"><strong>양면적 표현</strong>(both sides · all parties · mutual · dialogue)은 가해자와 피해자를 <strong>같은 평면</strong>에 놓는 장치.</p>
-      <p style="font-size:20px;">횟수만 세면 <strong>긴 문서가 불리</strong> → <strong>1000단어당 밀도</strong>로 환산해야 길이가 달라도 공정.</p>
-      <div id="formula-container" style="margin-top:10px;">
-        <p style="margin:0;color:#adff2f;font-size:19px;">밀도 = (등장 총횟수 / 전체 단어수) × 1000</p>
-      </div>
+  <h2 class="slide-title">왜 코드와 LLM을 둘 다 쓰나</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">두 도구는 잘하는 일이 다르다. 경쟁이 아니라 <strong>역할 분담</strong>이고, 합치면 <strong>교차검증</strong>이 된다.</p>
+    <div class="two-column">
+      <div class="step-card"><h4>🧮 규칙 기반 코드 = 세기</h4><p>'mutual'이 1000단어당 몇 번. <strong style="color:#adff2f;">결정론적 · 재현 가능 · 공짜.</strong> 단, <i>왜</i> 썼는지는 모른다.</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>🧠 LLM = 읽기</h4><p>그 단어가 가해자를 지우는 framing인지 <i>의미</i>를 읽는다. 맥락 의존 · <strong style="color:#adff2f;">돈/키 필요 · 매번 살짝 다름.</strong></p></div>
     </div>
-    <div class="finding">
-      <p style="margin:0 0 10px;color:#fff;font-size:18px;">소스별 평균 상호성 (1000단어당)</p>
-      <p style="margin:0;font-size:34px;"><b>CN 12.0 ≫ KR 5.9 &gt; UN 3.6 &gt; FR 1.0</b></p>
-      <p style="margin:14px 0 0;font-size:18px;">중국이 프랑스의 <strong>10배 이상</strong>. "중국 외교언어 = 양면성"이 통념이 아니라 <strong>실데이터로 재현</strong>된 <strong>앵커 발견</strong>.</p>
-      <p style="margin:10px 0 0;font-size:16px;">⚠️ 이건 <i>상관</i>이지 <i>의도</i>가 아니다 — 왜 그런지는 Step 5에서 Claude에게 묻는다.</p>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:19px;">LLM은 답이 매번 흔들린다 — 그래서 <b>검증</b>이 필요하고, 그게 오늘 두 번째 봉우리 <b>Step 6(hybrid)</b>다. 같은 결론이면 신뢰, 어긋나면 사람이 본다.</p>
     </div>
   </div>
   <div class="slide-no">03</div>
 </div>
 
-<!-- 4 Hedging Density -->
+<!-- 4 Mutuality Index — 개념 -->
 <div class="slide-container" id="s4">
-  <h2 class="slide-title">Step 4 — Hedging Density (완곡어 밀도)</h2>
+  <h2 class="slide-title">Step 3 — Mutuality Index: 개념 🎯</h2>
   <div class="content-area">
-    <p style="font-size:21px;">"러시아가 공격했다"가 아니라 "공격이 있었던 것으로 <strong>보인다</strong>(appears to)". 완곡어는 단정을 피해 책임 추궁을 약하게 만드는 <strong>또 다른 거리두기</strong>.</p>
-    <div class="finding" style="margin-top:8px;">
-      <p style="margin:0;font-size:28px;"><b>CN 5.0 &gt; UN 3.2 &gt; KR 2.7 &gt; FR 1.8</b></p>
+    <p style="font-size:22px;"><strong>양면적 표현</strong>(both sides · all parties · mutual · dialogue)은 가해자와 피해자를 <strong>같은 평면</strong>에 놓는 장치다.</p>
+    <div class="finding" style="font-size:21px;">
+      침략 전쟁에서 <i>"모든 당사자가 자제하라"</i>고 하면, <b>침략자와 피침략자를 동급</b>으로 만든다. 단어 하나로 책임의 무게가 옮겨진다.
     </div>
-    <div class="two-column" style="margin-top:14px;">
-      <div class="step-card"><h4>프랑스 = 가장 단정적</h4><p>짧고 사무적, 완곡어 최저.</p></div>
-      <div class="step-card" style="border-left-color:#adff2f;"><h4>중국 = 완곡어도 1위</h4><p>'hope(희망)' 류 유보 표현 최다.</p></div>
-    </div>
-    <p style="font-size:21px;margin-top:14px;color:#adff2f;text-align:center;">상호성도 중국 1위, 완곡어도 중국 1위 → <strong>중국의 일관된 거리두기</strong>가 두 차원에서 함께 드러난다.</p>
+    <p style="font-size:21px;margin-top:8px;">이건 오늘 프로젝트의 <strong>핵심 발견(앵커)</strong>이 나오는 자리. 먼저 <i>무엇을</i> 세는지, 다음 슬라이드에서 <i>어떻게</i> 공정하게 세는지를 본다.</p>
   </div>
   <div class="slide-no">04</div>
 </div>
 
-<!-- 5 부정·범위 처리 -->
+<!-- 5 밀도 공식 -->
 <div class="slide-container" id="s5">
-  <h2 class="slide-title">Step 4.5 — 부정·범위 처리 (negation scope) ⚠️</h2>
-  <div class="content-area">
-    <p style="font-size:20px;">사전엔 구멍이 있다. <i>"There is <strong>no</strong> mutual interest and <strong>no</strong> cooperation."</i> — 상호성을 <strong>부정</strong>하는 문장인데 단순 카운트는 <strong>+2</strong>로 센다 = 거짓 양성.</p>
-    <div class="code-block"><span class="cm"># 같은 문장, 부정처리 ON vs OFF</span>
-neg = <span class="str">"There is no mutual interest and no cooperation here."</span>
-<span class="fn">mutuality_index</span>(neg)                          <span class="cm"># → 0  (handle_negation=True, 기본)</span>
-<span class="fn">mutuality_index</span>(neg, handle_negation=<span class="kw">False</span>)   <span class="cm"># → 2  (옛날 단순 카운트 = 오탐)</span></div>
-    <div class="finding" style="margin-top:6px;">
-      <p style="margin:0;font-size:19px;">고치는 법: 매칭된 표현 <b>앞 32자</b>에 not/no/never/without 이 있으면 그 카운트를 버린다. <b>긍정문은 그대로</b> — 좋은 처리는 멀쩡한 데이터를 망치지 않는다. = <b>측정 타당성</b>.</p>
+  <h2 class="slide-title">Step 3 — 왜 '밀도'인가 (1000단어당)</h2>
+  <div class="content-area two-column">
+    <div>
+      <p style="font-size:21px;">그냥 <strong>횟수</strong>를 세면 <strong>긴 문서가 불리</strong>하다. 프랑스 성명은 짧고, UN은 길다 — 길이가 다르면 비교가 불공정.</p>
+      <p style="font-size:21px;">그래서 <strong>1000단어당</strong>으로 환산 = <strong>밀도</strong>. 길이가 달라도 같은 잣대로 잴 수 있다.</p>
+      <div id="formula-container" style="margin-top:10px;">
+        <p style="margin:0;color:#adff2f;font-size:20px;">밀도 = (등장 총횟수 / 전체 단어수) × 1000</p>
+      </div>
+    </div>
+    <div class="step-card" style="border-left-color:#adff2f;">
+      <h4>TODO (직접 친다)</h4>
+      <p style="font-size:16px;">노트북 빈칸 2개: <code>* 1000</code> 과 <code>mutuality_index(demo)</code>.<br><br>정답: <strong style="color:#adff2f;">밀도 = 비율 × 1000.</strong> 비율만 쓰면 0.012 같은 숫자라 읽기 어렵다 — ×1000으로 '1000단어당 12회'처럼 사람 눈높이로.</p>
     </div>
   </div>
   <div class="slide-no">05</div>
 </div>
 
-<!-- 6 Claude 의미 분석 -->
+<!-- 6 상호성 헤드라인 결과 -->
 <div class="slide-container" id="s6">
-  <h2 class="slide-title">Step 5 — Claude 의미 분석: 왜 그 단어를 썼나</h2>
+  <h2 class="slide-title">Step 3 — 헤드라인 결과: CN ≫ FR</h2>
   <div class="content-area">
-    <p style="font-size:20px;">사전은 "all parties가 3번 나왔다"까지만 안다. <i>그게 가해자를 지우는 framing인지</i>는 의미를 읽어야 안다 → <strong>Claude의 눈</strong>.</p>
-    <table style="width:100%;"><tr>
-      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:12px 16px;font-size:17px;">SEMANTIC_SCHEMA 키</th>
-      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:12px 16px;font-size:17px;">뜻</th>
-    </tr>
-      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">framing</td><td style="padding:9px 16px;color:#fff;font-size:17px;">사건을 어떻게 규정하나 (가해자/피해자/중립)</td></tr>
-      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">blame_target</td><td style="padding:9px 16px;color:#fff;font-size:17px;">가해 주체 명시? named / implied / none</td></tr>
-      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">stance_strength</td><td style="padding:9px 16px;color:#fff;font-size:17px;">입장 강도 1(완곡)~5(강경)</td></tr>
-      <tr><td style="padding:9px 16px;color:#adff2f;font-size:17px;">mutuality_tone</td><td style="padding:9px 16px;color:#fff;font-size:17px;">양측 균형 강조 1(일방적)~5(매우 양면적)</td></tr>
-    </table>
+    <p style="font-size:21px;">소스별 평균 상호성을 1000단어당 밀도로 환산한 결과 — <strong>오늘의 헤드라인</strong>이다.</p>
+    <div class="finding" style="text-align:center;">
+      <p style="margin:0;font-size:42px;"><b>CN 12.0 ≫ KR 5.9 &gt; UN 3.6 &gt; FR 1.0</b></p>
+    </div>
+    <p style="font-size:22px;margin-top:10px;text-align:center;">중국이 프랑스의 <strong>10배 이상</strong>. 압도적이다.</p>
     <div class="finding" style="margin-top:6px;">
-      <p style="margin:0;font-size:18px;"><b>DEMO_MODE</b> — 키가 없어도 노트북은 끝까지 돈다(채점·오프라인). 키 있으면 진짜 Claude(<code style="color:#adff2f;">claude-sonnet-4-6</code>), 없으면 손으로 쓴 예시. <b>둘 다 같은 스키마</b>로 나온다.</p>
+      <p style="margin:0;font-size:19px;">"중국 외교언어 = 양면성"이 <b>통념이 아니라 실데이터로 재현</b>됐다. 이게 이 프로젝트의 <b>앵커 발견</b>. ⚠️ 단, 이건 <i>상관</i>이지 <i>의도</i>가 아니다 — <i>왜</i> 그런지는 코드가 못 답한다.</p>
     </div>
   </div>
   <div class="slide-no">06</div>
 </div>
 
-<!-- 7 Hybrid 교차검증 -->
+<!-- 7 상호성 해석 -->
 <div class="slide-container" id="s7">
-  <h2 class="slide-title">Step 6 — Hybrid 교차검증 🔬</h2>
+  <h2 class="slide-title">Step 3 — 해석: 프랑스는 왜 낮나</h2>
   <div class="content-area">
-    <p style="font-size:21px;">규칙 <strong>mutuality_index</strong>(밀도)와 Claude <strong>mutuality_tone</strong>(1~5 판단)을 나란히 둔다. 단위는 다르지만 <strong>같은 현상</strong>을 본다.</p>
     <div class="two-column">
-      <div class="step-card" style="border-left-color:#adff2f;"><h4>✅ 일치</h4><p>서로 다른 방법, 같은 결론 → 발견의 <strong style="color:#adff2f;">신뢰도 상승</strong>. (CN/UN/FR)</p></div>
-      <div class="step-card"><h4>🚩 불일치</h4><p>예: KR — 규칙 높음 vs 톤 낮음. 버그가 아니라 <strong>가치</strong> → <strong>사람이 직접 읽으라</strong>는 신호.</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>🇨🇳 중국 = 12.0 (최고)</h4><p>'all parties / mutual / dialogue'를 자주 쓴다. 가해자를 한 평면에 녹이는 <strong style="color:#adff2f;">균형 프레이밍</strong>.</p></div>
+      <div class="step-card"><h4>🇫🇷 프랑스 = 1.0 (최저)</h4><p>양면적 단어를 거의 안 쓴다 = 가해자를 <strong>직접 지목</strong>하는 직설 언어를 택했다는 신호.</p></div>
     </div>
     <div class="finding" style="margin-top:10px;">
-      <p style="margin:0;font-size:20px;">한국은 양면적 <i>단어</i>(상호성)는 쓰지만 <i>톤</i>은 일방적(러시아 규탄)일 수 있다 — 둘 다 맞을 수 있다. 이게 <b>"계산은 코드, 해석은 LLM, 판단은 인간"</b>의 실제 모습.</p>
+      <p style="margin:0;font-size:20px;">낮은 점수는 '관심 없음'이 아니라 <b>다른 전략</b>이다. 프랑스의 1.0은 "당사자들" 뒤에 숨지 않고 러시아를 직접 부른다는 뜻 — <b>같은 숫자가 정반대 자세를 가리킬 수 있다.</b> 그래서 의미 해석(Step 5)이 필요하다.</p>
     </div>
+    <p style="font-size:18px;margin-top:6px;color:#adff2f;text-align:center;">검증 질문: "중국이 1위인 게 놀라워, 당연해? 프랑스가 꼴찌인 건?"</p>
   </div>
   <div class="slide-no">07</div>
 </div>
 
-<!-- 8 Targeted Sentiment -->
+<!-- 8 Hedging — 개념 + 코드 -->
 <div class="slide-container" id="s8">
-  <h2 class="slide-title">Step 7 — Targeted Sentiment (대상별 태도) 🎯</h2>
+  <h2 class="slide-title">Step 4 — Hedging Density: 개념</h2>
   <div class="content-area">
-    <p style="font-size:20px;">상호성은 <i>양면적 단어</i>를 센다(표면). 대상별 태도는 한 발 더: <strong>한 성명 안에서 러시아 vs 우크라이나(이/팔)에 감정이 다른가?</strong> 행위자별 most_criticized를 뽑는다 (우크라+가자 304건).</p>
+    <p style="font-size:21px;">"러시아가 공격했다"가 아니라 "공격이 있었던 것으로 <strong>보인다</strong>(appears to)". 완곡어는 단정을 피해 책임 추궁을 약하게 만드는 <strong>또 다른 거리두기</strong> — 상호성과 짝을 이룬다.</p>
+    <div class="code-block"><span class="cm"># 양끝 공백 트릭: 문장 끝의 'may ' 같은 패턴도 잡으려고</span>
+text = <span class="str">" "</span> + text + <span class="str">" "</span>
+hedges = [<span class="str">"may"</span>, <span class="str">"might"</span>, <span class="str">"appears to"</span>, <span class="str">"seems"</span>, <span class="str">"hope"</span>, ...]
+density = (<span class="var">count</span> / <span class="var">words</span>) * <span class="num">1000</span>   <span class="cm"># 상호성과 같은 밀도 잣대</span></div>
+    <p style="font-size:19px;margin-top:6px;">TODO 빈칸 1개: <strong>hedging_density</strong> — Step 3 루프를 거의 그대로 베끼면 된다. 같은 밀도 공식을 재사용한다.</p>
+  </div>
+  <div class="slide-no">08</div>
+</div>
+
+<!-- 9 Hedging — 결과 -->
+<div class="slide-container" id="s9">
+  <h2 class="slide-title">Step 4 — 결과: 중국 1위 (hope)</h2>
+  <div class="content-area">
+    <div class="finding" style="text-align:center;">
+      <p style="margin:0;font-size:38px;"><b>CN 5.0 &gt; UN 3.2 &gt; KR 2.7 &gt; FR 1.8</b></p>
+    </div>
+    <div class="two-column" style="margin-top:14px;">
+      <div class="step-card"><h4>🇫🇷 프랑스 = 가장 단정적</h4><p>완곡어 최저(1.8). 짧고 사무적, 단정적으로 비난한다.</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>🇨🇳 중국 = 완곡어도 1위</h4><p>'hope(희망)' 류 <strong style="color:#adff2f;">유보 표현</strong>이 가장 많다.</p></div>
+    </div>
+    <p style="font-size:19px;margin-top:12px;text-align:center;color:#adff2f;">검증 질문: "중국이 상호성·완곡어 둘 다 1위인 게 우연일까, 전략일까?"</p>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+<!-- 10 Hedging — 해석(일관성) -->
+<div class="slide-container" id="s10">
+  <h2 class="slide-title">Step 4 — 해석: 일관된 거리두기</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:23px;text-align:center;">
+      상호성도 <b>중국 1위</b>, 완곡어도 <b>중국 1위</b>.<br>
+      서로 다른 두 차원이 <b>같은 방향</b>을 가리킨다.
+    </div>
+    <p style="font-size:21px;margin-top:10px;">한 지표만 높으면 우연일 수 있다. 그러나 <strong>독립적인 두 측정</strong>이 동시에 같은 소스를 1위로 꼽으면, 그건 노이즈가 아니라 <strong>패턴</strong>이다.</p>
+    <p style="font-size:22px;text-align:center;color:#adff2f;margin-top:6px;">= <strong style="color:#adff2f;">중국의 '일관된 거리두기'</strong>가 두 차원에서 함께 드러난다.</p>
+  </div>
+  <div class="slide-no">10</div>
+</div>
+
+<!-- 11 부정처리 — 문제 -->
+<div class="slide-container" id="s11">
+  <h2 class="slide-title">Step 4.5 — 부정처리: 문제 (오탐) ⚠️</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">사전엔 구멍이 있다. 단순 카운트는 단어가 <strong>긍정인지 부정인지</strong> 구분하지 못한다.</p>
+    <div class="code-block"><span class="cm"># 상호성을 부정하는 문장인데…</span>
+text = <span class="str">"There is no mutual interest and no cooperation here."</span>
+<span class="cm"># 단순 카운트: mutual(+1) + cooperation(+1) = +2  ← 거짓 양성!</span></div>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:20px;">상호성을 <b>부정</b>하는 문장인데 <b>+2</b>로 센다 = <b>거짓 양성(false positive)</b>. 이런 문장이 쌓이면 "중국 상호성 1위" 같은 발견이 <b>반대 의미 문장에 속을</b> 수 있다.</p>
+    </div>
+  </div>
+  <div class="slide-no">11</div>
+</div>
+
+<!-- 12 부정처리 — 해결(window) -->
+<div class="slide-container" id="s12">
+  <h2 class="slide-title">Step 4.5 — 해결: 부정어 창(window)</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">고치는 법: 매칭된 표현 <strong>앞 32자</strong> 안에 <strong>not / no / never / without</strong> 이 있으면 그 카운트를 버린다.</p>
+    <div class="code-block"><span class="cm"># 매칭 위치 앞 32자만 본다 — '좁은 창'</span>
+window = text[max(<span class="num">0</span>, pos-<span class="num">32</span>) : pos]
+<span class="kw">if</span> <span class="fn">re</span>.search(<span class="str">r"\b(not|no|never|without)\b"</span>, window):
+    <span class="kw">continue</span>   <span class="cm"># 이 카운트는 버린다</span></div>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:19px;">왜 <b>좁은 창(32자)</b>? 너무 넓으면 멀리 있는 부정어가 <b>멀쩡한 긍정문까지 깎는</b> 부작용. <b>긍정문은 그대로 두는 것</b>이 핵심 — 좋은 처리는 멀쩡한 데이터를 망치지 않는다.</p>
+    </div>
+  </div>
+  <div class="slide-no">12</div>
+</div>
+
+<!-- 13 부정처리 — ON/OFF 비교 -->
+<div class="slide-container" id="s13">
+  <h2 class="slide-title">Step 4.5 — ON / OFF 비교 = 측정 타당성</h2>
+  <div class="content-area">
+    <div class="code-block"><span class="cm"># 같은 문장, 부정처리 ON vs OFF</span>
+neg = <span class="str">"There is no mutual interest and no cooperation here."</span>
+<span class="fn">mutuality_index</span>(neg)                          <span class="cm"># → 0  (handle_negation=True, 기본)</span>
+<span class="fn">mutuality_index</span>(neg, handle_negation=<span class="kw">False</span>)   <span class="cm"># → 2  (옛날 단순 카운트 = 오탐)</span></div>
+    <p style="font-size:20px;margin-top:8px;">TODO 빈칸 1개: <strong>handle_negation=False</strong>. CHECK은 세 가지를 동시에 본다 — <strong>긍정문 보존(n≥2) + 부정문 0 + OFF=2.</strong></p>
+    <div class="finding" style="margin-top:6px;">
+      <p style="margin:0;font-size:19px;">옵션 하나로 오탐 2건이 0건으로. 측정값이 <i>말하는 걸 정말 재는가</i> = <b>측정 타당성(validity)</b>. 규칙 기반은 결정론적이라 좋지만, <i>이런 함정</i>은 사람이 메워야 한다.</p>
+    </div>
+  </div>
+  <div class="slide-no">13</div>
+</div>
+
+<!-- 14 Claude — SEMANTIC_SCHEMA -->
+<div class="slide-container" id="s14">
+  <h2 class="slide-title">Step 5 — Claude: SEMANTIC_SCHEMA 키</h2>
+  <div class="content-area">
+    <p style="font-size:20px;">사전은 "all parties가 3번 나왔다"까지만 안다. <i>그게 가해자를 지우는 framing인지</i>는 의미를 읽어야 안다 → <strong>Claude의 눈</strong>. Claude에게 뽑게 할 5개 키:</p>
+    <table style="width:100%;"><tr>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">SEMANTIC_SCHEMA 키</th>
+      <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">뜻</th>
+    </tr>
+      <tr><td style="padding:8px 16px;color:#adff2f;font-size:16px;">framing</td><td style="padding:8px 16px;color:#fff;font-size:16px;">사건을 어떻게 규정하나 (가해자/피해자/중립)</td></tr>
+      <tr><td style="padding:8px 16px;color:#adff2f;font-size:16px;">blame_target</td><td style="padding:8px 16px;color:#fff;font-size:16px;">가해 주체 명시? named / implied / none</td></tr>
+      <tr><td style="padding:8px 16px;color:#adff2f;font-size:16px;">stance_strength</td><td style="padding:8px 16px;color:#fff;font-size:16px;">입장 강도 1(완곡)~5(강경) 정수</td></tr>
+      <tr><td style="padding:8px 16px;color:#adff2f;font-size:16px;">mutuality_tone</td><td style="padding:8px 16px;color:#fff;font-size:16px;">양측 균형 강조 1(일방적)~5(매우 양면적)</td></tr>
+      <tr><td style="padding:8px 16px;color:#adff2f;font-size:16px;">subtle_hedging</td><td style="padding:8px 16px;color:#fff;font-size:16px;">규칙으론 못 잡는 미묘한 유보 표현 인용</td></tr>
+    </table>
+    <p style="font-size:18px;margin-top:8px;">규칙은 <strong>숫자</strong>(밀도)를, Claude는 <strong>판단</strong>(framing·강도·인용)을 준다. subtle_hedging은 사전이 영영 못 잡는 칸.</p>
+  </div>
+  <div class="slide-no">14</div>
+</div>
+
+<!-- 15 Claude — 프롬프트 엔지니어링 -->
+<div class="slide-container" id="s15">
+  <h2 class="slide-title">Step 5 — 프롬프트 엔지니어링 2원칙</h2>
+  <div class="content-area">
+    <div class="two-column">
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>① 출력 구조를 강제</h4><p>"<strong style="color:#adff2f;">JSON 객체 하나만</strong> 출력하라" + 키 목록을 명시. 자유 서술을 막아 후처리를 단순하게.</p></div>
+      <div class="step-card"><h4>② 파싱은 방어적으로</h4><p>LLM이 앞뒤로 말을 붙여도 정규식 <code>{...}</code> 으로 떼낸다. "모델은 말이 많을 수 있다"를 전제로.</p></div>
+    </div>
+    <div class="code-block" style="margin-top:6px;"><span class="cm"># 방어적 파싱 — 설명 문장이 섞여도 JSON만 추출</span>
+m = <span class="fn">re</span>.search(<span class="str">r"\{.*\}"</span>, resp_text, <span class="fn">re</span>.S)
+data = <span class="fn">json</span>.loads(m.group())</div>
+  </div>
+  <div class="slide-no">15</div>
+</div>
+
+<!-- 16 Claude — DEMO_MODE -->
+<div class="slide-container" id="s16">
+  <h2 class="slide-title">Step 5 — DEMO_MODE: 키 없어도 끝까지</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">이 노트북은 <strong>API 키가 없어도 끝까지 돌아가야 한다</strong>(채점·오프라인용). 그래서 키를 자동 탐색하고, 없으면 폴백한다.</p>
+    <div class="code-block"><span class="cm"># Colab userdata → 환경변수 순. 없으면 DEMO_MODE.</span>
+<span class="kw">if</span> key:
+    client = <span class="fn">Anthropic</span>(api_key=key); DEMO_MODE = <span class="kw">False</span>   <span class="cm"># 🔑 진짜 Claude</span>
+<span class="kw">else</span>:
+    DEMO_MODE = <span class="kw">True</span>   <span class="cm"># ℹ️ 손으로 쓴 _DEMO_BANK 예시로 진행</span></div>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0;font-size:19px;">키 있으면 진짜 Claude, 없으면 미리 손으로 쓴 예시 — <b>둘 다 똑같은 스키마</b>로 나온다. 출력의 <code style="color:#adff2f;">(DEMO)</code> 태그나 <code style="color:#adff2f;">_demo</code> 키로 구분. Colab: 좌측 🔑 → <code style="color:#adff2f;">ANTHROPIC_API_KEY</code> 추가.</p>
+    </div>
+  </div>
+  <div class="slide-no">16</div>
+</div>
+
+<!-- 17 Claude — 모델 선택 가이드 -->
+<div class="slide-container" id="s17">
+  <h2 class="slide-title">Step 5 — 모델 선택 가이드</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">작업 성격에 따라 모델을 고른다 — 늘 가장 비싼 모델이 정답은 아니다.</p>
+    <div class="step-grid">
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>claude-sonnet-4-6 — 기본</h4><p><strong style="color:#adff2f;">균형</strong>(속도·비용·품질). 본 수업 기본값. 소스별 대표 1건 분석에 적합.</p></div>
+      <div class="step-card"><h4>claude-haiku-4-5-20251001 — 대량</h4><p>싸고 빠름. 85건 <strong>전체 일괄 분석</strong>처럼 양 많은 작업에.</p></div>
+      <div class="step-card" style="grid-column:1 / -1;border-left-color:#adff2f;"><h4>claude-opus-4-8 — 어려운 검증</h4><p>가장 똑똑. <strong style="color:#adff2f;">사전과 Claude가 어긋나는</strong> '어려운 검증 케이스'에만 골라 쓴다.</p></div>
+    </div>
+    <p style="font-size:18px;margin-top:8px;text-align:center;color:#adff2f;">시연: KR=named·강경 / CN=none·양면적 / FR=직설 / UN=implied·중립 — 소스 성격이 그대로 보인다.</p>
+  </div>
+  <div class="slide-no">17</div>
+</div>
+
+<!-- 18 Hybrid — 개념 -->
+<div class="slide-container" id="s18">
+  <h2 class="slide-title">Step 6 — Hybrid 교차검증: 개념 🔬</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">규칙 <strong>mutuality_index</strong>(밀도, 숫자)와 Claude <strong>mutuality_tone</strong>(1~5, 판단)을 나란히 둔다. 단위는 다르지만 <strong>같은 현상</strong>을 본다.</p>
+    <div class="two-column">
+      <div class="step-card" style="border-left-color:#adff2f;"><h4>✅ 둘 다 높음/낮음</h4><p>서로 다른 방법, 같은 결론 → 발견의 <strong style="color:#adff2f;">신뢰도 상승</strong>. (CN/UN/FR)</p></div>
+      <div class="step-card"><h4>🚩 어긋남</h4><p>사람이 그 문서를 <strong>직접 읽으라</strong>는 신호. hybrid가 손을 든 것.</p></div>
+    </div>
+    <p style="font-size:20px;margin-top:8px;text-align:center;color:#adff2f;">TODO 빈칸 1개: <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">sem_results[s]["mutuality_tone"]</code></p>
+  </div>
+  <div class="slide-no">18</div>
+</div>
+
+<!-- 19 Hybrid — 불일치=가치 -->
+<div class="slide-container" id="s19">
+  <h2 class="slide-title">Step 6 — 불일치는 버그가 아니라 가치</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">표에서 CN/UN/FR은 ✅ 일치, <strong>KR은 🚩 불일치</strong>가 뜰 수 있다 — 규칙은 높고(밀도 5.9) 톤은 낮음.</p>
+    <div class="finding" style="font-size:21px;">
+      한국은 양면적 <i>단어</i>(상호성)는 쓰지만 <i>톤</i>은 일방적(러시아 규탄)일 수 있다 — <b>둘 다 맞을 수 있다.</b> 이 🚩는 버그가 아니라 <b>가치</b>: "여기 사람이 보세요"라는 신호.
+    </div>
+    <p style="font-size:22px;margin-top:8px;text-align:center;color:#adff2f;">이게 <strong style="color:#adff2f;">"계산은 코드, 해석은 LLM, 판단은 인간"</strong>의 실제 모습.</p>
+  </div>
+  <div class="slide-no">19</div>
+</div>
+
+<!-- 20 Targeted Sentiment — 개념 -->
+<div class="slide-container" id="s20">
+  <h2 class="slide-title">Step 7 — 대상별 태도: 개념 🎯</h2>
+  <div class="content-area">
+    <p style="font-size:21px;"><strong>상호성</strong>은 <i>양면적 단어</i>를 센다(표면). <strong>대상별 태도</strong>는 한 발 더 들어간다:</p>
+    <div class="finding" style="font-size:22px;">
+      "한 성명 안에서 <b>러시아 vs 우크라이나</b>(이스라엘 vs 팔레스타인)에 대한 감정이 다른가?"
+    </div>
+    <p style="font-size:20px;margin-top:8px;">행위자별로 문장을 모아 부정어/긍정어를 세고, 가장 부정적으로 다룬 <strong>most_criticized</strong> 행위자를 뽑는다. 진가는 <strong>두 분쟁(우크라+가자, 304건)</strong>을 한 소스가 어떻게 다르게 비판하나에서 나온다.</p>
+    <p style="font-size:18px;margin-top:6px;text-align:center;color:#adff2f;">균형도 = (가해자측 비판 / 상대측 비판의) min/max. TODO: OTHER 집합 합산.</p>
+  </div>
+  <div class="slide-no">20</div>
+</div>
+
+<!-- 21 Targeted Sentiment — 결과 -->
+<div class="slide-container" id="s21">
+  <h2 class="slide-title">Step 7 — 결과: 중국이 가장 균형</h2>
+  <div class="content-area">
     <table style="width:100%;"><tr>
       <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">소스</th>
       <th style="background:#151a21;color:#00f2ff;text-align:left;padding:11px 16px;font-size:17px;">most_criticized 분포</th>
@@ -317,15 +503,28 @@ neg = <span class="str">"There is no mutual interest and no cooperation here."</
       <tr><td style="padding:8px 16px;color:#fff;font-size:16px;">France</td><td style="padding:8px 16px;color:#fff;font-size:16px;">Russia 28 · Pal 22 · Israel 16 · Ukr 9</td><td style="padding:8px 16px;color:#fff;font-size:16px;">44 vs 31</td><td style="padding:8px 16px;color:#fff;font-size:16px;">0.70</td></tr>
       <tr><td style="padding:8px 16px;color:#adff2f;font-size:16px;">China</td><td style="padding:8px 16px;color:#adff2f;font-size:16px;">Russia 27 · Pal 20 · Israel 18 · Ukr 13</td><td style="padding:8px 16px;color:#adff2f;font-size:16px;">45 vs 33</td><td style="padding:8px 16px;color:#adff2f;font-size:16px;">0.73</td></tr>
     </table>
-    <div class="finding" style="margin-top:8px;">
-      <p style="margin:0;font-size:18px;">UN은 비판이 <b>가해자 한쪽으로 쏠림</b>, <b>중국만 양측을 고르게 비판</b>. Step 3의 mutuality(중국 최고)를 <b>완전히 다른 방법으로 독립 재확인</b> → 상호성은 우연이 아닌 일관된 균형 프레이밍.</p>
+    <div class="finding" style="margin-top:10px;">
+      <p style="margin:0;font-size:19px;">균형도 순: <b>UN 0.29 &lt; FR 0.70 ≈ KR 0.71 &lt; CN 0.73.</b> UN은 비판이 <b>가해자 한쪽으로 쏠림</b>, <b>중국만 양측을 고르게 비판</b>한다.</p>
     </div>
   </div>
-  <div class="slide-no">08</div>
+  <div class="slide-no">21</div>
 </div>
 
-<!-- 9 회고 + 다음 -->
-<div class="slide-container" id="s9">
+<!-- 22 Targeted Sentiment — 해석 -->
+<div class="slide-container" id="s22">
+  <h2 class="slide-title">Step 7 — 해석: 독립 재확인</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:22px;">
+      대상별 태도는 상호성과 <b>완전히 다른 방법</b>이다(단어 세기 X, 행위자별 감정 O). 그런데 또 <b>중국을 최균형</b>으로 꼽았다.
+    </div>
+    <p style="font-size:21px;margin-top:8px;">Step 3의 mutuality(중국 최고)를 <strong>독립적으로 재확인</strong>한 것. 한 차원의 우연이 아니라 <strong>여러 차원에서 일관된 '균형 프레이밍'</strong> → 발견 신뢰도가 또 올라간다.</p>
+    <p style="font-size:19px;margin-top:6px;text-align:center;color:#adff2f;">검증 질문: 중국의 양측 균등은 '중립'일까, '가해자를 가리는' 또 다른 전략일까? — 해석은 사람 몫.</p>
+  </div>
+  <div class="slide-no">22</div>
+</div>
+
+<!-- 23 회고 + 다음 -->
+<div class="slide-container" id="s23">
   <h2 class="slide-title">회고 + 다음 예고</h2>
   <div class="content-area two-column">
     <div>
@@ -342,7 +541,7 @@ neg = <span class="str">"There is no mutual interest and no cooperation here."</
       <p style="margin:0;font-size:20px;color:#fff;">오늘로 우크라이나 <strong>6개 차원</strong>(직설성·동사강도·주어 / 상호성·완곡어·침묵)이 다 모였다.<br><br>다음엔 이걸 <strong>검증</strong>(원문 URL·표본 수작업)하고 <strong>시각화</strong> — 레이더 차트에 4개 소스의 '외교 언어 지문'을 겹쳐 그린다. <b>우크라이나 1주제 완성.</b></p>
     </div>
   </div>
-  <div class="slide-no">09</div>
+  <div class="slide-no">23</div>
 </div>
 
 </body>

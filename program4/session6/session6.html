@@ -195,145 +195,313 @@
   <div class="slide-no">01</div>
 </div>
 
-<!-- 2 훅 -->
+<!-- 2 동기: 평균은 시간을 지운다 -->
 <div class="slide-container" id="s2">
-  <h2 class="slide-title">한 문장: 평균은 시간을 지운다</h2>
+  <h2 class="slide-title">평균은 시간을 지운다</h2>
   <div class="content-area">
-    <div class="finding" style="font-size:23px;">
-      지금까지는 <b>평균</b>만 봤다. 한국의 평균 상호성 12.13은 <b>어떤 날은 0, 어떤 날은 20</b>의 평균일 수 있다.<br>
-      2023.10.7 ~ 2025.8, 각국의 톤은 사건 흐름 속에 어떻게 출렁였나?
+    <p style="font-size:24px;color:#fff;">지금까지 본 것은 모두 <strong>평균</strong> 하나였다. 평균은 편하지만, 시간을 통째로 지운다.</p>
+    <div class="finding" style="font-size:23px;margin-top:8px;">
+      한국의 평균 상호성 <b>12.13</b>은 — <b>어떤 날은 0, 어떤 날은 20</b>이었던 값들의 평균일 수 있다.<br>
+      같은 평균이라도 <b>한결같이 12</b>인 나라와 <b>0과 20을 오가는</b> 나라는 전혀 다른 행위자다.
     </div>
-    <p style="font-size:26px;margin-top:30px;text-align:center;color:#fff;">시간 축을 더한다. 묻는다 — <strong>누가 가장 일관되고, 누가 가장 유연한가? (Q3)</strong></p>
+    <p style="font-size:20px;margin-top:12px;">오늘은 그 가려진 <strong>시간 축</strong>을 다시 꺼낸다 — 2023.10.7 ~ 2025.8.</p>
   </div>
   <div class="slide-no">02</div>
 </div>
 
-<!-- 3 시계열 분석 방법 -->
+<!-- 3 Q3 질문 -->
 <div class="slide-container" id="s3">
-  <h2 class="slide-title">시계열 분석 방법 — 일관성 = 표준편차 📈</h2>
-  <div class="content-area two-column">
-    <div>
-      <p class="kicker">개념 한 줄</p>
-      <p style="font-size:22px;">사건(날짜)×소스로 평균을 내고 <strong>선 그래프</strong>를 그린다. x=날짜, 소스별 한 선.</p>
-      <p style="font-size:22px;color:#fff;margin-top:16px;">그 선의 <strong>표준편차(std)</strong>가 곧 <strong>일관성</strong>이다.</p>
-      <div id="formula-container" style="margin-top:18px;">
-        <p style="margin:0;color:#adff2f;font-size:20px;">선이 평평 → std 작다 → <b style="color:#adff2f;">일관</b><br>선이 출렁 → std 크다 → <b style="color:#adff2f;">유연</b></p>
-      </div>
-    </div>
-    <div class="finding">
-      <p style="margin:0 0 10px;color:#fff;font-size:21px;"><b>중국 선</b>: 높게 평평 → 어떤 사건에도 같은 톤.</p>
-      <p style="margin:0;color:#fff;font-size:21px;"><b>한국 선</b>: 위아래로 출렁 → 사건마다 톤 변경.</p>
-      <p style="margin:14px 0 0;font-size:18px;color:#b0b0b0;">눈에 보이는 차이를 std라는 한 숫자로 잡는다. <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">.std()</code> 한 줄.</p>
-    </div>
+  <h2 class="slide-title">오늘의 질문 — Q3</h2>
+  <div class="content-area section-title-layout">
+    <h2 style="font-size:48px;">누가 가장 <span style="color:#adff2f;">일관</span>되고,<br>누가 가장 <span style="color:#00f2ff;">유연</span>한가?</h2>
+    <hr>
+    <p style="font-size:22px;">사건의 흐름 속에서 각 소스의 톤은 어떻게 출렁였나.<br>일관 = 어떤 사건에도 같은 톤 · 유연 = 사건마다 톤 변경.</p>
   </div>
   <div class="slide-no">03</div>
 </div>
 
-<!-- 4 Q3 결과 -->
+<!-- 4 시계열 방법: 사건별 평균 -->
 <div class="slide-container" id="s4">
-  <h2 class="slide-title">Q3 결과 — 일관 ↔ 유연 순위</h2>
-  <div class="content-area">
-    <div class="two-column">
-      <div class="table-layout">
-        <p class="kicker">상호성 std (작을수록 일관)</p>
-        <table>
-          <tr><th>소스</th><th>std</th><th></th></tr>
-          <tr><td>프랑스</td><td>2.47</td><td style="color:#adff2f;">가장 일관</td></tr>
-          <tr><td>중국</td><td>2.59</td><td></td></tr>
-          <tr><td>UN</td><td>5.15</td><td></td></tr>
-          <tr><td>한국</td><td>8.29</td><td style="color:#00f2ff;">가장 유연</td></tr>
-        </table>
-      </div>
-      <div class="table-layout">
-        <p class="kicker">동사강도 밀도 std (작을수록 일관)</p>
-        <table>
-          <tr><th>소스</th><th>std</th><th></th></tr>
-          <tr><td>중국</td><td>1.48</td><td style="color:#adff2f;">가장 일관</td></tr>
-          <tr><td>프랑스</td><td>—</td><td></td></tr>
-          <tr><td>UN</td><td>—</td><td></td></tr>
-          <tr><td>한국</td><td>8.08</td><td style="color:#00f2ff;">가장 유연</td></tr>
-        </table>
-      </div>
+  <h2 class="slide-title">시계열 분석 방법 — 사건별 평균 📈</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">한 줄 개념</p>
+      <p style="font-size:22px;color:#fff;">사건(날짜)×소스로 평균을 내고 <strong>선 그래프</strong>를 그린다.</p>
+      <ul class="bullet-list" style="font-size:19px;margin-top:14px;">
+        <li><i class="fa-solid fa-arrows-left-right"></i> x축 = 사건 날짜</li>
+        <li><i class="fa-solid fa-chart-line"></i> 소스별 한 선</li>
+        <li><i class="fa-solid fa-calendar-day"></i> 먼저 핵심 차원 <strong>상호성</strong>으로</li>
+      </ul>
     </div>
-    <div class="finding" style="margin-top:14px;">
-      <p style="margin:0;font-size:21px;"><b>차원을 바꾸면 순위가 바뀐다</b> — 일관 1위는 차원마다 다르다(상호성=프랑스, 동사강도=중국). 그러나 <b>한국은 어느 차원에서나 가장 출렁인다.</b> 이게 발견이다.</p>
+    <div class="finding">
+      <p style="margin:0;font-size:20px;color:#fff;">시계열을 그리려면 날짜가 <b>문자열이 아니라 날짜</b>여야 한다.</p>
+      <div class="code-block" style="margin-top:14px;font-size:16px;">
+<span class="var">ana</span>[<span class="str">"date"</span>] = <span class="var">pd</span>.<span class="fn">to_datetime</span>(<span class="var">ana</span>[<span class="str">"date"</span>])</div>
+      <p style="margin:12px 0 0;font-size:17px;">강도는 항상 <strong>밀도(verb_density)</strong>로 — S4 교훈을 또 적용한다.</p>
     </div>
   </div>
   <div class="slide-no">04</div>
 </div>
 
-<!-- 5 침묵 지도 심화 -->
+<!-- 5 표준편차 = 일관성 -->
 <div class="slide-container" id="s5">
-  <h2 class="slide-title">침묵 지도 심화 — 무엇에 침묵하나 🤫⚖️</h2>
-  <div class="content-area">
-    <p style="font-size:23px;color:#fff;">침묵은 무작위가 아니다. <strong>무엇에 대해</strong> 침묵하느냐가 신호다.</p>
-    <div class="finding" style="margin-top:14px;">
-      <p style="margin:0;font-size:21px;"><b>한국은 법적 사건(ICJ·ICC)에서 침묵률이 높다.</b> 우크라이나에서 ICC 영장·댐 파괴에 침묵한 것과 <b>같은 결</b>. 두 주제에서 반복 관측.</p>
+  <h2 class="slide-title">일관성 = 표준편차(std)</h2>
+  <div class="content-area two-column">
+    <div>
+      <p style="font-size:22px;color:#fff;">눈에 보이는 차이를 <strong>한 숫자</strong>로 잡는다.</p>
+      <div id="formula-container" style="margin-top:18px;">
+        <p style="margin:0;color:#adff2f;font-size:21px;">선이 평평 → std 작다 → <b style="color:#adff2f;">일관</b><br>선이 출렁 → std 크다 → <b style="color:#adff2f;">유연</b></p>
+      </div>
+      <div class="code-block" style="margin-top:16px;font-size:15px;">
+<span class="var">consistency</span> = <span class="var">ev</span>.<span class="fn">groupby</span>(<span class="str">"source"</span>)[<span class="str">"mutuality_index"</span>].<span class="fn">std</span>()</div>
     </div>
-    <p style="font-size:20px;margin-top:16px;">가설: <strong>법적 판단을 요구하는 사건에서 한국 외교부는 입장 표명을 미룬다.</strong> 왜? (당사자성? 사법 절차 존중? 신중함?)</p>
-    <p style="font-size:18px;margin-top:8px;color:#adff2f;">⚠️ 단, 한국은 10개 사건 중 7개에만 등장 — 표본 적음. 단정하지 말고 <strong>가설로 기록</strong>한다. 좋은 분석가는 자기 숫자의 약점을 먼저 말한다.</p>
+    <div class="finding">
+      <p style="margin:0;font-size:18px;color:#b0b0b0;">std(표준편차) = 값들이 평균에서 얼마나 흩어졌는지. 작을수록 '한결같다'.</p>
+      <p style="margin:14px 0 0;font-size:20px;color:#fff;"><b>중국 선</b>: 높게 평평 → 어떤 사건에도 같은 톤.</p>
+      <p style="margin:8px 0 0;font-size:20px;color:#fff;"><b>한국 선</b>: 위아래로 출렁 → 사건마다 톤 변경.</p>
+    </div>
   </div>
   <div class="slide-no">05</div>
 </div>
 
-<!-- 6 9차원 종합 -->
+<!-- 6 Q3 상호성 std 순위 -->
 <div class="slide-container" id="s6">
-  <h2 class="slide-title">9차원 종합 — '양면성'은 견고한가 🔭</h2>
+  <h2 class="slide-title">Q3 결과 ① — 상호성 일관성 순위</h2>
   <div class="content-area">
-    <p style="font-size:21px;color:#fff;">자 하나로 잰 결론은 흔들린다. <strong>자를 세 개 더 들이대도 같은 방향이면</strong>, 우연이 아니라 견고한 발견이다.</p>
     <div class="table-layout">
+      <p class="kicker">상호성 std (작을수록 일관)</p>
       <table>
-        <tr><th>v2 차원</th><th>중국 (양면성)</th><th>UN (대조군)</th><th>한국</th></tr>
-        <tr><td>완곡 명명</td><td style="color:#adff2f;">0.75 최저·완곡 ("operation")</td><td>1.27 최고·규정적 ("war/genocide")</td><td>—</td></tr>
-        <tr><td>귀속 (named)</td><td style="color:#adff2f;">18 (가림 위주, obscured 27)</td><td>32 (가해자 최다 지목)</td><td style="color:#00f2ff;">0 (전무)</td></tr>
-        <tr><td>대상비판 skew</td><td style="color:#adff2f;">0.05 (18:20, 거의 균등)</td><td>0.53 (26:8, 이스라엘 집중)</td><td>—</td></tr>
+        <tr><th>소스</th><th>std</th><th>해석</th></tr>
+        <tr><td>프랑스</td><td>2.47</td><td style="color:#adff2f;">가장 일관</td></tr>
+        <tr><td>중국</td><td>2.59</td><td>거의 동률로 일관</td></tr>
+        <tr><td>UN</td><td>5.15</td><td>중간</td></tr>
+        <tr><td>한국</td><td>8.29</td><td style="color:#00f2ff;">가장 유연</td></tr>
       </table>
     </div>
-    <div class="finding" style="margin-top:12px;">
-      <p style="margin:0;font-size:20px;"><b>중국 = 완곡 명명 + 가해자 가림 + 양측 균등 비판 — 세 독립 측정이 한목소리.</b> 여러 독립 측정의 <b>수렴(convergence)</b>으로 결론을 받친다. 한 지표의 노이즈에 안 흔들리는 게 정량 분석의 신뢰 확보법.</p>
-    </div>
+    <p style="font-size:21px;margin-top:18px;text-align:center;color:#fff;">프랑스(2.47) &lt; 중국(2.59) &lt; UN(5.15) &lt; <strong>한국(8.29)</strong></p>
   </div>
   <div class="slide-no">06</div>
 </div>
 
-<!-- 7 Visual Essay -->
+<!-- 7 Q3 동사강도 std 순위 -->
 <div class="slide-container" id="s7">
-  <h2 class="slide-title">Visual Essay 산출물 — 숫자를 이야기로 🎨</h2>
-  <div class="content-area two-column">
-    <div>
-      <p class="kicker">오늘의 클라이맥스</p>
-      <p style="font-size:22px;color:#fff;">"중국은 어떤 사건에도 같은 톤으로 말하고, <strong>한국은 사건마다 톤을 바꾼다.</strong>"</p>
-      <ul class="bullet-list" style="font-size:18px;margin-top:14px;">
-        <li><i class="fa-solid fa-pen-nib"></i> 중국·한국 두 선만 <strong>굵게</strong>, 나머지는 흐린 점선 — 주인공을 정한다</li>
-        <li><i class="fa-solid fa-arrow-pointer"></i> 화살표 주석 둘: "중국=균형 톤 유지", "한국=출렁"</li>
-        <li><i class="fa-solid fa-quote-right"></i> 내러티브 캡션 <strong>4문장</strong> — 독자는 표를 안 본다. 그림 한 장 + 4문장</li>
-      </ul>
+  <h2 class="slide-title">Q3 결과 ② — 차원을 바꾸면 순위가 바뀐다</h2>
+  <div class="content-area">
+    <div class="table-layout">
+      <p class="kicker">동사강도 밀도 std (작을수록 일관)</p>
+      <table>
+        <tr><th>소스</th><th>std</th><th>해석</th></tr>
+        <tr><td>중국</td><td>1.48</td><td style="color:#adff2f;">가장 일관 (순위 역전!)</td></tr>
+        <tr><td>UN / 프랑스</td><td>중간</td><td></td></tr>
+        <tr><td>한국</td><td>8.08</td><td style="color:#00f2ff;">또 가장 유연</td></tr>
+      </table>
     </div>
-    <div class="finding">
-      <p class="kicker" style="color:#adff2f;">너의 차별점 = 번역</p>
-      <p style="margin:0;font-size:21px;color:#fff;">독자는 std를 모른다. "선이 평평하면 일관, 출렁이면 유연"으로 <strong>번역</strong>한다.</p>
-      <p style="margin:12px 0 0;font-size:19px;">분석가는 많지만, 그걸 일반인에게 전하는 사람은 드물다. 이 마지막 단계가 너의 강점이다. 발표용은 <strong>디자인이 절반</strong>.</p>
+    <div class="finding" style="margin-top:16px;">
+      <p style="margin:0;font-size:20px;">상호성에선 프랑스가 1위였지만, 동사강도에선 <b>중국(1.48)이 가장 일관</b>. <b>일관 1위는 차원마다 다르다</b> — 이게 분석의 묘미다.</p>
     </div>
   </div>
   <div class="slide-no">07</div>
 </div>
 
-<!-- 8 Q1 Q2 Q3 종합 -->
+<!-- 8 Q3 해석: 중국 최일관 / 한국 최유연 -->
 <div class="slide-container" id="s8">
-  <h2 class="slide-title">Q1 · Q2 · Q3 한눈에 종합 💾</h2>
-  <div class="content-area">
-    <div class="step-grid" style="grid-template-columns:1fr;gap:16px;">
-      <div class="step-card"><h4>Q1 — 네 소스는 다른가?</h4><p style="font-size:18px;">뚜렷이 다르다. 한국·중국 상호성 ≈12로 프랑스의 <strong style="color:#00f2ff;">5배 이상</strong>. 우크라이나와 <strong style="color:#00f2ff;">같은 지문 구조</strong>가 가자에서도 재현.</p></div>
-      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">Q2 — 주제별 태도 차이?</h4><p style="font-size:18px;">중국=주제 무관 중립(당사자성 약함), 한국=법적 사건에 침묵하는 <strong style="color:#00f2ff;">유연한 행위자</strong>.</p></div>
-      <div class="step-card"><h4>Q3 — 누가 일관, 누가 유연?</h4><p style="font-size:18px;">상호성은 <strong style="color:#00f2ff;">프랑스</strong>가 가장 일관, 동사강도는 <strong style="color:#00f2ff;">중국</strong>이 가장 일관. 한국은 <strong style="color:#00f2ff;">어디서나 가장 유연</strong>.</p></div>
+  <h2 class="slide-title">Q3 해석 — 중국 최일관 · 한국 최유연</h2>
+  <div class="content-area two-column">
+    <div class="tile" style="text-align:left;border-bottom-color:#adff2f;">
+      <p style="font-size:26px;color:#adff2f;font-weight:700;margin:0;">중국 = 한결같음</p>
+      <p style="font-size:19px;margin-top:12px;">어떤 차원, 어떤 사건이든 톤이 거의 안 움직인다. "균형의 언어"를 한결같이 반복.</p>
     </div>
-    <p style="font-size:18px;margin-top:8px;color:#adff2f;">소스별 최종표 + 시간 std 열 + v2 명명강도 한 칸 → <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">gaza_annotated.csv</code> 저장 (<strong>utf-8-sig</strong>).</p>
+    <div class="tile" style="text-align:left;">
+      <p style="font-size:26px;color:#00f2ff;font-weight:700;margin:0;">한국 = 출렁임</p>
+      <p style="font-size:19px;margin-top:12px;"><b style="color:#00f2ff;">어느 차원에서나 가장 유연</b>(상호성 8.29 · 동사강도 8.08). 사건마다 톤을 바꾼다.</p>
+    </div>
+  </div>
+  <div class="content-area" style="flex-grow:0;">
+    <div class="finding"><p style="margin:0;font-size:20px;">한국이 <b>모든 차원에서 일관되게 꼴찌</b>라는 것 — 우연이 아니라 견고한 발견이다.</p></div>
   </div>
   <div class="slide-no">08</div>
 </div>
 
-<!-- 9 회고 + 과제 예고 -->
+<!-- 9 침묵 지도 심화 개념 -->
 <div class="slide-container" id="s9">
+  <h2 class="slide-title">침묵 지도 심화 — 무엇에 침묵하나 🤫⚖️</h2>
+  <div class="content-area">
+    <p style="font-size:24px;color:#fff;">침묵은 무작위가 아니다. <strong>무엇에 대해</strong> 침묵하느냐가 신호다.</p>
+    <p style="font-size:21px;margin-top:10px;">사건을 두 종류로 나눠 소스별 침묵률을 비교한다.</p>
+    <div class="tiled-content" style="margin-top:14px;">
+      <div class="tile"><div class="icon"><i class="fa-solid fa-scale-balanced"></i></div><h3>법적 변곡점</h3><p style="font-size:18px;">ICJ · ICC 결정, 영장</p></div>
+      <div class="tile"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-explosion"></i></div><h3>상징·군사 사건</h3><p style="font-size:18px;">공격 · 휴전 등</p></div>
+    </div>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+<!-- 10 침묵 지도 발견 + 표본 한계 -->
+<div class="slide-container" id="s10">
+  <h2 class="slide-title">한국 — 법 앞에서 입을 다문다</h2>
+  <div class="content-area">
+    <div class="finding" style="margin-top:6px;">
+      <p style="margin:0;font-size:21px;"><b>한국은 법적 사건(ICJ·ICC)에서 침묵률이 두드러진다.</b> 우크라이나에서 ICC 영장·댐 파괴에 침묵한 것과 <b>같은 결</b> — 두 주제에서 반복 관측.</p>
+    </div>
+    <p style="font-size:20px;margin-top:14px;">가설: <strong>법적 판단을 요구하는 사건에서 한국 외교부는 입장 표명을 미룬다.</strong> 왜? (당사자성? 사법 절차 존중? 신중함?)</p>
+    <p style="font-size:18px;margin-top:10px;color:#adff2f;">⚠️ 표본 한계 — 한국은 10개 사건 중 <strong>7개</strong>에만 등장. std가 큰 것도 사건 수가 적어서일 수 있다. 단정하지 말고 <strong>가설로 기록</strong>한다. 좋은 분석가는 자기 숫자의 약점을 먼저 말한다.</p>
+  </div>
+  <div class="slide-no">10</div>
+</div>
+
+<!-- 11 9차원 종합: 수렴 논리 -->
+<div class="slide-container" id="s11">
+  <h2 class="slide-title">9차원 종합 — 자 하나로는 흔들린다 🔭</h2>
+  <div class="content-area section-title-layout">
+    <p style="font-size:24px;color:#fff;">지금까지 "중국=양면성" 결론은 <strong>상호성 한 지표</strong>로만 받쳤다.</p>
+    <hr>
+    <h2 style="font-size:40px;">세 개의 다른 자가<br>모두 같은 방향을 가리키는가?</h2>
+    <p style="font-size:21px;margin-top:20px;">그렇다면 우연이 아니라 <strong style="color:#adff2f;">견고한 발견</strong>이다.<br>명명 · 귀속 · 대상비판 — 상호성과 <strong>독립적으로</strong> 측정된 세 자.</p>
+  </div>
+  <div class="slide-no">11</div>
+</div>
+
+<!-- 12 측정 ① 완곡 명명 -->
+<div class="slide-container" id="s12">
+  <h2 class="slide-title">측정 ① 완곡 명명 (naming) </h2>
+  <div class="content-area two-column">
+    <div class="table-layout">
+      <p class="kicker">명명강도 (낮을수록 완곡)</p>
+      <table>
+        <tr><th>소스</th><th>강도</th></tr>
+        <tr><td style="color:#adff2f;">중국</td><td style="color:#adff2f;">0.75 (최저·완곡)</td></tr>
+        <tr><td>UN</td><td>1.27 (최고·규정적)</td></tr>
+      </table>
+    </div>
+    <div class="finding">
+      <p style="margin:0;font-size:20px;color:#fff;">중국은 사건을 <b>"operation(작전)"</b> 같은 완곡어로 부른다.</p>
+      <p style="margin:12px 0 0;font-size:20px;color:#fff;">UN은 <b>"war / genocide"</b> 처럼 규정적으로 명명한다.</p>
+      <p style="margin:12px 0 0;font-size:18px;">방향: 중국 = <strong>양면·중립</strong>.</p>
+    </div>
+  </div>
+  <div class="slide-no">12</div>
+</div>
+
+<!-- 13 측정 ② 귀속 -->
+<div class="slide-container" id="s13">
+  <h2 class="slide-title">측정 ② 귀속 — 가해자를 지목하나 (named)</h2>
+  <div class="content-area">
+    <div class="table-layout">
+      <table>
+        <tr><th>소스</th><th>가해 지목 (named)</th><th>해석</th></tr>
+        <tr><td style="color:#adff2f;">중국</td><td style="color:#adff2f;">18 (가림 위주, obscured 27)</td><td>가해자를 가린다</td></tr>
+        <tr><td>UN</td><td>32 (최다 지목)</td><td>가해자를 직접 짚는다</td></tr>
+        <tr><td style="color:#00f2ff;">한국</td><td style="color:#00f2ff;">0 (전무)</td><td>한 번도 지목 안 함</td></tr>
+      </table>
+    </div>
+    <div class="finding" style="margin-top:16px;">
+      <p style="margin:0;font-size:20px;">한국 <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">blame_named=0</code> → blame_directness 전부 None → 평균 NaN. <b>가해자를 한 번도 지목 안 함도 데이터다</b> — 침묵의 또 다른 얼굴. (표본 16건 희소 → 가설로.)</p>
+    </div>
+  </div>
+  <div class="slide-no">13</div>
+</div>
+
+<!-- 14 측정 ③ 대상비판 -->
+<div class="slide-container" id="s14">
+  <h2 class="slide-title">측정 ③ 대상비판 — 한쪽에 쏠리나 (skew)</h2>
+  <div class="content-area two-column">
+    <div class="table-layout">
+      <p class="kicker">비판분포 이스라엘:팔레스타인 / 쏠림(skew)</p>
+      <table>
+        <tr><th>소스</th><th>분포</th><th>skew</th></tr>
+        <tr><td style="color:#adff2f;">중국</td><td>18:20</td><td style="color:#adff2f;">0.05 (균등)</td></tr>
+        <tr><td>UN</td><td>26:8</td><td>0.53 (이스라엘 집중)</td></tr>
+      </table>
+    </div>
+    <div class="finding">
+      <p style="margin:0;font-size:18px;">skew=0 → 양측 <b>완전 균등</b> 비판. skew=1 → <b>한쪽에만</b> 집중.</p>
+      <p style="margin:12px 0 0;font-size:20px;color:#fff;">중국 0.05 = 거의 균등 → <strong>양면 프레임</strong> 재확인.</p>
+    </div>
+  </div>
+  <div class="slide-no">14</div>
+</div>
+
+<!-- 15 수렴 -->
+<div class="slide-container" id="s15">
+  <h2 class="slide-title">수렴 — 세 독립 측정이 한목소리</h2>
+  <div class="content-area">
+    <div class="table-layout">
+      <table>
+        <tr><th>v2 차원</th><th>중국 (양면성)</th><th>UN (대조군)</th></tr>
+        <tr><td>완곡 명명</td><td style="color:#adff2f;">0.75 최저·완곡</td><td>1.27 최고·규정적</td></tr>
+        <tr><td>귀속 (named)</td><td style="color:#adff2f;">18 (가림 위주)</td><td>32 (최다 지목)</td></tr>
+        <tr><td>대상비판 skew</td><td style="color:#adff2f;">0.05 (균등)</td><td>0.53 (집중)</td></tr>
+      </table>
+    </div>
+    <div class="finding" style="margin-top:14px;">
+      <p style="margin:0;font-size:20px;"><b>중국 = 완곡 명명 + 가해자 가림 + 양측 균등 비판 — 세 독립 측정이 한목소리.</b> 서로 다른 알고리즘(사전·SVO·문장감정)으로 잰 세 자가 같은 방향. 여러 독립 측정의 <b>수렴(convergence)</b>이 한 지표의 노이즈에 안 흔들리는 신뢰 확보법이다.</p>
+    </div>
+  </div>
+  <div class="slide-no">15</div>
+</div>
+
+<!-- 16 Visual Essay 산출물 개념 -->
+<div class="slide-container" id="s16">
+  <h2 class="slide-title">Visual Essay 산출물 — 숫자를 이야기로 🎨</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">오늘의 클라이맥스</p>
+      <p style="font-size:22px;color:#fff;">분석의 끝은 표가 아니라 <strong>한 장의 그림</strong>이다.</p>
+      <ul class="bullet-list" style="font-size:18px;margin-top:14px;">
+        <li><i class="fa-solid fa-pen-nib"></i> 중국·한국 두 선만 <strong>굵게</strong>, 나머지는 흐린 점선 — 주인공을 정한다</li>
+        <li><i class="fa-solid fa-arrow-pointer"></i> 화살표 주석 둘: "중국=균형 톤 유지", "한국=출렁"</li>
+        <li><i class="fa-solid fa-heading"></i> 제목 + 작은 회색 부제, 범례는 상단 가로</li>
+      </ul>
+    </div>
+    <div class="finding">
+      <p class="kicker" style="color:#adff2f;">너의 차별점 = 번역</p>
+      <p style="margin:0;font-size:21px;color:#fff;">독자는 std를 모른다. "선이 평평하면 일관, 출렁이면 유연"으로 <strong>번역</strong>한다.</p>
+      <p style="margin:12px 0 0;font-size:19px;">분석가는 많지만 그걸 일반인에게 전하는 사람은 드물다. 발표용은 <strong>디자인이 절반</strong>.</p>
+    </div>
+  </div>
+  <div class="slide-no">16</div>
+</div>
+
+<!-- 17 Visual Essay 서사 -->
+<div class="slide-container" id="s17">
+  <h2 class="slide-title">서사 — 중국 평탄 vs 한국 변동</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:21px;">
+      "2023년 10월부터 2025년 8월까지, 가자의 <b>열 개 변곡점</b>을 지나는 동안 <b>중국 외교부의 화법은 거의 움직이지 않았다.</b> 공격이든 휴전이든 국제재판소 결정이든, 한결같이 '모든 당사자·대화·정치적 해결' 이라는 균형의 언어를 반복했다."
+    </div>
+    <p style="font-size:21px;margin-top:14px;color:#fff;"><strong>반대로 한국의 화법은 사건마다 크게 출렁였다</strong> — 어떤 날엔 단호했고, 어떤 날엔 아예 침묵했다.</p>
+    <p style="font-size:18px;margin-top:10px;">※ 프랑스·UN 선도 평평하지만, 그것은 <strong>균형의 언어를 거의 쓰지 않아</strong> 낮은 자리에서 평평한 것 — 중국처럼 높은 톤을 유지하는 평평함과는 결이 다르다.</p>
+  </div>
+  <div class="slide-no">17</div>
+</div>
+
+<!-- 18 일반 독자 캡션 -->
+<div class="slide-container" id="s18">
+  <h2 class="slide-title">일반 독자 캡션 — 그림 한 장 + 4문장</h2>
+  <div class="content-area section-title-layout">
+    <h2 style="font-size:38px;line-height:1.4;">"같은 자로 재면,<br><span style="color:#adff2f;">'무엇을 말하느냐'보다<br>'얼마나 한결같으냐'</span>가<br>그 나라의 성격을 드러낸다."</h2>
+    <hr>
+    <p style="font-size:20px;">독자는 표를 안 본다. 이 <strong>4문장과 그림 한 장</strong>만 본다.<br>이게 기사 자막 / 영상 내레이션이 된다.</p>
+  </div>
+  <div class="slide-no">18</div>
+</div>
+
+<!-- 19 Q1 Q2 Q3 종합 + 저장 -->
+<div class="slide-container" id="s19">
+  <h2 class="slide-title">Q1 · Q2 · Q3 한눈에 종합 💾</h2>
+  <div class="content-area">
+    <div class="step-grid" style="grid-template-columns:1fr;gap:14px;">
+      <div class="step-card"><h4>Q1 — 네 소스는 다른가?</h4><p style="font-size:18px;">뚜렷이 다르다. 한국(≈12.13)·중국(≈11.89) 상호성 동반 최상위로 프랑스(≈2.20)의 <strong style="color:#00f2ff;">5배 이상</strong>. 우크라이나와 <strong style="color:#00f2ff;">같은 지문 구조</strong> 재현.</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">Q2 — 당사자성 차이?</h4><p style="font-size:18px;">중국=주제 무관 일관된 제3자 중립(당사자성 약함), 한국=법적 사건에 침묵하는 <strong style="color:#00f2ff;">유연한 행위자</strong>.</p></div>
+      <div class="step-card"><h4>Q3 — 누가 일관, 누가 유연?</h4><p style="font-size:18px;">상호성은 <strong style="color:#00f2ff;">프랑스</strong>(2.47), 동사강도는 <strong style="color:#00f2ff;">중국</strong>(1.48)이 가장 일관. 한국은 <strong style="color:#00f2ff;">어디서나 가장 유연</strong>.</p></div>
+    </div>
+    <p style="font-size:18px;margin-top:8px;color:#adff2f;">소스별 최종표 + 시간 std 열 + v2 명명강도 한 칸 → <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">gaza_annotated.csv</code> 저장 (<strong>utf-8-sig</strong> — 엑셀 한글 안 깨짐).</p>
+  </div>
+  <div class="slide-no">19</div>
+</div>
+
+<!-- 20 회고 + 과제 예고 -->
+<div class="slide-container" id="s20">
   <h2 class="slide-title">회고 + 과제 예고 🚀</h2>
   <div class="content-area two-column">
     <div>
@@ -346,12 +514,12 @@
     </div>
     <div class="finding">
       <p class="kicker" style="color:#adff2f;">다음 — 주제3 (혼자)</p>
-      <p style="margin:0;font-size:20px;color:#fff;"><strong>세 번째 주제 AI 거버넌스는 혼자</strong>, 처음부터 끝까지.</p>
+      <p style="margin:0;font-size:20px;color:#fff;"><strong>세 번째 주제 AI 거버넌스는 혼자</strong>, 처음부터 끝까지. (정답지는 제공)</p>
       <p style="margin:12px 0 0;font-size:19px;">4개 소스 중 하나는 이 주제에서 <b style="color:#adff2f;">구조적으로 침묵</b>한다. 누구일지 침묵 지도로 직접 확인하라 — 너의 첫 단독 발견.</p>
-      <p style="margin:12px 0 0;font-size:18px;">수렴 논리를 그대로: <strong>9차원으로</strong>, 여러 자가 같은 방향인지로 결론을 받쳐라.</p>
+      <p style="margin:12px 0 0;font-size:18px;">수렴 논리를 그대로: 6차원 + v2 세 차원 = <strong>9차원으로</strong>, 여러 자가 같은 방향인지로 결론을 받쳐라.</p>
     </div>
   </div>
-  <div class="slide-no">09</div>
+  <div class="slide-no">20</div>
 </div>
 
 </body>

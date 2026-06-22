@@ -209,8 +209,45 @@
   <div class="slide-no">02</div>
 </div>
 
-<!-- 3 툴킷 한 줄 -->
+<!-- 3 프로젝트 지도에서 오늘의 위치 -->
 <div class="slide-container" id="s3">
+  <h2 class="slide-title">오늘의 위치 — 우크라이나의 마지막 세션</h2>
+  <div class="content-area table-layout">
+    <p style="font-size:20px;margin:0;">4주간 우크라이나라는 한 주제를 네 번 갈아 왔다. 오늘은 그 <strong>캡스톤</strong> — "무엇을 했나"를 종합하고 검증한다.</p>
+    <table>
+      <tr><th>세션</th><th>주제</th><th>하는 일</th></tr>
+      <tr><td>S1</td><td>우크라이나</td><td>수집 · 정제</td></tr>
+      <tr><td>S2</td><td>우크라이나</td><td>구조 분석 (spaCy) — 직설성 · 동사강도 · 주어</td></tr>
+      <tr><td>S3</td><td>우크라이나</td><td>의미 분석 (Claude) — 상호성 · 완곡어 · framing</td></tr>
+      <tr style="background:#101820;"><td style="color:#adff2f;"><b>S4</b></td><td style="color:#adff2f;"><b>우크라이나</b></td><td style="color:#adff2f;"><b>검증 + 시각화 (9차원 종합) ← 오늘, 캡스톤</b></td></tr>
+      <tr><td>S5~6</td><td>가자</td><td>같은 파이프라인 재적용 + 시계열</td></tr>
+    </table>
+    <p style="font-size:19px;margin-top:14px;color:#adff2f;">오늘의 두 봉우리: <strong>시각화(Step 3)</strong> 와 <strong>측정 편향 검증(Step 5)</strong>. 여기에 시간을 몰아준다.</p>
+  </div>
+  <div class="slide-no">03</div>
+</div>
+
+<!-- 4 오늘 만들 것 시연 -->
+<div class="slide-container" id="s4">
+  <h2 class="slide-title">오늘 만들 것 — 끝 그림 먼저</h2>
+  <div class="content-area two-column">
+    <div class="step-card" style="display:flex;flex-direction:column;justify-content:center;">
+      <h4>완성본 1 — 상호성 막대</h4>
+      <p style="font-size:18px;">중국 10 vs 프랑스 1. "기사에 한 장만 싣는다면 이것."</p>
+    </div>
+    <div class="step-card" style="border-left-color:#adff2f;display:flex;flex-direction:column;justify-content:center;">
+      <h4 style="color:#adff2f;">완성본 2 — 오늘의 반전</h4>
+      <p style="font-size:18px;">길이↔동사강도 산점도. "이게 오늘의 반전이에요. 우리 자가 틀렸을 수도 있다."</p>
+    </div>
+    <div class="finding" style="grid-column:1 / span 2;">
+      <p style="margin:0;font-size:21px;color:#fff;">먼저 <b>도착지</b>를 보여주고 출발한다. 두 그림 사이의 거리가 오늘 90분의 여정이다.</p>
+    </div>
+  </div>
+  <div class="slide-no">04</div>
+</div>
+
+<!-- 5 툴킷 한 줄 -->
+<div class="slide-container" id="s5">
   <h2 class="slide-title">Step 1 — 툴킷 한 줄로 🧰</h2>
   <div class="content-area">
     <p style="font-size:21px;">S2~S3에서 노트북 안에 직접 짠 <strong>directness_index · verb_strength · silence_map …</strong>을 한 파일 <code style="background:#000;color:#adff2f;padding:2px 8px;border-radius:4px;">diplo_analysis.py</code>로 묶었다.</p>
@@ -219,16 +256,46 @@
 
 result = <span class="fn">analyze_document</span>(docs[<span class="num">0</span>], nlp)
 <span class="cm"># → directness · verb_strength · subject_pattern · reciprocity · hedging · silence</span></div>
-    <p style="font-size:20px;margin-top:8px;color:#adff2f;">코드가 자라는 과정: <strong>실험(노트북) → 정리(모듈) → 재사용(import)</strong>. 다음 주 가자엔 이 모듈 그대로. 바퀴를 다시 안 깎는다.</p>
+    <p style="font-size:20px;margin-top:8px;color:#adff2f;">검증 질문: <strong>"이 한 줄이 안에서 뭘 하고 있지?"</strong> (spaCy 구문분석 + 사전 매칭 → 딕셔너리)</p>
   </div>
-  <div class="slide-no">03</div>
+  <div class="slide-no">05</div>
 </div>
 
-<!-- 4 9차원 종합 -->
-<div class="slide-container" id="s4">
+<!-- 6 코드가 자라는 과정 -->
+<div class="slide-container" id="s6">
+  <h2 class="slide-title">코드가 자라는 과정 — 실험→정리→재사용</h2>
+  <div class="content-area">
+    <div class="tiled-content">
+      <div class="tile"><div class="icon"><i class="fa-solid fa-flask"></i></div><h3>실험</h3><p>S2~S3 노트북 셀 안에서<br>직접 깎아 본 함수들</p></div>
+      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-box-archive"></i></div><h3>정리</h3><p>한 파일<br><code style="background:#000;color:#adff2f;padding:2px 6px;border-radius:4px;">diplo_analysis.py</code><br>로 묶기</p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-arrows-rotate"></i></div><h3>재사용</h3><p><code style="background:#000;color:#adff2f;padding:2px 6px;border-radius:4px;">import</code> 한 줄로<br>어디서든 호출</p></div>
+    </div>
+    <div class="finding" style="margin-top:20px;font-size:21px;">
+      내부 구현은 <b>다시 안 가르친다</b> — 이미 2~3주차에 다 봤다. 오늘은 <b>쓰는</b> 날.<br>
+      다음 주 가자엔 이 모듈을 그대로 들고 간다. <b>바퀴를 다시 안 깎는다.</b>
+    </div>
+  </div>
+  <div class="slide-no">06</div>
+</div>
+
+<!-- 7 85개 라이브 실행 -->
+<div class="slide-container" id="s7">
+  <h2 class="slide-title">Step 2 — 85개 전 문서를 라이브로</h2>
+  <div class="content-area">
+    <div class="code-block"><span class="cm"># 85건을 한 번에 (30초~1분, 기다린다)</span>
+ana = [<span class="fn">analyze_document</span>(d, nlp) <span class="kw">for</span> d <span class="kw">in</span> docs]
+<span class="cm"># TODO: 직접 친다 — 소스별 평균 집계</span>
+agg = ana.<span class="fn">groupby</span>(<span class="str">"source"</span>)[cols].<span class="fn">mean</span>()</div>
+    <p style="font-size:19px;margin-top:10px;color:#adff2f;">왜 라이브로? 미리 계산본(<code style="background:#000;color:#adff2f;padding:2px 6px;border-radius:4px;">analysis_rule_based.json</code>)이 있어도 <strong>툴킷이 진짜 도는 걸</strong> 한 번은 봐야 믿는다. 평균이 같은지 검산 = 재현성.</p>
+  </div>
+  <div class="slide-no">07</div>
+</div>
+
+<!-- 8 9차원 종합 프로파일 -->
+<div class="slide-container" id="s8">
   <h2 class="slide-title">Step 2 — 9차원 종합: 소스 프로파일</h2>
   <div class="content-area table-layout">
-    <p style="font-size:20px;margin:0;">85개 전 문서를 라이브로 돌려 <code style="background:#000;color:#adff2f;padding:2px 6px;border-radius:4px;">ana.groupby("source").mean()</code> — 소스별 한 장의 지문.</p>
+    <p style="font-size:20px;margin:0;">소스별 한 장의 <strong>지문(fingerprint)</strong>. 9차원 = 6차원 + 동사강도(mean) + 강도동사 개수 + 글자수.</p>
     <table>
       <tr><th>소스</th><th>상호성</th><th>직설성</th><th>verb_strength_max (원시)</th><th>평균 글자수</th></tr>
       <tr><td>중국</td><td style="color:#adff2f;">11.92</td><td>0.75~0.86</td><td>높음 (의심 대상)</td><td>~17,000</td></tr>
@@ -238,18 +305,33 @@ result = <span class="fn">analyze_document</span>(docs[<span class="num">0</span
     </table>
     <p style="font-size:19px;margin-top:14px;color:#adff2f;">상호성: 중국이 프랑스의 약 <strong>12배</strong>. 직설성은 다들 비슷. verb_strength_max는 중국·UN이 높다 — <strong>그런데 믿어도 돼? Step 5에서 깐다.</strong></p>
   </div>
-  <div class="slide-no">04</div>
+  <div class="slide-no">08</div>
 </div>
 
-<!-- 5 시각화 -->
-<div class="slide-container" id="s5">
-  <h2 class="slide-title">Step 3 — 시각화: 헤드라인 막대 📊</h2>
+<!-- 9 소스별 한 줄 인물평 -->
+<div class="slide-container" id="s9">
+  <h2 class="slide-title">9차원이 그리는 네 개의 얼굴</h2>
+  <div class="content-area">
+    <div class="tiled-content">
+      <div class="tile"><div class="icon"><i class="fa-solid fa-yin-yang"></i></div><h3>중국</h3><p>상호성 최고 (11.92)<br>"all parties / win-win"<br>양면적 균형 프레임</p></div>
+      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-bullhorn"></i></div><h3>프랑스</h3><p>상호성 최저 (0.98)<br>거명·직설형<br>문체가 짧다</p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-gavel"></i></div><h3>한국</h3><p>상호성 중간 (5.86)<br>짧지만 단호<br>강한 동사 + 유연한 자세</p></div>
+      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-scale-balanced"></i></div><h3>UN</h3><p>상호성 하위 (3.42)<br>길고 절차적<br>서술 균형</p></div>
+    </div>
+    <p style="font-size:20px;margin-top:18px;color:#adff2f;">검증 질문: <strong>"중국 상호성이 왜 이렇게 높을까?"</strong> (정례 브리핑 + all parties / win-win 문체)</p>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+<!-- 10 시각화 (a) 헤드라인 막대 -->
+<div class="slide-container" id="s10">
+  <h2 class="slide-title">Step 3a — 헤드라인 막대: 상호성 📊</h2>
   <div class="content-area two-column">
     <div>
       <p class="kicker">표는 정확하지만 머리에 안 박힌다</p>
-      <p style="font-size:21px;">같은 숫자를 <strong>눈</strong>에 박는다. 상호성 막대 — 마우스 올리면 값이 뜨는 인터랙티브.</p>
+      <p style="font-size:21px;">같은 숫자를 <strong>눈</strong>에 박는다. 마우스를 올리면 값이 뜨는 인터랙티브 막대.</p>
       <p style="font-size:22px;color:#fff;margin-top:16px;">기사에 한 장만 싣는다면 이것. 한 눈에 <strong>"중국 ≫ 프랑스"</strong>.</p>
-      <p style="font-size:19px;margin-top:12px;">레이더(6차원 정규화)로 네 나라의 '말하기 지문'을 모양으로 비교.</p>
+      <p style="font-size:19px;margin-top:12px;">중국은 균형 프레임, 프랑스는 거의 안 쓴다 — 시선 한 번에 끝.</p>
     </div>
     <div class="finding" style="display:flex;flex-direction:column;justify-content:flex-end;gap:14px;">
       <p style="margin:0;color:#fff;font-size:18px;">상호성 (reciprocity)</p>
@@ -259,49 +341,152 @@ result = <span class="fn">analyze_document</span>(docs[<span class="num">0</span
       <div style="display:flex;align-items:center;gap:10px;"><span style="width:60px;color:#fff;">프랑스</span><div style="height:30px;width:8%;background:#3a4250;border-radius:4px;"></div><b style="white-space:nowrap;">0.98</b></div>
     </div>
   </div>
-  <div class="slide-no">05</div>
+  <div class="slide-no">10</div>
 </div>
 
-<!-- 6 검증 1 -->
-<div class="slide-container" id="s6">
+<!-- 11 시각화 (b) 동사강도 막대 -->
+<div class="slide-container" id="s11">
+  <h2 class="slide-title">Step 3b — 동사강도 막대 [직접 친다]</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">코드 복붙, y 열만 교체</p>
+      <p style="font-size:21px;">(a) 막대 코드를 그대로 본떠 y 값만 <code style="background:#000;color:#adff2f;padding:2px 6px;border-radius:4px;">"verb_strength_max"</code> 로. 직접 친다.</p>
+      <div class="finding" style="margin-top:14px;font-size:20px;">
+        검증 질문: <b>중국·UN이 높지? 잠깐 기억해 둬.</b> Step 5에서 이게 <b>거짓</b>일 수 있다.
+      </div>
+    </div>
+    <div class="finding" style="display:flex;flex-direction:column;justify-content:flex-end;gap:14px;">
+      <p style="margin:0;color:#fff;font-size:18px;">verb_strength_max (원시) — 복선</p>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:60px;color:#fff;">UN</span><div style="height:30px;width:100%;background:#adff2f;border-radius:4px;"></div><b style="white-space:nowrap;">높음</b></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:60px;color:#fff;">중국</span><div style="height:30px;width:88%;background:#adff2f;border-radius:4px;"></div><b style="white-space:nowrap;">6.2</b></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:60px;color:#fff;">한국</span><div style="height:30px;width:50%;background:#00f2ff;border-radius:4px;"></div><b style="white-space:nowrap;">중간</b></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:60px;color:#fff;">프랑스</span><div style="height:30px;width:22%;background:#3a4250;border-radius:4px;"></div><b style="white-space:nowrap;">낮음</b></div>
+    </div>
+  </div>
+  <div class="slide-no">11</div>
+</div>
+
+<!-- 12 시각화 (c) 레이더 -->
+<div class="slide-container" id="s12">
+  <h2 class="slide-title">Step 3c — 레이더: 6→9축 정규화 🕸️</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">단위가 제각각(0~1, 1~7, 0~13)이라 <strong>0~1 min-max 정규화</strong>해 <strong>모양</strong>만 비교한다.</p>
+    <div class="step-grid" style="margin-top:8px;">
+      <div class="step-card"><h4>6축 레이더</h4><p>직설성 · 동사강도(max) · 동사강도(mean) · 상호성 · 완곡어 · 1인칭(we)</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">9축으로 확장</h4><p>+ 강도동사 개수 · 글자수 등을 더해 다시 0~1 정규화 → 더 촘촘한 지문</p></div>
+    </div>
+    <div class="finding" style="margin-top:14px;font-size:20px;">
+      네 나라의 <b>말하기 지문</b>이 서로 다른 <b>모양</b>으로 보인다. 범례를 클릭해 끄고 켜며 두 나라만 겹쳐 비교.
+    </div>
+  </div>
+  <div class="slide-no">12</div>
+</div>
+
+<!-- 13 검증 1 개념 -->
+<div class="slide-container" id="s13">
   <h2 class="slide-title">Step 4 — 검증 1: 교차언어 점검 🔍🌐</h2>
   <div class="content-area">
-    <p style="font-size:22px;color:#fff;">기계가 0.86이라 했다고 그게 진실은 아니다. <strong>사람이 원문을 읽고</strong> 말이 되나 본다. 너는 한·중·프를 읽는다 — 강력한 검증 무기.</p>
-    <div class="step-grid" style="margin-top:8px;">
-      <div class="step-card"><h4>차려주는 것</h4><p>소스별 상호성 최고 문서 1건씩: 측정값 + URL + 본문 앞부분</p></div>
+    <p style="font-size:23px;color:#fff;">기계가 0.86이라 했다고 그게 진실은 아니다. <strong>사람이 원문을 읽고</strong> 말이 되나 본다.</p>
+    <div class="finding" style="margin-top:8px;font-size:22px;">
+      너는 <b>한·중·프</b>를 읽는다 — 자동 측정값을 원어로 반증할 수 있는 <b>강력한 검증 무기</b>다. 영어만 읽는 분석가가 못 하는 일.
+    </div>
+    <div class="step-grid" style="margin-top:14px;">
+      <div class="step-card"><h4>차려주는 것</h4><p>소스별 상호성 최고 문서 1건씩: <code>측정값 + URL + 본문 앞부분</code></p></div>
       <div class="step-card"><h4>증거 셀</h4><p>중국 문서가 실제로 쓴 단어: <code>cooperation 12회 · mutual 7회</code> → 측정이 헛소리 아님</p></div>
     </div>
-    <div class="finding" style="margin-top:14px;">
-      <p style="margin:0;font-size:20px;">솔직하게: <b>프랑스 점수가 낮은 건 비협조적이라서가 아니라 문체가 짧아서</b>일 수 있다. 이게 측정의 한계 — 숫자만으로 인성 판단 금지. (다음 슬라이드로)</p>
-    </div>
   </div>
-  <div class="slide-no">06</div>
+  <div class="slide-no">13</div>
 </div>
 
-<!-- 7 검증 2 — 심장 -->
-<div class="slide-container" id="s7">
+<!-- 14 검증 1 절차/체크리스트 -->
+<div class="slide-container" id="s14">
+  <h2 class="slide-title">검증 1 — 4문항 체크리스트 (숙제)</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">URL을 직접 클릭해 원문을 열고, 자동값과 대조하며 네 문항을 채워 온다.</p>
+    <ul class="bullet-list" style="font-size:21px;">
+      <li><i class="fa-solid fa-square-check"></i> 자동 측정값이 원문 분위기와 <strong>맞는가?</strong></li>
+      <li><i class="fa-solid fa-square-check"></i> 기계가 <strong>놓친 뉘앙스</strong>는? (반어·조건·부정)</li>
+      <li><i class="fa-solid fa-square-check"></i> 원어로 읽을 때 <strong>다르게</strong> 들리는 부분은?</li>
+      <li><i class="fa-solid fa-square-check"></i> 이 한 건으로 소스 전체를 <strong>일반화</strong>해도 되나?</li>
+    </ul>
+    <p style="font-size:19px;margin-top:8px;color:#adff2f;">검증은 한 번에 끝나지 않는다 — 자동 → 사람 → 자동의 왕복.</p>
+  </div>
+  <div class="slide-no">14</div>
+</div>
+
+<!-- 15 검증 1 함정 -->
+<div class="slide-container" id="s15">
+  <h2 class="slide-title">검증 1 함정 — 낮은 점수 ≠ 비협조</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:24px;">
+      솔직하게: <b>프랑스 점수가 낮은 건 비협조적이라서가 아니라, 문체가 짧아서</b>일 수 있다.
+    </div>
+    <p style="font-size:22px;color:#fff;margin-top:24px;text-align:center;">이게 측정의 한계 — <strong>숫자만으로 인성 판단 금지.</strong></p>
+    <p style="font-size:20px;text-align:center;margin-top:10px;">짧은 성명문엔 상호성 단어가 들어갈 자리 자체가 적다. 점수가 낮은 게 <strong>태도</strong>인지 <strong>분량</strong>인지부터 가른다.</p>
+    <p style="font-size:19px;text-align:center;margin-top:14px;color:#adff2f;">→ 바로 이 의심이 다음 봉우리(Step 5)로 이어진다.</p>
+  </div>
+  <div class="slide-no">15</div>
+</div>
+
+<!-- 16 검증 2 — 심장: 문제제기 -->
+<div class="slide-container" id="s16">
   <h2 class="slide-title">Step 5 — 검증 2: 측정 타당성 ⚠️ (오늘의 심장)</h2>
   <div class="content-area">
-    <p style="font-size:22px;color:#fff;margin:0;">칠판에 적기: <strong>"숫자를 믿기 전에, 그 숫자가 왜 그런지 의심하라."</strong></p>
-    <div class="two-column" style="margin-top:6px;">
-      <div class="step-card" style="border-left-color:#adff2f;">
-        <h4 style="color:#adff2f;">문제 제기</h4>
-        <p>verb_strength_max = 문서에 나온 강도동사 중 <b>최댓값</b>. 문서가 길면 우연히라도 강한 동사가 한 번쯤 나온다 → 강경함이 아니라 <b>길이</b>를 재는 것?</p>
-      </div>
-      <div class="step-card" style="border-left-color:#adff2f;">
-        <h4 style="color:#adff2f;">결정적 증거</h4>
-        <p>강도동사 <b>개수(n_strength_verbs) ~ 단어수</b> 상관 = <b style="color:#adff2f;">0.94</b>. 거의 길이 그 자체. UN 강도동사 평균 ~41개는 강경해서가 아니라 길어서다.</p>
-      </div>
+    <p style="font-size:24px;color:#fff;margin:0;text-align:center;">칠판에 적기:</p>
+    <div class="finding" style="font-size:28px;text-align:center;">
+      <b>"숫자를 믿기 전에, 그 숫자가 왜 그런지 의심하라."</b>
     </div>
-    <div class="finding" style="margin-top:14px;font-size:21px;">
-      <b>해결책 — 밀도 정규화</b>: 밀도 = 개수 / 단어수 × 1000. 정규화 후 길이 상관 <b>0.94 → 0.31</b> 로 추락. 순위가 바뀐다.
+    <div class="step-card" style="border-left-color:#adff2f;margin-top:18px;">
+      <h4 style="color:#adff2f;font-size:20px;">문제 제기</h4>
+      <p style="font-size:20px;">verb_strength_max = 문서에 나온 강도동사 중 <b>최댓값</b>. 문서가 길면 우연히라도 강한 동사가 한 번쯤 나온다. 그럼 이 점수는 <b>강경함이 아니라 길이</b>를 재는 것 아닌가?</p>
     </div>
+    <p style="font-size:20px;margin-top:12px;color:#adff2f;">먼저 소스별 평균 글자수: UN ~28k, 중국 ~17k, 한국·프랑스 ~1.3k. <strong>길이가 13~22배 차이!</strong></p>
   </div>
-  <div class="slide-no">07</div>
+  <div class="slide-no">16</div>
 </div>
 
-<!-- 8 심장 결론 — 순위 변동 -->
-<div class="slide-container" id="s8">
+<!-- 17 심장: 산점도/상관 -->
+<div class="slide-container" id="s17">
+  <h2 class="slide-title">Step 5-1·2 — 산점도와 상관계수 📈</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">길수록 max가 높다</p>
+      <p style="font-size:21px;">길이(로그축) ↔ 동사강도 max 산점도는 오른쪽 위로 쏠린다. 상관 <strong>r=0.51</strong>.</p>
+      <div class="finding" style="margin-top:14px;font-size:21px;">
+        결정적 증거: 강도동사 <b>개수 ~ 단어수</b> 상관 = <b style="color:#adff2f;">0.94</b>. 거의 <b>길이 그 자체</b>.
+      </div>
+      <p style="font-size:20px;margin-top:14px;color:#fff;">UN이 강도동사 평균 <strong>~41개</strong>?! 강경해서가 아니라 <strong>문서가 길어서</strong> 많은 거다.</p>
+    </div>
+    <div class="finding" style="display:flex;flex-direction:column;justify-content:center;gap:18px;">
+      <div><p style="margin:0;color:#fff;font-size:18px;">개수 vs 길이</p><div style="height:30px;width:94%;background:#adff2f;border-radius:4px;"></div><b>r = 0.94 (거의 길이)</b></div>
+      <div><p style="margin:0;color:#fff;font-size:18px;">max vs 길이</p><div style="height:30px;width:51%;background:#00f2ff;border-radius:4px;"></div><b>r = 0.51</b></div>
+    </div>
+  </div>
+  <div class="slide-no">17</div>
+</div>
+
+<!-- 18 심장: 밀도 정규화 -->
+<div class="slide-container" id="s18">
+  <h2 class="slide-title">Step 5-3 — 해결책: 밀도 정규화 [직접 친다]</h2>
+  <div class="content-area">
+    <div class="code-block"><span class="cm"># 1000단어당 강도동사 '밀도' — 빈칸 직접 채운다</span>
+ana2[<span class="str">"verb_density"</span>] = ana2[<span class="str">"n_strength_verbs"</span>] / ana2[<span class="str">"n_words"</span>] * <span class="num">1000</span></div>
+    <div class="two-column" style="margin-top:16px;">
+      <div class="finding" style="font-size:22px;">
+        길이 상관: <b style="color:#ff6b6b;">0.94</b> &nbsp;→&nbsp; <b style="color:#adff2f;">0.31</b><br>
+        <span style="font-size:18px;color:#b0b0b0;">길이 효과가 제거됐다.</span>
+      </div>
+      <div class="step-card" style="border-left-color:#adff2f;display:flex;flex-direction:column;justify-content:center;">
+        <p style="margin:0;font-size:20px;">개수가 아니라 <b>밀도</b>를 보면, "강한 동사를 얼마나 <b>자주</b> 쓰나"라는 원래 묻고 싶던 질문에 답한다.</p>
+      </div>
+    </div>
+    <p style="font-size:20px;margin-top:14px;color:#adff2f;">자가 길이에 끌려가던 걸 잡았다. 이제 순위를 다시 본다.</p>
+  </div>
+  <div class="slide-no">18</div>
+</div>
+
+<!-- 19 심장 결론 — 순위 변동 -->
+<div class="slide-container" id="s19">
   <h2 class="slide-title">Step 5 결론 — 순위가 뒤집힌다</h2>
   <div class="content-area table-layout">
     <p style="font-size:20px;margin:0;">원시 max로는 중국이 1위로 '강경'해 보였다. 1000단어당 밀도로 보면 —</p>
@@ -317,11 +502,11 @@ result = <span class="fn">analyze_document</span>(docs[<span class="num">0</span
       좋은 분석가는 자기 숫자를 <b>반증하려</b> 든다. 그래야 남는 게 진짜다.
     </div>
   </div>
-  <div class="slide-no">08</div>
+  <div class="slide-no">19</div>
 </div>
 
-<!-- 9 Q1 결론 -->
-<div class="slide-container" id="s9">
+<!-- 20 Q1 결론 -->
+<div class="slide-container" id="s20">
   <h2 class="slide-title">Step 6 — Q1 결론: 소스별 한 줄 인물평</h2>
   <div class="content-area">
     <div class="tiled-content">
@@ -330,13 +515,29 @@ result = <span class="fn">analyze_document</span>(docs[<span class="num">0</span
       <div class="tile"><div class="icon"><i class="fa-solid fa-gavel"></i></div><h3>한국</h3><p>짧지만 단호<br>강한 동사 + 유연한 자세<br>(밀도 보정 후 상위)</p></div>
       <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-scale-balanced"></i></div><h3>UN</h3><p>길고 절차적<br>서술 균형<br>밀도로 보면 진짜 강도</p></div>
     </div>
-    <p style="font-size:19px;margin-top:18px;color:#adff2f;">저장 2종: <code style="background:#000;color:#adff2f;padding:2px 6px;border-radius:4px;">ukraine_annotated.csv</code>(85행) · <code style="background:#000;color:#adff2f;padding:2px 6px;border-radius:4px;">ukraine_source_summary.csv</code>(4행) — 다음 가자 비교의 <strong>기준선</strong>. 핵심: 우리가 길이 편향을 찾아 교정했다.</p>
+    <p style="font-size:20px;margin-top:18px;color:#adff2f;">핵심: 4국의 차이뿐 아니라 <strong>우리가 길이 편향을 찾아 교정했다</strong>는 것 — 이게 캡스톤의 진짜 답이다.</p>
   </div>
-  <div class="slide-no">09</div>
+  <div class="slide-no">20</div>
 </div>
 
-<!-- 10 회고/다음 -->
-<div class="slide-container" id="s10">
+<!-- 21 주석 데이터셋 저장 -->
+<div class="slide-container" id="s21">
+  <h2 class="slide-title">Step 6 — 주석 데이터셋 저장 💾</h2>
+  <div class="content-area">
+    <p style="font-size:21px;">소스별 6차원 + 정규화 밀도까지 담은 최종 집계표를 파일로 굳힌다.</p>
+    <div class="step-grid" style="margin-top:8px;">
+      <div class="step-card"><h4>ukraine_annotated.csv</h4><p>문서 <code>85행</code> — 문서별 전 차원 + verb_density</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">ukraine_source_summary.csv</h4><p>소스 <code>4행</code> — 소스별 요약 프로파일</p></div>
+    </div>
+    <div class="finding" style="margin-top:16px;font-size:21px;">
+      이번 주 산출물이 다음(<b>가자</b>) 비교의 <b>기준선(baseline)</b>이 된다. 같은 자, 같은 형식 — 그래야 두 전장을 비교할 수 있다.
+    </div>
+  </div>
+  <div class="slide-no">21</div>
+</div>
+
+<!-- 22 회고/다음 -->
+<div class="slide-container" id="s22">
   <h2 class="slide-title">회고 + 다음 예고</h2>
   <div class="content-area two-column">
     <div>
@@ -353,7 +554,7 @@ result = <span class="fn">analyze_document</span>(docs[<span class="num">0</span
       <p style="margin:0;font-size:21px;color:#fff;">우크라이나에 네 번 썼다. 이제 <strong>diplo_analysis</strong> 그대로 가자에 들고 가 훨씬 빠르게 6차원을 뽑는다.<br><br>새 무기 — <b>시계열</b>: "10월 7일 이후 동사강도가 시간에 따라 어떻게 변했나". 같은 자, 새 전장.</p>
     </div>
   </div>
-  <div class="slide-no">10</div>
+  <div class="slide-no">22</div>
 </div>
 
 </body>

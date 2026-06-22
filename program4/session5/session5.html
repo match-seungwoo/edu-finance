@@ -213,38 +213,70 @@
   <div class="slide-no">02</div>
 </div>
 
-<!-- 3 가자 코퍼스 + 침묵 지도 -->
+<!-- 3 가속 곡선 (도구가 있으면 빨라진다) -->
 <div class="slide-container" id="s3">
-  <h2 class="slide-title">가자 코퍼스 + 침묵 지도 🤫</h2>
-  <div class="content-area two-column">
-    <div>
-      <p class="kicker">코퍼스 (147건)</p>
-      <p style="font-size:21px;">전체 코퍼스에서 <code style="color:#adff2f;">topic=="gaza"</code> 만 필터 — S1의 우크라이나 절차와 <strong>완전히 동일</strong>. 절차는 그대로, 주제만 교체.</p>
-      <div class="finding" style="margin-top:14px;">
-        <p style="margin:0;font-size:22px;"><b>FR 51 · CN 45 · UN 35 · KR 16</b></p>
-        <p style="margin:8px 0 0;font-size:18px;">프랑스가 또 제일 많다(정례 코뮈니케). <b>한국은 16건뿐</b> — 왜?</p>
-      </div>
+  <h2 class="slide-title">왜 빨라지는가 — 가속 곡선</h2>
+  <div class="content-area">
+    <p style="font-size:22px;color:#fff;">새 주제가 비싼 게 아니다. <strong>도구가 없을 때</strong>가 비싼 거였다. 한 번 만들어 둔 파이프라인은 다음 전장에서 거의 공짜로 돈다.</p>
+    <div class="finding" style="margin-top:6px;">
+      <p style="margin:0;font-size:22px;">우크라이나에선 수집(S1) → 6차원 함수(S2~3) → 시각화·정규화(S4)를 <b>따로따로</b> 쌓았다. 오늘은 그 셋을 <b>한 노트북</b>에 압축한다 — 같은 결과, 1/4 시간.</p>
     </div>
-    <div>
-      <p class="kicker" style="color:#adff2f;">한국의 선택적 침묵</p>
-      <p style="font-size:21px;color:#fff;"><code style="color:#adff2f;">silence_map()</code> 그대로 재사용 — 직접 짤 게 없다. 이게 모듈화의 보상.</p>
-      <ul class="bullet-list" style="font-size:19px;margin-top:10px;">
-        <li><i class="fa-solid fa-volume-xmark"></i> gaza04 인도위기 · gaza05 <strong>ICJ 명령</strong> · gaza09 휴전붕괴 (네 소스 중 한국만 침묵)</li>
-        <li><i class="fa-solid fa-link"></i> 우크라이나에서 ICC·댐에 침묵한 것과 <strong>똑같은 결</strong> — 법적·군사적 변곡점</li>
-      </ul>
+    <div class="tiled-content" style="margin-top:18px;">
+      <div class="tile"><div class="icon"><i class="fa-solid fa-box-open"></i></div><h3>수집 (S1)</h3><p><code style="color:#adff2f;">topic=="gaza"</code> 필터 한 줄</p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-gears"></i></div><h3>분석 (S2~3)</h3><p><code style="color:#adff2f;">analyze_document</code> import 한 줄</p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-chart-column"></i></div><h3>시각화 (S4)</h3><p>막대 차트 재사용</p></div>
     </div>
+    <p style="font-size:19px;margin-top:14px;color:#adff2f;">우크라 4세션 → 가자 2세션 → AI 거버넌스(과제) 혼자. <strong>점점 빨라지는 게 오늘의 정체성.</strong></p>
   </div>
   <div class="slide-no">03</div>
 </div>
 
-<!-- 4 9차원 일괄 적용 -->
+<!-- 4 가자 코퍼스 개요 -->
 <div class="slide-container" id="s4">
+  <h2 class="slide-title">가자 코퍼스 개요 — 147건</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">절차는 그대로, 주제만 교체</p>
+      <p style="font-size:21px;">전체 코퍼스에서 <code style="color:#adff2f;">topic=="gaza"</code> 만 필터해 <code style="color:#adff2f;">gaza_working.json</code> 으로 저장 — S1의 우크라이나 절차와 <strong>완전히 동일</strong>하다.</p>
+      <p style="font-size:20px;margin-top:12px;">CHECK 셀이 <strong>147건 · 본문 모두 존재 · 가자 외 주제 없음</strong>을 확인하면 ✅. 데이터가 잡혔는지부터 보장하고 분석에 들어간다.</p>
+    </div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">소스별 분포</p>
+      <div class="finding">
+        <p style="margin:0;font-size:26px;"><b>FR 51 · CN 45 · UN 35 · KR 16</b></p>
+        <p style="margin:10px 0 0;font-size:19px;">프랑스가 또 제일 많다 — 정례 코뮈니케 때문. <b>한국은 16건뿐</b>이다.</p>
+      </div>
+      <p style="font-size:20px;margin-top:14px;color:#fff;">왜 한국만 이렇게 적을까? 단순히 발표가 적은 게 아니다 — <strong>어떤 사건에 입을 다물었는지</strong>가 다음 슬라이드.</p>
+    </div>
+  </div>
+  <div class="slide-no">04</div>
+</div>
+
+<!-- 5 가자 침묵 지도 -->
+<div class="slide-container" id="s5">
+  <h2 class="slide-title">가자 침묵 지도 — 한국의 선택적 침묵 🤫</h2>
+  <div class="content-area">
+    <p style="font-size:21px;color:#fff;"><code style="color:#adff2f;">silence_map()</code> 그대로 재사용 — 직접 짤 게 없다. 이게 모듈화의 보상. 누가 어떤 사건에 입을 다물었나(0 = 침묵)를 사건 정의에서 자동 계산한다.</p>
+    <div class="finding" style="margin-top:8px;">
+      <p style="margin:0 0 6px;color:#fff;font-size:20px;">한국이 침묵한 사건 (네 소스 중 유일)</p>
+      <ul class="bullet-list" style="font-size:20px;margin:6px 0 0;">
+        <li><i class="fa-solid fa-volume-xmark"></i> <strong>gaza04</strong> 인도적 위기 · <strong>gaza05</strong> ICJ 잠정조치 <span class="src-tag" style="background:#101820;color:#fff;border:1px solid #adff2f;">법적 변곡점</span> · <strong>gaza09</strong> 휴전 붕괴</li>
+        <li><i class="fa-solid fa-link"></i> 우크라이나에서 <strong>ICC·댐</strong>에 침묵한 것과 <strong>똑같은 결</strong> — 법적·인도적 변곡점엔 말을 아끼고, 상징적 사건엔 말한다</li>
+      </ul>
+    </div>
+    <p style="font-size:20px;margin-top:12px;color:#adff2f;">여기서 벌써 <strong>Q2(당사자성)</strong>의 냄새가 난다. 같은 침묵 패턴이 두 주제에서 반복되는 건 우연이 아니다 → S6에서 깊게 판다.</p>
+  </div>
+  <div class="slide-no">05</div>
+</div>
+
+<!-- 6 9차원 일괄 적용 code -->
+<div class="slide-container" id="s6">
   <h2 class="slide-title">9차원 일괄 적용 — 한 줄 함수</h2>
   <div class="content-area">
-    <div class="code-block"><span class="cm"># 6차원 툴킷 한 줄 import — 바퀴를 다시 만들지 않는다</span>
+    <div class="code-block"><span class="cm"># 9차원 툴킷 한 줄 import — 바퀴를 다시 만들지 않는다</span>
 <span class="kw">from</span> diplo_analysis <span class="kw">import</span> analyze_document, silence_map, mutuality_index
 
-<span class="cm"># 라이브 분석 — 147개 문서 전부 (한 줄 함수가 6차원을 다 계산)</span>
+<span class="cm"># 라이브 분석 — 147개 문서 전부 (한 줄 함수가 9차원을 다 계산)</span>
 rows = [<span class="fn">analyze_document</span>(d, nlp) <span class="kw">for</span> d <span class="kw">in</span> g]
 ana  = pd.<span class="fn">DataFrame</span>(rows)
 
@@ -252,11 +284,27 @@ ana  = pd.<span class="fn">DataFrame</span>(rows)
 ana[<span class="str">"verb_density"</span>] = ana[<span class="str">"n_strength_verbs"</span>] / ana[<span class="str">"n_words"</span>] * <span class="num">1000</span></div>
     <p style="font-size:19px;margin-top:18px;color:#adff2f;">S2~3에서 손으로 짠 함수들이 이제 <strong>한 줄</strong>. spaCy 구문분석이라 라이브로 30초~1분 — 툴킷이 진짜 도는 걸 보여준다.</p>
   </div>
-  <div class="slide-no">04</div>
+  <div class="slide-no">06</div>
 </div>
 
-<!-- 5 가자 소스 비교 결과 -->
-<div class="slide-container" id="s5">
+<!-- 7 한 줄로 6→9차원 설명 -->
+<div class="slide-container" id="s7">
+  <h2 class="slide-title">한 줄로 6 → 9차원 — 공짜로 늘어난 자(尺)</h2>
+  <div class="content-area">
+    <p style="font-size:22px;color:#fff;">툴킷이 커지면서 <code style="color:#adff2f;">analyze_document</code> 가 새 열 3개를 더 돌려준다. 우리 코드는 바뀐 게 없다 — <strong>같은 한 줄</strong>이 이제 9차원을 낸다.</p>
+    <div class="step-grid" style="margin-top:8px;">
+      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">naming_escalation 명명강도</h4><p>사건을 뭐라 부르나. 0=완곡(situation/operation) … 3=강한 규정(genocide)</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">blame_directness 귀속직접성</h4><p>가해자를 직접 지목하나, 수동태로 가리나(1=직접 지목)</p></div>
+      <div class="step-card" style="border-left-color:#adff2f;"><h4 style="color:#adff2f;">most_criticized 비판 대상</h4><p>가장 부정적으로 다룬 행위자 — Israel vs Palestinians</p></div>
+      <div class="step-card"><h4>왜 중요한가</h4><p>이 셋은 상호성과 <strong>독립적</strong>. 여러 자가 같은 방향이면 발견은 더 견고하다 (S6 종합 논리)</p></div>
+    </div>
+    <p style="font-size:19px;margin-top:10px;color:#adff2f;">상호성이 "양면적 단어를 얼마나 쓰나"였다면, 이 셋은 <strong>프레이밍의 다른 축</strong>이다.</p>
+  </div>
+  <div class="slide-no">07</div>
+</div>
+
+<!-- 8 가자 소스 비교: 상호성 -->
+<div class="slide-container" id="s8">
   <h2 class="slide-title">가자 — 소스별 상호성(mutuality_index)</h2>
   <div class="content-area table-layout">
     <table>
@@ -270,67 +318,181 @@ ana[<span class="str">"verb_density"</span>] = ana[<span class="str">"n_strength
       <p style="margin:0;font-size:21px;"><b>한국 12.13 ≈ 중국 11.89 ≫ UN 3.15 > 프랑스 2.20.</b> 가자에선 한국·중국이 어깨를 나란히 한다 — "all parties · dialogue · 자제 · 정치적 해결" 프레임을 둘 다 짙게 쓴다.</p>
     </div>
   </div>
-  <div class="slide-no">05</div>
+  <div class="slide-no">08</div>
 </div>
 
-<!-- 6 우크라이나 vs 가자 비교 (Q2 setup) -->
-<div class="slide-container" id="s6">
+<!-- 9 가자 소스 비교: 동사강도/밀도 -->
+<div class="slide-container" id="s9">
+  <h2 class="slide-title">가자 — 동사 강도, 길이의 함정</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">원점수의 착시</p>
+      <p style="font-size:21px;"><code style="color:#adff2f;">verb_strength_max</code> 는 UN·중국이 <strong>6점대</strong>로 높다. 하지만 그건 단호해서가 아니라 <strong>문서가 길어서</strong>다 — S4에서 배운 함정.</p>
+      <div class="finding" style="margin-top:12px;">
+        <p style="margin:0;font-size:21px;">UN 6.06 · 중국 6.36 — 길이에 <b>오염된 점수</b></p>
+      </div>
+    </div>
+    <div>
+      <p class="kicker" style="color:#adff2f;">밀도로 바로잡기</p>
+      <p style="font-size:21px;color:#fff;">1000단어당 밀도(<code style="color:#adff2f;">verb_density</code>)로 보면 순위가 뒤집힌다.</p>
+      <div class="finding" style="margin-top:12px;">
+        <p style="margin:0;font-size:21px;"><b>한국 ≈8.2 · UN ≈7.3 ≫ 중국 ≈5.1.</b> 한국·UN이 <b>짧고 강하다</b>. 중국은 길고 부드럽다.</p>
+      </div>
+      <p style="font-size:19px;margin-top:12px;color:#adff2f;">정규화는 선택이 아니라 필수 — S4 교훈을 여기서 <strong>적용</strong>한다.</p>
+    </div>
+  </div>
+  <div class="slide-no">09</div>
+</div>
+
+<!-- 10 가자 v2: 명명강도 -->
+<div class="slide-container" id="s10">
+  <h2 class="slide-title">가자 v2 — 명명강도: 사건을 뭐라 부르나</h2>
+  <div class="content-area table-layout">
+    <table>
+      <tr><th>소스</th><th>naming_escalation</th><th>지배적 명명어</th></tr>
+      <tr><td>UN</td><td style="color:#adff2f;font-weight:700;">1.27</td><td>가장 규정적 — "war / genocide"도 등장</td></tr>
+      <tr><td>프랑스 (FR)</td><td>1.09</td><td>중간</td></tr>
+      <tr><td>한국 (KR)</td><td>0.84</td><td>중간</td></tr>
+      <tr><td style="color:#adff2f;font-weight:700;">중국 (CN)</td><td style="color:#adff2f;font-weight:700;">0.75</td><td>가장 완곡 — "operation(작전)"</td></tr>
+    </table>
+    <div class="finding" style="margin-top:18px;">
+      <p style="margin:0;font-size:21px;">중국은 <b>상호성</b>뿐 아니라 <b>사건을 부르는 이름</b>에서도 톤을 낮춘다. UN은 가장 강하게 규정한다 — <strong>같은 사건, 전혀 다른 라벨</strong>.</p>
+    </div>
+  </div>
+  <div class="slide-no">10</div>
+</div>
+
+<!-- 11 가자 v2: 귀속 직접성 -->
+<div class="slide-container" id="s11">
+  <h2 class="slide-title">가자 v2 — 귀속: 가해자를 명시하나, 가리나</h2>
+  <div class="content-area">
+    <p style="font-size:21px;color:#fff;">가해자를 <strong>직접 지목</strong>(named)하나, <strong>수동태로 가리나</strong>(obscured)? UN의 화법이 특이하다.</p>
+    <div class="two-column" style="margin-top:6px;">
+      <div class="finding">
+        <p style="margin:0;font-size:21px;"><b>UN — 많이 말하지만 절차적 수동태도 많다</b><br>가해자 명시 named ≈<b>32건</b> (최다)<br>그러나 행위자 가림 obscured ≈<b>109건</b><br>→ 비율 blame_directness ≈<b>0.27</b> (낮음)</p>
+      </div>
+      <div class="finding" style="border-left-color:#00f2ff;">
+        <p style="margin:0;font-size:21px;color:#fff;"><b>한국 — 가해자를 단 한 번도 명시하지 않는다</b><br>named = <b style="color:#00f2ff;">0</b><br>침묵 지도와 같은 회피의 결.<br>'누가 했다'를 끝까지 말하지 않는다.</p>
+      </div>
+    </div>
+    <p style="font-size:19px;margin-top:12px;color:#adff2f;">"많이 말한다 ≠ 직접 말한다." 양(量)과 직접성(direct)은 다른 자다 — 이래서 차원을 나눠 본다.</p>
+  </div>
+  <div class="slide-no">11</div>
+</div>
+
+<!-- 12 가자 v2: 비판 대상 -->
+<div class="slide-container" id="s12">
+  <h2 class="slide-title">가자 v2 — 누구를 더 비판하나(most_criticized)</h2>
+  <div class="content-area table-layout">
+    <table>
+      <tr><th>소스</th><th>이스라엘 : 팔레스타인</th><th>쏠림</th></tr>
+      <tr><td style="color:#adff2f;font-weight:700;">중국 (CN)</td><td style="color:#adff2f;font-weight:700;">≈18 : 20</td><td>거의 균등 (skew ≈0.05) — 양면성 재현</td></tr>
+      <tr><td>UN</td><td>≈26 : 8</td><td>이스라엘 쪽으로 크게 기움</td></tr>
+    </table>
+    <div class="finding" style="margin-top:18px;">
+      <p style="margin:0;font-size:21px;">가자에서도 <b>"중국 = 완곡 + 균형"</b> 이 <b>명명·귀속·대상비판 세 자(尺)에서 동시에</b> 나온다. 한 차원의 우연이 아니라 <strong>일관된 프레임</strong>이다 — 발견이 견고한 이유.</p>
+    </div>
+  </div>
+  <div class="slide-no">12</div>
+</div>
+
+<!-- 13 우크라이나 vs 가자: 개념 -->
+<div class="slide-container" id="s13">
   <h2 class="slide-title">우크라이나 vs 가자 — 같은 외교부, 다른 전쟁 🔬</h2>
   <div class="content-area">
-    <p style="font-size:22px;color:#fff;">핵심 질문: 같은 외교부가 <strong>다른 전쟁</strong>을 말할 때 언어를 바꾸는가? 그게 <strong>당사자성(Q2)</strong> 과 연결되는가?</p>
-    <div class="finding" style="margin-top:12px;">
-      <p style="margin:0 0 8px;color:#fff;font-size:20px;">소스별 상호성 변화 (가자 − 우크라이나)</p>
-      <p style="margin:0;font-size:21px;">
-        <span class="src-tag">UN ▼0.27</span>
-        <span class="src-tag">중국 ▼0.03 (거의 평평)</span>
-        <span class="src-tag">프랑스 ▲1.22</span>
-        <span class="src-tag" style="background:#101820;color:#fff;border:1px solid #adff2f;">한국 <b>▲6.27 (폭증)</b></span>
-      </p>
+    <p style="font-size:23px;color:#fff;">오늘의 봉우리. 핵심 질문: 같은 외교부가 <strong>다른 사건</strong>을 말할 때 언어를 바꾸는가? 바꾼다면 그게 <strong>당사자성(Q2)</strong> 과 연결되는가?</p>
+    <div class="finding" style="margin-top:14px;">
+      <p style="margin:0;font-size:22px;">S4 산출물 <b>ukraine_annotated.csv</b> 를 불러와 가자와 소스별로 <b>나란히</b> 놓는다. <b>이번 주 산출물이 지난주 산출물을 만나는 지점.</b></p>
     </div>
-    <ul class="bullet-list" style="font-size:20px;margin-top:14px;">
-      <li><i class="fa-solid fa-equals"></i> <strong>중국</strong>: 두 주제 모두 높게 유지 — 주제 무관, 일관된 중립</li>
-      <li><i class="fa-solid fa-arrow-trend-up"></i> <strong>한국</strong>: 가자에서 톤을 크게 끌어올린다 — 유연(flexible)</li>
-    </ul>
-    <p style="font-size:19px;margin-top:6px;color:#adff2f;">'누가 일관되고 누가 유연한가' — 이번 주 산출물이 지난주 산출물(ukraine_annotated.csv)을 만나는 지점. <strong>S6 시계열</strong>의 복선.</p>
+    <div class="code-block" style="margin-top:14px;font-size:17px;"><span class="cm"># 같은 인덱스(소스)끼리 빼면 소스별 변화량이 나온다</span>
+delta_mut = z[<span class="str">"mutuality_index"</span>] - u[<span class="str">"mutuality_index"</span>]</div>
   </div>
-  <div class="slide-no">06</div>
+  <div class="slide-no">13</div>
 </div>
 
-<!-- 7 중국 앵커 유지 -->
-<div class="slide-container" id="s7">
+<!-- 14 우크라이나 vs 가자: delta 표 -->
+<div class="slide-container" id="s14">
+  <h2 class="slide-title">상호성 변화량 — 가자 − 우크라이나</h2>
+  <div class="content-area table-layout">
+    <table>
+      <tr><th>소스</th><th>우크라이나</th><th>가자</th><th>변화(Δ)</th></tr>
+      <tr><td>UN</td><td>3.42</td><td>3.15</td><td>▼ 0.27</td></tr>
+      <tr><td>중국 (CN)</td><td>11.92</td><td>11.89</td><td>▼ 0.03 (거의 평평)</td></tr>
+      <tr><td>프랑스 (FR)</td><td>0.98</td><td>2.20</td><td>▲ 1.22</td></tr>
+      <tr><td style="color:#adff2f;font-weight:700;">한국 (KR)</td><td style="color:#adff2f;font-weight:700;">5.86</td><td style="color:#adff2f;font-weight:700;">12.13</td><td style="color:#adff2f;font-weight:700;">▲ 6.27 (폭증)</td></tr>
+    </table>
+    <div class="finding" style="margin-top:18px;">
+      <p style="margin:0;font-size:21px;">중국은 두 전쟁에서 <b>거의 그대로</b>. 한국은 우크라이나 5.86 → 가자 12.13으로 <b>두 배 넘게 뛴다</b> — 가장 크게 톤을 바꾸는 소스.</p>
+    </div>
+  </div>
+  <div class="slide-no">14</div>
+</div>
+
+<!-- 15 우크라이나 vs 가자: 소스별 변화 해석 -->
+<div class="slide-container" id="s15">
+  <h2 class="slide-title">읽기 — 일관(중국) vs 유연(한국)</h2>
+  <div class="content-area">
+    <ul class="bullet-list" style="font-size:21px;">
+      <li><i class="fa-solid fa-equals"></i> <strong>중국</strong>: 우크라 11.92 → 가자 11.89, 거의 그대로 — <strong>주제 무관 일관된 중립</strong> 프레임. 당사자성 약함(둘 다 제3자).</li>
+      <li><i class="fa-solid fa-arrow-trend-up"></i> <strong>한국</strong>: 5.86 → 12.13 (▲6.27) — 사건에 따라 톤을 <strong>가장 크게 바꾸는 유연한</strong> 소스.</li>
+      <li><i class="fa-solid fa-arrow-up"></i> <strong>프랑스</strong>: 두 주제 모두 낮지만 가자에서 소폭 상승(▲1.22) — 자국 이해와 닿는 사건에서 톤이 달라질 수 있다.</li>
+      <li><i class="fa-solid fa-minus"></i> <strong>UN</strong>: 거의 변화 없음(▼0.27) — 두 사건 모두 절차적 화법.</li>
+    </ul>
+    <p style="font-size:20px;margin-top:8px;color:#adff2f;">한국이 <strong>왜 가자에서만</strong> 상호성을 급증시키는가? 이 질문이 곧 당사자성(Q2)이다. '누가 일관되고 누가 유연한가' — <strong>S6 시계열</strong>의 주제.</p>
+  </div>
+  <div class="slide-no">15</div>
+</div>
+
+<!-- 16 중국 앵커 유지 -->
+<div class="slide-container" id="s16">
   <h2 class="slide-title">중국 앵커 — 두 전장 모두 최상위</h2>
   <div class="content-area two-column">
     <div>
-      <p class="kicker">우크라이나</p>
+      <p class="kicker">우크라이나 — 압도</p>
       <div class="finding">
         <p style="margin:0;font-size:21px;">상호성 <b>중국 11.92 ≫ 한국 5.86</b> — 중국이 한국을 <strong>압도</strong>. '상호성=중국' 앵커가 더 선명히 드러난다.</p>
       </div>
     </div>
     <div>
-      <p class="kicker" style="color:#adff2f;">가자</p>
+      <p class="kicker" style="color:#adff2f;">가자 — 동반 최상위</p>
       <div class="finding">
         <p style="margin:0;font-size:21px;">상호성 <b>한국 12.13 ≈ 중국 11.89</b> — 한국이 톤을 끌어올려 중국과 <strong>나란히</strong> 선다.</p>
       </div>
     </div>
   </div>
-  <div class="slide-no">07</div>
+  <div class="slide-no">16</div>
 </div>
 
-<!-- 8 중국 앵커 — 읽기 -->
-<div class="slide-container" id="s8">
-  <h2 class="slide-title">읽기 — 일관 vs 유연, 그리고 Q2</h2>
+<!-- 17 중국 앵커 — 읽기 -->
+<div class="slide-container" id="s17">
+  <h2 class="slide-title">읽기 — 앵커의 의미, 그리고 Q2</h2>
   <div class="content-area">
-    <p style="font-size:23px;color:#fff;">중국은 우크라이나에선 단독 1위, 가자에선 한국과 동반 최상위. <strong>주제가 바뀌어도 늘 높다</strong> = 앵커.</p>
+    <p style="font-size:23px;color:#fff;">중국은 우크라이나에선 단독 1위, 가자에선 한국과 동반 최상위. <strong>주제가 바뀌어도 늘 높다</strong> = 앵커. 명명·귀속·대상비판까지 모두 완곡+균형으로 일관된다.</p>
     <div class="finding" style="margin-top:14px;">
-      <p style="margin:0;font-size:22px;">왜 중국은 두 주제 다 상호성이 높을까? <b>중립이라서? 당사자가 아니라서?</b> 한국은 왜 가자에서만 폭증할까? — 이 물음이 곧 <b>당사자성(Q2)</b> 이다.</p>
+      <p style="margin:0;font-size:22px;">왜 중국은 두 주제 다 상호성이 높을까? <b>중립이라서? 두 사건 모두 당사자가 아니라서?</b> 한국은 왜 가자에서만 폭증할까? — 이 물음이 곧 <b>당사자성(Q2)</b> 이다.</p>
     </div>
     <p style="font-size:20px;margin-top:16px;">평균값은 '누가 그렇게 말하는가'까지만 보여준다. <strong>언제부터, 어떻게 변했는가</strong> 는 시간을 봐야 한다 → 다음 세션.</p>
   </div>
-  <div class="slide-no">08</div>
+  <div class="slide-no">17</div>
 </div>
 
-<!-- 9 회고/다음 -->
-<div class="slide-container" id="s9">
+<!-- 18 Q2 읽기 — 고당사자성 두 사건 비교 -->
+<div class="slide-container" id="s18">
+  <h2 class="slide-title">Q2 읽기 — 두 고당사자성 사건을 나란히</h2>
+  <div class="content-area">
+    <p style="font-size:22px;color:#fff;">우크라이나와 가자는 모두 <strong>강대국 이해가 얽힌 고당사자성</strong> 사건이다. 같은 자로 재니 각 소스의 '버릇'이 드러난다.</p>
+    <div class="tiled-content" style="margin-top:8px;">
+      <div class="tile" style="border-bottom-color:#adff2f;"><div class="icon" style="color:#00f2ff;"><i class="fa-solid fa-anchor"></i></div><h3>중국 = 앵커</h3><p>두 사건 모두 완곡·균형·고상호성. <strong>일관된 제3자</strong></p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-sliders"></i></div><h3>한국 = 유연</h3><p>가자에서 상호성 폭증·가해자 0명시. <strong>사건 따라 변함</strong></p></div>
+      <div class="tile"><div class="icon"><i class="fa-solid fa-scale-balanced"></i></div><h3>UN = 규정적</h3><p>강한 명명·가해 다수 명시, 단 수동태도 많음</p></div>
+    </div>
+    <p style="font-size:20px;margin-top:14px;color:#adff2f;">한국의 두 주제 <strong>법적 사건 침묵</strong>(ICC·댐 ↔ ICJ·휴전붕괴)도 같은 결 — 같은 동기일까? 이게 회고 질문이자 Q2의 핵심.</p>
+  </div>
+  <div class="slide-no">18</div>
+</div>
+
+<!-- 19 회고/다음 -->
+<div class="slide-container" id="s19">
   <h2 class="slide-title">회고 + 다음 예고</h2>
   <div class="content-area two-column">
     <div>
@@ -346,7 +508,7 @@ ana[<span class="str">"verb_density"</span>] = ana[<span class="str">"n_strength
       <p style="margin:0;font-size:21px;color:#fff;">오늘은 <strong>평균</strong>. 다음엔 <strong>시간</strong> —<br>10·7 이후 톤의 궤적, 그리고<br><b>누가 가장 일관되고 누가 가장 유연한가(Q3)</b>.<br>마지막엔 기사용 <strong>Visual Essay 한 장</strong>.</p>
     </div>
   </div>
-  <div class="slide-no">09</div>
+  <div class="slide-no">19</div>
 </div>
 
 </body>

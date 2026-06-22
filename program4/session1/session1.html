@@ -208,8 +208,25 @@
   <div class="slide-no">02</div>
 </div>
 
-<!-- 3 프로젝트 지도 -->
+<!-- 3 아젠다 -->
 <div class="slide-container" id="s3">
+  <h2 class="slide-title">오늘의 흐름 — 6 Step</h2>
+  <div class="content-area">
+    <div class="step-grid">
+      <div class="step-card"><h4>Step 0 · 환경 설정</h4><p>spaCy · plotly 설치, 프로젝트 폴더 자동 탐색</p></div>
+      <div class="step-card"><h4>Step 1 · 존재 확인 🔍</h4><p>파일이 진짜 있나 — 존재 → 개수 → 내용</p></div>
+      <div class="step-card"><h4>Step 2 · 로드</h4><p>JSON → pandas DataFrame, 스키마 읽기</p></div>
+      <div class="step-card"><h4>Step 3 · 정제</h4><p>공개 데이터의 현실, 무엇을 버릴지</p></div>
+      <div class="step-card"><h4>Step 4 · 필터</h4><p>우크라이나(157건)만 골라내기</p></div>
+      <div class="step-card"><h4>Step 5~6 · 침묵 지도 + 저장 🤫</h4><p>오늘의 두 봉우리: Step 3 정제 · Step 5 침묵</p></div>
+    </div>
+    <p style="font-size:19px;margin-top:16px;color:#adff2f;">운영 방식: 셀을 위에서 아래로 하나씩. <code># TODO</code> 채우고 <code># CHECK</code>에서 <strong>✅</strong> 뜨면 다음으로.</p>
+  </div>
+  <div class="slide-no">03</div>
+</div>
+
+<!-- 4 프로젝트 지도 -->
+<div class="slide-container" id="s4">
   <h2 class="slide-title">프로젝트 전체 지도 — 9개 분석 차원</h2>
   <div class="content-area">
     <div class="tiled-content">
@@ -221,11 +238,27 @@
       <td style="color:#00f2ff;font-weight:700;">s1 수집·정제</td><td style="color:#00f2ff;font-weight:700;">s2 구조분석</td><td style="color:#00f2ff;font-weight:700;">s3 의미분석</td><td style="color:#00f2ff;font-weight:700;">s4 검증·시각화</td><td style="color:#00f2ff;font-weight:700;">s5~s6 가자</td><td style="color:#00f2ff;font-weight:700;">과제 AI</td>
     </tr></table>
   </div>
-  <div class="slide-no">03</div>
+  <div class="slide-no">04</div>
 </div>
 
-<!-- 4 오늘 할 일 -->
-<div class="slide-container" id="s4">
+<!-- 5 9차원 어디서 배우나 -->
+<div class="slide-container" id="s5">
+  <h2 class="slide-title">9개 차원 — 어느 세션에서 배우나</h2>
+  <div class="content-area table-layout">
+    <table>
+      <tr><th>세션</th><th>주제</th><th>새로 배우는 차원</th></tr>
+      <tr><td><strong>s1 (오늘)</strong></td><td>우크라이나</td><td>데이터 + <strong>6 침묵지도</strong> 원재료</td></tr>
+      <tr><td>s2</td><td>우크라이나</td><td>1 직설성 · 2 동사강도 · 3 주어 + <strong>8 귀속</strong></td></tr>
+      <tr><td>s3</td><td>우크라이나</td><td>4 상호성 · 5 완곡어(부정처리) + <strong>9 대상별 태도</strong></td></tr>
+      <tr><td>s4</td><td>우크라이나</td><td>검증 · 시각화 + <strong>7 완곡명명(원어 검증)</strong></td></tr>
+      <tr><td>s5~s6</td><td>가자</td><td>9개 차원 전체 재적용 + 시계열</td></tr>
+    </table>
+  </div>
+  <div class="slide-no">05</div>
+</div>
+
+<!-- 6 오늘 목표 -->
+<div class="slide-container" id="s6">
   <h2 class="slide-title">오늘(Session 1)의 목표</h2>
   <div class="content-area">
     <ul class="bullet-list" style="font-size:23px;">
@@ -235,91 +268,253 @@
       <li><i class="fa-solid fa-4"></i> 우크라이나 작업셋을 만들고 <strong>침묵 지도</strong>를 처음 그린다</li>
     </ul>
   </div>
-  <div class="slide-no">04</div>
-</div>
-
-<!-- 5 Step1 존재확인 -->
-<div class="slide-container" id="s5">
-  <h2 class="slide-title">Step 1 — 원천데이터 존재여부 확인 🔍</h2>
-  <div class="content-area two-column">
-    <div>
-      <p class="kicker">왜 이게 1번인가</p>
-      <p style="font-size:21px;">분석가가 가장 많이 하는 실수: "데이터가 있겠지" 하고 분석부터 짠다. 파일이 없거나 비었거나 깨졌으면 <strong>그 위 분석은 전부 거짓말</strong>이다.</p>
-      <p style="font-size:22px;color:#fff;margin-top:18px;"><strong>존재 → 개수 → 내용</strong> 3단 확인을 첫날에 습관화.</p>
-    </div>
-    <div class="finding">
-      <p style="margin:0 0 10px;color:#fff;">실제 수집 코퍼스 (4개 정부·기구 직접 스크래핑)</p>
-      <p style="margin:0;font-size:30px;"><b>raw 371 → 정제 354건</b></p>
-      <p style="margin:10px 0 0;font-size:18px;">UN 92 · 한국 45 · 중국 120 · 프랑스 97<br>우크라이나 157 · 가자 147 · AI 50 · 30/30 사건</p>
-    </div>
-  </div>
-  <div class="slide-no">05</div>
-</div>
-
-<!-- 6 Step2-3 로드/정제 -->
-<div class="slide-container" id="s6">
-  <h2 class="slide-title">Step 2~3 — 로드와 정제: 공개 데이터의 현실</h2>
-  <div class="content-area">
-    <p style="font-size:21px;"><span class="src-tag">스키마</span> source · topic · event · date · title · url · <strong>text</strong>(분석대상) · collected_via</p>
-    <div class="finding" style="margin-top:16px;">
-      <p style="margin:0;color:#fff;font-size:22px;">중국 외교부는 사건마다 성명을 안 낸다 — <b>매일 정례 브리핑</b> 한 번에 우크라이나·가자·기자질문을 다 답한다(원본 1.8만 자).</p>
-    </div>
-    <div class="step-grid" style="margin-top:18px;">
-      <div class="step-card"><h4>정제 규칙 ①</h4><p>주제 키워드가 본문에 아예 없으면 → 잘못 걸린 문서, 버림</p></div>
-      <div class="step-card"><h4>정제 규칙 ②</h4><p>6,000자 초과 → 주제 관련 문단 + 바로 앞 질문만 추출</p></div>
-    </div>
-    <p style="font-size:19px;margin-top:16px;color:#adff2f;">분석은 <strong>무엇을 버릴지</strong> 정하는 데서 시작한다. 그 결정은 기록·공개(<code>clean_corpus.py</code>)해야 한다 = 재현성.</p>
-  </div>
   <div class="slide-no">06</div>
 </div>
 
-<!-- 7 코드 -->
+<!-- 7 Step0 환경설정 코드 -->
 <div class="slide-container" id="s7">
-  <h2 class="slide-title">코드 한 조각 — 로드 → 필터</h2>
+  <h2 class="slide-title">Step 0 — 환경 설정: 폴더 자동 탐색</h2>
   <div class="content-area">
-    <div class="code-block"><span class="cm"># 백업 코퍼스 로드 (라이브 스크래핑 막혀도 항상 동작)</span>
-<span class="kw">import</span> json, pandas <span class="kw">as</span> pd
-docs = json.<span class="fn">load</span>(<span class="fn">open</span>(<span class="str">"data/backup/corpus_clean.json"</span>))
-df   = pd.<span class="fn">DataFrame</span>(docs)
+    <div class="code-block"><span class="kw">def</span> <span class="fn">find_project</span>():
+    cands = [<span class="str">"."</span>, <span class="str">"program4"</span>, <span class="str">".."</span>, <span class="str">"/content/program4"</span>]
+    <span class="kw">for</span> c <span class="kw">in</span> cands:
+        <span class="kw">if</span> os.path.<span class="fn">exists</span>(os.path.<span class="fn">join</span>(c, <span class="str">"data/backup/corpus_clean.json"</span>)):
+            <span class="kw">return</span> os.path.<span class="fn">abspath</span>(c)
 
-<span class="cm"># 오늘의 주제: 우크라이나만</span>
-ukr = df[df[<span class="str">"topic"</span>] == <span class="str">"ukraine"</span>]
-<span class="fn">print</span>(<span class="fn">len</span>(ukr), <span class="str">"건"</span>)   <span class="cm"># → 157</span></div>
+PROJECT = <span class="fn">find_project</span>()   <span class="cm"># → ✅ 프로젝트 경로: ...</span></div>
+    <p style="font-size:19px;margin-top:16px;"><span class="src-tag">이 줄이 하는 일</span> 여러 후보 경로를 돌며 <strong>백업 코퍼스가 있는 폴더</strong>를 찾아 작업 경로로 잡는다. Colab/로컬 어디서든 같은 코드가 돈다.</p>
   </div>
   <div class="slide-no">07</div>
 </div>
 
-<!-- 8 침묵지도 -->
+<!-- 8 Step1 왜 1번인가 -->
 <div class="slide-container" id="s8">
-  <h2 class="slide-title">Step 5 — 침묵 지도 🤫</h2>
+  <h2 class="slide-title">Step 1 — 왜 '존재 확인'이 1번인가 🔍</h2>
   <div class="content-area">
-    <p style="font-size:23px;color:#fff;">외교에서 <strong>말하지 않는 것</strong>은 말하는 것만큼 강한 신호다.</p>
+    <p style="font-size:23px;">분석가가 가장 많이 하는 실수: <strong>"데이터가 있겠지"</strong> 하고 분석부터 짠다.</p>
     <div class="finding" style="margin-top:14px;">
-      <p style="margin:0;font-size:21px;"><b>한국의 선택적 침묵</b> — ICC 영장 · ICJ 명령 · 댐 파괴 같은 <b>법적·기술적 변곡점</b>엔 침묵, 침공·1주년 같은 <b>상징적 사건</b>엔 발언.</p>
+      <p style="margin:0;font-size:22px;color:#fff;">파일이 없거나 · 비었거나 · 깨졌으면 → <b>그 위에 쌓은 모든 분석은 거짓말</b>이 된다.</p>
     </div>
-    <p style="font-size:19px;margin-top:16px;">이 패턴 자체가 발견이다. 왜 한국은 이렇게 움직일까? (당사자성? 신중함?) → <strong>s4에서 해석</strong>. 6번째 차원 <strong>Silence Map</strong>의 원재료.</p>
+    <p style="font-size:24px;margin-top:18px;color:#fff;text-align:center;"><strong>존재 → 개수 → 내용</strong>, 이 3단 확인을 첫날에 습관으로 박는다.</p>
   </div>
   <div class="slide-no">08</div>
 </div>
 
-<!-- 9 회고/다음 -->
+<!-- 9 Step1 코드 존재확인 -->
 <div class="slide-container" id="s9">
-  <h2 class="slide-title">회고 + 다음 예고</h2>
-  <div class="content-area two-column">
-    <div>
-      <p class="kicker">회고 질문</p>
-      <ul class="bullet-list" style="font-size:19px;">
-        <li><i class="fa-solid fa-circle-question"></i> 가장 긴/짧은 소스는? 그게 만드는 함정은?</li>
-        <li><i class="fa-solid fa-circle-question"></i> 모두 말한 사건 vs 누가 침묵한 사건의 차이?</li>
-        <li><i class="fa-solid fa-circle-question"></i> 중국 데이터를 자른 건 정당한가? 무엇을 잃었나?</li>
-      </ul>
-    </div>
-    <div class="finding">
-      <p class="kicker" style="color:#adff2f;">다음 — Session 2</p>
-      <p style="margin:0;font-size:21px;color:#fff;">오늘은 <strong>누가</strong> 말했나. 다음엔 <strong>어떻게</strong> —<br>"Russia attacked" vs "civilians were attacked".<br><b>Directness Index(직설성)</b>의 탄생.</p>
-    </div>
+  <h2 class="slide-title">Step 1 — 코드: 파일 존재 + 크기 확인</h2>
+  <div class="content-area">
+    <div class="code-block">need = [<span class="str">"corpus_clean.json"</span>, <span class="str">"corpus_clean.csv"</span>,
+        <span class="str">"coverage_clean.csv"</span>, <span class="str">"manifest.json"</span>]
+<span class="kw">for</span> f <span class="kw">in</span> need:
+    p  = os.path.<span class="fn">join</span>(backup, f)
+    ok = os.path.<span class="fn">exists</span>(p)
+    size = os.path.<span class="fn">getsize</span>(p) <span class="kw">if</span> ok <span class="kw">else</span> <span class="num">0</span>
+    <span class="fn">print</span>(<span class="str">"✅"</span> <span class="kw">if</span> ok <span class="kw">else</span> <span class="str">"❌"</span>, f, size, <span class="str">"bytes"</span>)</div>
+    <p style="font-size:19px;margin-top:16px;"><span class="src-tag">이 줄이 하는 일</span> 존재만 보지 않고 <strong>bytes 크기까지</strong> 찍는다 — 0 bytes면 파일은 있어도 빈 파일이다.</p>
   </div>
   <div class="slide-no">09</div>
+</div>
+
+<!-- 10 코퍼스 규모 -->
+<div class="slide-container" id="s10">
+  <h2 class="slide-title">우리가 실제로 모은 것 (manifest)</h2>
+  <div class="content-area two-column">
+    <div>
+      <p class="kicker">솔직하게</p>
+      <p style="font-size:21px;">너희가 모은 건 아니다. 하지만 <strong>스크래핑 코드는 <code>scrapers/</code>에 다 있다.</strong> 라이브가 막히면 백업(JSON/CSV)으로 돌아간다 — 그래서 둘 다 둔다.</p>
+    </div>
+    <div class="finding">
+      <p style="margin:0 0 10px;color:#fff;">4개 정부·기구 직접 스크래핑</p>
+      <p style="margin:0;font-size:30px;"><b>raw 371 → 정제 354건</b></p>
+      <p style="margin:10px 0 0;font-size:18px;">UN · 한국 · 중국 · 프랑스<br>우크라이나 157 · 가자 · AI · 30/30 사건</p>
+    </div>
+  </div>
+  <div class="slide-no">10</div>
+</div>
+
+<!-- 11 Step2 로드 코드 -->
+<div class="slide-container" id="s11">
+  <h2 class="slide-title">Step 2 — 로드: JSON → 표(DataFrame)</h2>
+  <div class="content-area">
+    <div class="code-block"><span class="kw">import</span> json, pandas <span class="kw">as</span> pd
+docs = json.<span class="fn">load</span>(<span class="fn">open</span>(<span class="str">"data/backup/corpus_clean.json"</span>))
+df   = pd.<span class="fn">DataFrame</span>(docs)
+<span class="fn">print</span>(df.shape)   <span class="cm"># (행, 열)</span>
+df.<span class="fn">head</span>(<span class="num">3</span>)        <span class="cm"># 앞 3건을 표로</span></div>
+    <p style="font-size:19px;margin-top:16px;"><span class="src-tag">이 줄이 하는 일</span> JSON은 <strong>딕셔너리들의 리스트</strong>. <code>DataFrame</code>에 올리면 딕셔너리의 키가 <strong>열</strong>, 한 건이 <strong>행</strong>이 되어 엑셀처럼 다룬다.</p>
+  </div>
+  <div class="slide-no">11</div>
+</div>
+
+<!-- 12 스키마 -->
+<div class="slide-container" id="s12">
+  <h2 class="slide-title">스키마 — 어떤 열이 있나</h2>
+  <div class="content-area table-layout">
+    <table>
+      <tr><th>컬럼</th><th>뜻</th></tr>
+      <tr><td><code>source</code></td><td>UN / KR(한국) / CN(중국) / FR(프랑스)</td></tr>
+      <tr><td><code>topic</code></td><td>ukraine / gaza / ai_governance</td></tr>
+      <tr><td><code>event_id · event_name · date</code></td><td>어떤 사건에 대한 성명인가, 발표일</td></tr>
+      <tr><td><code>title · url</code></td><td>제목과 원문 링크 (검증 때 클릭)</td></tr>
+      <tr><td><code>text</code></td><td><strong>성명 본문 = 우리의 분석 대상</strong></td></tr>
+      <tr><td><code>collected_via</code></td><td>live_scrape = 실제로 우리가 긁어옴</td></tr>
+    </table>
+  </div>
+  <div class="slide-no">12</div>
+</div>
+
+<!-- 13 value_counts -->
+<div class="slide-container" id="s13">
+  <h2 class="slide-title">실습 — 소스별 몇 건? (value_counts)</h2>
+  <div class="content-area two-column">
+    <div>
+      <div class="code-block" style="font-size:17px;"><span class="cm"># TODO 빈칸 채우기</span>
+counts = df[<span class="str">"source"</span>].<span class="fn">_____</span>()
+<span class="fn">print</span>(counts)
+
+<span class="cm"># 정답</span>
+df[<span class="str">"source"</span>].<span class="fn">value_counts</span>()</div>
+    </div>
+    <div>
+      <p class="kicker">이 줄이 하는 일</p>
+      <p style="font-size:20px;"><code>value_counts()</code>는 각 값이 <strong>몇 번 나오는지</strong> 세어 큰 순서로 돌려준다.</p>
+      <div class="finding" style="margin-top:14px;"><p style="margin:0;font-size:19px;color:#fff;">검증 질문: 프랑스가 건수는 1위인데 <b>평균 글자수는 가장 짧다</b>. 왜일까? → 다음 Step 복선.</p></div>
+    </div>
+  </div>
+  <div class="slide-no">13</div>
+</div>
+
+<!-- 14 Step3 정제 왜 -->
+<div class="slide-container" id="s14">
+  <h2 class="slide-title">Step 3 — 정제: 공개 데이터의 현실</h2>
+  <div class="content-area">
+    <p style="font-size:21px;"><span class="src-tag">스키마</span> source · topic · event · date · title · url · <strong>text</strong>(분석대상) · collected_via</p>
+    <div class="finding" style="margin-top:16px;">
+      <p style="margin:0;color:#fff;font-size:23px;">중국 외교부는 사건마다 성명을 안 낸다 — <b>매일 정례 브리핑</b> 한 번에 우크라이나·가자·양자관계·기자질문을 다 답한다.</p>
+    </div>
+    <p style="font-size:21px;margin-top:16px;color:#fff;text-align:center;">그래서 원본 한 건이 <strong>1만 8천 자</strong>, 여러 주제가 한 덩어리로 섞인다.</p>
+  </div>
+  <div class="slide-no">14</div>
+</div>
+
+<!-- 15 Step3 코드 평균 글자수 -->
+<div class="slide-container" id="s15">
+  <h2 class="slide-title">Step 3 — 코드: raw vs clean 평균 글자수</h2>
+  <div class="content-area">
+    <div class="code-block"><span class="kw">def</span> <span class="fn">avglen</span>(data, src):
+    L = [<span class="fn">len</span>(d[<span class="str">"text"</span>]) <span class="kw">for</span> d <span class="kw">in</span> data <span class="kw">if</span> d[<span class="str">"source"</span>]==src]
+    <span class="kw">return</span> <span class="fn">sum</span>(L)//<span class="fn">len</span>(L)
+
+<span class="cm"># UN 31k → 25k,  CN 18k → 16k  (주제 문단만 추출)</span>
+<span class="fn">print</span>(<span class="str">"raw"</span>, <span class="fn">len</span>(raw), <span class="str">"→ clean"</span>, <span class="fn">len</span>(clean))  <span class="cm"># 371 → 354</span></div>
+    <p style="font-size:19px;margin-top:16px;"><span class="src-tag">출력의 뜻</span> 정제로 17건이 사라졌고, 긴 소스의 평균 길이가 줄었다. <strong>길이 편향</strong>을 손으로 확인하는 단계.</p>
+  </div>
+  <div class="slide-no">15</div>
+</div>
+
+<!-- 16 정제 규칙 2개 -->
+<div class="slide-container" id="s16">
+  <h2 class="slide-title">정제 규칙 2개 + 재현성</h2>
+  <div class="content-area">
+    <div class="step-grid">
+      <div class="step-card"><h4>정제 규칙 ①</h4><p>본문에 주제 키워드(ukraine/russia…)가 <strong>단 한 번도 없으면</strong> → 잘못 걸린 문서, 제거</p></div>
+      <div class="step-card"><h4>정제 규칙 ②</h4><p>6,000자 초과(주로 중국 브리핑) → <strong>주제 문단 + 바로 앞 질문</strong>만 추출</p></div>
+    </div>
+    <p style="font-size:20px;margin-top:18px;color:#adff2f;">분석은 <strong>무엇을 버릴지</strong> 정하는 데서 시작한다. 그 결정은 기록·공개해야 한다(<code>clean_corpus.py</code>) = 재현성, 곧 연구 신뢰성의 근거.</p>
+  </div>
+  <div class="slide-no">16</div>
+</div>
+
+<!-- 17 함정 -->
+<div class="slide-container" id="s17">
+  <h2 class="slide-title">흔한 함정 — 버리면 잃는 것</h2>
+  <div class="content-area">
+    <div class="finding" style="font-size:23px;">
+      중국 브리핑을 문단 단위로 잘라내며 <b>맥락(앞뒤 질문·다른 주제와의 연결)</b>을 함께 잘랐다.
+    </div>
+    <ul class="bullet-list" style="font-size:21px;margin-top:18px;">
+      <li><i class="fa-solid fa-triangle-exclamation"></i> 정제는 공짜가 아니다 — 노이즈를 지우면 일부 <strong>신호도</strong> 같이 지워질 수 있다.</li>
+      <li><i class="fa-solid fa-triangle-exclamation"></i> 그래서 자른 기준을 코드로 남긴다. <strong>4주차(s4) 검증</strong>에서 잘린 부분을 다시 본다.</li>
+    </ul>
+  </div>
+  <div class="slide-no">17</div>
+</div>
+
+<!-- 18 Step4 필터 코드 -->
+<div class="slide-container" id="s18">
+  <h2 class="slide-title">Step 4 — 우크라이나만 골라내기</h2>
+  <div class="content-area">
+    <div class="code-block"><span class="cm"># TODO: 빈칸 "ukraine" 채우기</span>
+ukr = df[df[<span class="str">"topic"</span>] == <span class="str">"ukraine"</span>].<span class="fn">copy</span>()
+<span class="fn">print</span>(<span class="fn">len</span>(ukr), <span class="str">"건"</span>)        <span class="cm"># → 157</span>
+ukr.<span class="fn">groupby</span>(<span class="str">"source"</span>).<span class="fn">size</span>()    <span class="cm"># 소스별 분포</span></div>
+    <p style="font-size:19px;margin-top:16px;"><span class="src-tag">이 줄이 하는 일</span> <code>df["topic"]=="ukraine"</code>는 <strong>True/False 배열</strong>. <code>df[조건]</code>은 True인 행만 남긴다 — 이게 pandas 필터의 전부다.</p>
+  </div>
+  <div class="slide-no">18</div>
+</div>
+
+<!-- 19 Step5 침묵지도 개념 -->
+<div class="slide-container" id="s19">
+  <h2 class="slide-title">Step 5 — 침묵 지도 🤫</h2>
+  <div class="content-area">
+    <p style="font-size:24px;color:#fff;">외교에서 <strong>말하지 않는 것</strong>은 말하는 것만큼 강한 신호다.</p>
+    <div class="code-block" style="margin-top:14px;"><span class="cm"># 사건 × 소스 매트릭스, 0 = 침묵</span>
+cov = pd.<span class="fn">read_csv</span>(<span class="str">"coverage_clean.csv"</span>)
+<span class="kw">for</span> _, r <span class="kw">in</span> cov_ukr.<span class="fn">iterrows</span>():
+    silent = [s <span class="kw">for</span> s <span class="kw">in</span> [<span class="str">"UN"</span>,<span class="str">"KR"</span>,<span class="str">"CN"</span>,<span class="str">"FR"</span>] <span class="kw">if</span> r[s]==<span class="num">0</span>]</div>
+    <p style="font-size:19px;margin-top:14px;"><span class="src-tag">이 줄이 하는 일</span> 각 사건 행에서 문서 수가 <strong>0인 소스</strong>를 모은다 = 그 사건에 침묵한 소스.</p>
+  </div>
+  <div class="slide-no">19</div>
+</div>
+
+<!-- 20 침묵지도 해석 -->
+<div class="slide-container" id="s20">
+  <h2 class="slide-title">침묵 지도 — 출력이 말하는 것</h2>
+  <div class="content-area">
+    <div class="finding" style="margin-top:4px;">
+      <p style="margin:0;font-size:22px;"><b>한국의 선택적 침묵</b> — ICC 영장 · ICJ 명령 · 댐 파괴 · 에너지 시설 공격 같은 <b>법적·기술적 변곡점</b>엔 침묵, 침공·Bucha·1주년 같은 <b>상징적·인도적 사건</b>엔 발언.</p>
+    </div>
+    <p style="font-size:20px;margin-top:18px;">이 패턴 자체가 발견이다. 왜 한국은 이렇게 움직일까? (당사자성? 신중함?) → <strong>s4에서 해석</strong>. 6번째 차원 <strong>Silence Map</strong>의 원재료다.</p>
+  </div>
+  <div class="slide-no">20</div>
+</div>
+
+<!-- 21 Step6 저장 -->
+<div class="slide-container" id="s21">
+  <h2 class="slide-title">Step 6 — 작업 데이터 저장</h2>
+  <div class="content-area">
+    <div class="code-block">ukr.<span class="fn">to_json</span>(<span class="str">"data/ukraine_working.json"</span>,
+            orient=<span class="str">"records"</span>, force_ascii=<span class="kw">False</span>, indent=<span class="num">1</span>)
+<span class="cm"># ✅ 저장: data/ukraine_working.json ( 157 건 )</span></div>
+    <p style="font-size:21px;margin-top:18px;color:#fff;text-align:center;"><strong>이번 주 산출물이 다음 주 입력</strong> — Session 2에서 이 파일을 spaCy로 구문 분석한다.</p>
+  </div>
+  <div class="slide-no">21</div>
+</div>
+
+<!-- 22 회고 -->
+<div class="slide-container" id="s22">
+  <h2 class="slide-title">회고 질문 3개</h2>
+  <div class="content-area">
+    <ul class="bullet-list" style="font-size:22px;">
+      <li><i class="fa-solid fa-circle-question"></i> 4개 소스 중 <strong>가장 긴/짧은</strong> 소스는? 그게 만드는 분석 함정은? (길이 편향)</li>
+      <li><i class="fa-solid fa-circle-question"></i> <strong>모두 말한</strong> 사건 vs <strong>누가 침묵한</strong> 사건의 차이는?</li>
+      <li><i class="fa-solid fa-circle-question"></i> 중국 데이터에서 문단을 잘라낸 건 정당한가? 무엇을 잃었을 수 있나?</li>
+    </ul>
+  </div>
+  <div class="slide-no">22</div>
+</div>
+
+<!-- 23 다음 예고 -->
+<div class="slide-container" id="s23">
+  <h2 class="slide-title">다음 — Session 2 예고</h2>
+  <div class="content-area section-title-layout">
+    <p style="font-size:24px;color:#fff;">오늘은 <strong>누가</strong> 말했나.</p>
+    <hr>
+    <p style="font-size:28px;color:#fff;">다음엔 <strong>어떻게</strong> —<br>"Russia attacked" vs "civilians were attacked"</p>
+    <p style="font-size:24px;margin-top:20px;color:#adff2f;"><b>Directness Index(직설성)</b>의 탄생.</p>
+  </div>
+  <div class="slide-no">23</div>
 </div>
 
 </body>
